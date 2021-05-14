@@ -9,12 +9,15 @@ class IngresoMultaModel extends Model
 {
     use HasFactory;
 
-        //referencia a una tabla
+    //referencia a una tabla
     protected $table="Multas";
     protected $primaryKey="Id_Multas";
 
     //pongo los caampos para permitir insert multiple
     protected $fillable=[
+        "Parte",
+        "NumeroParte",
+        "Anio",
     	"Id_Ciudadanos",
     	"Id_Inspector",
     	"Id_Juzgado",
@@ -24,7 +27,6 @@ class IngresoMultaModel extends Model
         "Hora",
         "InfraccionArticulo",
         "Testigo",
-         "Fecha",
-
+        "Fecha",
     ]; 
 }

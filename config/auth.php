@@ -46,6 +46,17 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'Funcionario' => [
+            'driver' => 'session', 
+            'provider' => 'Funcionarios',
+        ],
+
+        'Funcionario_api' => [
+            'driver' => 'token',
+            'provider' => 'Funcionarios',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -69,6 +80,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'Funcionarios' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UserFuncionario::class,
         ],
 
         // 'users' => [
@@ -95,6 +111,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'Funcionarios' => [
+            'provider' => 'Funcionarios',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

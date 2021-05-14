@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB; 
 use App\Models\IngCiudadanoModel;
 
 function ExisteCiudadano($Rut) 

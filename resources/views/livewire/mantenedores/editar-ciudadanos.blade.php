@@ -1,21 +1,11 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-    <br> 
       @if($VariableVista==1)
-        <center>
-          <h4>
-            <center>
-              <strong>CIUDADANO/A {{ $RutBuscado }}</strong>
-            </center>
-          </h4> 
-        </center>
+         <center><strong><h2>CIUDADANO/A {{ $RutBuscado }}</h2></strong></center>
       @elseif($VariableVista==3)
-        <center>
-          <h4><strong>BUSCAR CIUDADANO/A</strong></h4> 
-        </center>
-      @endif
-      
+        <center><strong><h2>BUSCAR CIUDADANO/A</h2></strong></center>
+      @endif  
     <hr> 
     <div class="panel-body"> 
       @include('messages')  

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'public_uploads'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,9 +39,14 @@ return [
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
-    */
+    */ 
 
     'disks' => [
+
+        'public_uploads' => [
+            'driver' => 'local',
+            'root' => public_path(), 
+        ],
 
         'local' => [
             'driver' => 'local',

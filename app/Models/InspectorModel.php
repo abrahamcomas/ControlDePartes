@@ -9,7 +9,7 @@ class InspectorModel extends Model
 {
     use HasFactory;
 
-      //referencia a una tabla
+    //referencia a una tabla
     protected $table="Inspectores";
     protected $primaryKey="id_inspector";
 
@@ -17,11 +17,10 @@ class InspectorModel extends Model
     protected $fillable=[
     	"Activo",
     	"Rut",
-    	"Nombre",
-        "Apellido", 
+    	"Nombres",
+        "Apellidos", 
         "Email", 
         "password",
         "CorreoActivo"
-
     ]; 
 }

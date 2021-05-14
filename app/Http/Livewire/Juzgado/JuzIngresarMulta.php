@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB; 
 use App\Models\IngresoMultaModel;  
+use Illuminate\Support\Facades\Auth;
 
 class JuzIngresarMulta extends Component
 {
@@ -14,11 +15,27 @@ class JuzIngresarMulta extends Component
   public $Id_Multas;
   public $Testigo;
   public $Datos; 
+  public $id_inspector;
     
+
+  public $Detalles='0'; 
+
+   public $ConfirmarIngreso='0'; 
+
+  public function ConfirmarIngreso()
+    {
+        $this->ConfirmarIngreso='1'; 
+    }
+
+  public function CancelarConfirmarIngreso()
+    {
+        $this->ConfirmarIngreso='0'; 
+    }
+  
   public function M_Detalles($Id_Multas)
     {
-        $this->Id_Multas=$Id_Multas;
-      
+        $this->Id_Multas=$Id_Multas; 
+        $this->Detalles='1';
     }
 
   public function IngresarMulta($Id_MultasIngreso)
@@ -32,12 +49,16 @@ class JuzIngresarMulta extends Component
 		  $Multa->IngresoJuzFecha  = $Fecha;
 		  $Multa->HoraIngJuz       = $Hora;
 		  $Multa->save();
+
+      $this->Detalles='2'; 
+      $this->ConfirmarIngreso='0'; 
     } 
 
   protected $paginationTheme = 'bootstrap';
   public function render()
     { 
 
+      $this->id_inspector=Auth::guard('Funcionario')->user()->ID_Juzgado_T;
     
       $this->Datos =  DB::table('Multas') 
         ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
@@ -50,6 +71,10 @@ class JuzIngresarMulta extends Component
         ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
         ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
 
+      $this->Imagenes =  DB::table('Imagenes')
+        ->leftjoin('Multas', 'Imagenes.Id_Multa_Tabla', '=', 'Multas.Id_Multas')
+        ->where('Id_Multa_Tabla', '=', $this->Id_Multas)->get();
+
       $this->Testigo =  DB::table('Multas') 
         ->leftjoin('Testigos', 'Multas.Id_Multas', '=', 'Testigos.id_Multas_T')
         ->leftjoin('Inspectores', 'Testigos.Id_Inspectores', '=', 'Inspectores.id_inspector')
@@ -57,12 +82,14 @@ class JuzIngresarMulta extends Component
         ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
 
       return view('livewire.juzgado.juz-ingresar-multa',[
-        'posts' =>  DB::table('Multas')
+        'posts' =>  DB::table('Multas') 
           ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
-          ->select('Id_Multas','PlacaPatente','Marca','Modelo','Fecha')
+          ->select('Id_Multas','NumeroParte','Anio','Id_Juzgado','PlacaPatente','Marca','Modelo','Fecha')
           ->where('EstadoMulta', '=', '0')
+          ->where('Id_Juzgado', '=', $this->id_inspector)
           ->paginate(10),
         'Datos'=>$this->Datos,
+        'Imagenes'=>$this->Imagenes,
         'Testigo'=>$this->Testigo  
       ]);
     }

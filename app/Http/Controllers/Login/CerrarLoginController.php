@@ -26,3 +26,4 @@ class CerrarLoginController extends Controller
             return Redirect::to('/');
         }
 }
+  

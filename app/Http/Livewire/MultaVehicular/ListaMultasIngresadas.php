@@ -4,17 +4,23 @@ namespace App\Http\Livewire\MultaVehicular;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\DB;  
+use Illuminate\Support\Facades\DB;   
 
 class ListaMultasIngresadas extends Component
-{	use WithPagination;
-   	public $searchTerm;
+{	  
+    use WithPagination;
+    public $search = '';
+    public $perPage = '5';
+    public $AnioSelect;
+    public $M_Detalles;
+    public $Id_Multas;
+    public $Datos;
+    public $Testigo;
+    public $Detalles='0';
 
-      public $M_Detalles;
-      public $Id_Multas;
-      public $Datos;
-      public $Testigo;
-      public $Detalles='0';
+    protected $queryString = ['search' =>['except'=>''],
+    'perPage','AnioSelect'
+    ];
 
   public function M_Detalles($Id_Multas)
     {
@@ -22,17 +28,27 @@ class ListaMultasIngresadas extends Component
         $this->Detalles='1';
     }
 
-     public function O_Detalles()
+    public function O_Detalles()
     {
         $this->Detalles='0';
     }
+
+    public function clear()
+    {
+        $this->search='';
+        $this->perPage='5';
+        $this->AnioSelect=date('y');
+    }
+
 
     protected $paginationTheme = 'bootstrap';
     
     public function render()
     {
-    	$query = '%'.$this->searchTerm.'%'; 
- 
+
+      if ($this->AnioSelect=='') {
+        $this->AnioSelect=date('y');
+      }
 
     	$this->Datos =  DB::table('Multas') 
             ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
@@ -42,8 +58,12 @@ class ListaMultasIngresadas extends Component
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+            ->select('Id_Multas','Parte','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','Ciudadanos.Rut AS RutCiudadano')
             ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
+ 
+        $this->Imagenes =  DB::table('Imagenes')
+                            ->leftjoin('Multas', 'Imagenes.Id_Multa_Tabla', '=', 'Multas.Id_Multas')
+                            ->where('Id_Multa_Tabla', '=', $this->Id_Multas)->get();
 
     	$this->Testigo =  DB::table('Multas') 
             ->leftjoin('Testigos', 'Multas.Id_Multas', '=', 'Testigos.id_Multas_T')
@@ -53,14 +73,22 @@ class ListaMultasIngresadas extends Component
 
         return view('livewire.multa-vehicular.lista-multas-ingresadas',[
 
-			'posts' =>  DB::table('Multas')
-            ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
+			    'posts' =>  DB::table('Multas')
           	->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
-          	->select('Id_Multas','PlacaPatente','Marca','Modelo','Fecha','Nombres','Apellidos')
-          	->where('PlacaPatente', 'like', '%'.$this->searchTerm.'%')
-          	->where('EstadoMulta', '=', '1')
-          	->paginate(4),
+          	->select('Id_Multas','Parte','PlacaPatente')
+            ->where('EstadoMulta', '=', '1')
+            ->where('Anio', '=', $this->AnioSelect)
+            ->where(function($query) {
+                $query->orwhere('Parte', 'like', "%{$this->search}%")
+                      ->orwhere('PlacaPatente', 'like', "%{$this->search}%");
+            })         
+          	->paginate($this->perPage),
+          'Anio' =>  DB::table('Multas')
+            ->select('Anio') 
+            ->distinct('Anio')        
+            ->get(),
         	'Datos'=>$this->Datos,
+            'Imagenes'=>$this->Imagenes,
         	'Testigo'=>$this->Testigo 
         ]);
     }

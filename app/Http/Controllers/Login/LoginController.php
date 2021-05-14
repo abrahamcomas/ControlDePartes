@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Login;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InspectorModel;
+use App\Models\FuncionarioModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -29,35 +30,92 @@ class LoginController extends Controller
         $password = $request->input('password');   
         $Activo0=0;
 
-        $idLogin=InspectorModel::Select('id_inspector','Activo','Rut','password')->whereRut($RUN)->first();
+        $Count_InspectorModel=InspectorModel::select("Rut")->where("Rut",$RUN)->get()->count();
 
-        if (!empty($idLogin->Rut) AND !empty($idLogin->Activo==1))
-        { 
+        $Count_FuncionarioModel=FuncionarioModel::select("Rut")->where("Rut",$RUN)->get()->count();
 
-            if(Auth::attempt(['Rut' => $RUN, 'password' => $password], true))
-            { 
-                return view('Sistema/Principal');
-
-            }
-            else
-            {
-               return back()
-                    ->withErrors(['Contraseña Incorrecta'])
-                    ->withInput(request(['RUN']));
-            }
-        }
-        elseif(!empty($idLogin->Rut) AND !empty($idLogin->Activo==0))
+        if ($Count_InspectorModel=='1') 
         {
-            return back()
-                ->withErrors(['Usuario Desactivado'])
-                ->withInput(request(['RUN']));
+
+                $idLogin=InspectorModel::Select('id_inspector','Activo','Rut','password')->whereRut($RUN)->first();
+
+                if (!empty($idLogin->Rut) AND !empty($idLogin->Activo==1))
+                    { 
+
+                        if(Auth::attempt(['Rut' => $RUN, 'password' => $password], true))
+                            { 
+                                return view('Sistema/Principal');
+
+                            }
+                            else
+                            {
+                               return back()
+                                    ->withErrors(['Contraseña Incorrecta'])
+                                    ->withInput(request(['RUN']));
+                            }
+                    }
+                elseif(!empty($idLogin->Rut) AND !empty($idLogin->Activo==0))
+                    {
+                        return back()
+                            ->withErrors(['Usuario Desactivado'])
+                            ->withInput(request(['RUN']));
+                    }
+                else
+                    {
+                        return back()
+                            ->withErrors(['Error'])
+                            ->withInput(request(['RUN']));
+                    }
+
+
+
+
         }
-        else
-        {
-            return back()
-                ->withErrors(['Usuario No Registrado'])
-                ->withInput(request(['RUN']));
+        elseif($Count_FuncionarioModel=='1')
+        {  
+
+                $idLogin=FuncionarioModel::Select('id_Funcionario','Activo','Rut','password')->whereRut($RUN)->first();
+
+                if (!empty($idLogin->Rut) AND !empty($idLogin->Activo==1))
+                    { 
+
+                        if(Auth::guard('Funcionario')->attempt(['Rut' => $RUN, 'password' => $password], true))
+                            { 
+                                return view('Sistema/Principal');
+
+                            }
+                            else
+                            {
+                               return back()
+                                    ->withErrors(['Contraseña Incorrecta'])
+                                    ->withInput(request(['RUN']));
+                            }
+                    }
+                elseif(!empty($idLogin->Rut) AND !empty($idLogin->Activo==0))
+                    {
+                        return back()
+                            ->withErrors(['Usuario Desactivado'])
+                            ->withInput(request(['RUN']));
+                    }
+                else
+                    {
+                        return back()
+                            ->withErrors(['Error'])
+                            ->withInput(request(['RUN']));
+                    }
+
+
+
+
+
         }
+        else{
+
+            $resultado='Usuario No Registrado';
+        }
+
+
+       
 
     }
 }

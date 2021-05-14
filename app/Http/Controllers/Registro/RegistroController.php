@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Registro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
 use App\Models\InspectorModel;
+use App\Models\FuncionarioModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -38,43 +39,109 @@ class RegistroController extends Controller
         $Confirmar_Contrasenia = $request->input('Confirmar_Contrasenia');
         $Email = $request->input('Email');
         $Activo = 0;
-     
-        $Funcionario=InspectorModel::select('Rut','Nombres')->whereRut($Rut)->first();
-        
-        if((isset($Funcionario->Rut)) AND (!isset($Funcionario->Nombres))) 
+
+        $Count_InspectorModel=InspectorModel::select("Rut")->where("Rut",$Rut)->get()->count();
+
+        $Count_FuncionarioModel=FuncionarioModel::select("Rut")->where("Rut",$Rut)->get()->count();
+
+        if ($Count_InspectorModel=='1') 
         {
-            $ExisteEmail=DB::table('Inspectores')->whereEmail($Email)->exists();
-            if ($ExisteEmail==0) 
-            {
-                $id=InspectorModel::Select('id_inspector','Activo')->whereRut($Rut)->first();
+            
+                $C_InspectorModel=InspectorModel::select('Rut','Nombres')->whereRut($Rut)->get();
 
-                if ($id->Activo==1) {
-                         
-                    $user = InspectorModel::find($id->id_inspector);
-                    $user->Nombres = $Nombres;
-                    $user->Apellidos = $Email;
-                    $user->Email = $Email;
-                    $user->password = Hash::make($Contrasenia);
-                    $user->save();
+                foreach ($C_InspectorModel as $Dato){
+                    $C_Rut = $Dato->Rut ;
+                    $C_Nombres = $Dato->Nombres ;
+                }
+            
+                if((isset($C_Rut)) AND (!isset($C_Nombres))) 
+                {
+                    $ExisteEmail=DB::table('Inspectores')->whereEmail($Email)->exists();
+                    if ($ExisteEmail==0) 
+                    {
+                        $id=InspectorModel::Select('id_inspector','Activo')->whereRut($Rut)->first();
 
-                    $resultado='Registro Realizado Correctamente.';
+                        if ($id->Activo==1) {
+                                 
+                            $user = InspectorModel::find($id->id_inspector);
+                            $user->Nombres = $Nombres;
+                            $user->Apellidos = $Apellidos;
+                            $user->Email = $Email;
+                            $user->password = Hash::make($Contrasenia);
+                            $user->save();
+
+                            $resultado='Registro Realizado Correctamente.';
+                        }
+                        else
+                        {
+                            $resultado='Error, Usuario con cuenta desactivada, registro denegado.';
+                        }
+                    }
+                    else
+                    {
+                        $resultado='Error, Email registrado anteriormenete, registro denegado.';
+                    }
+                }
+                elseif((isset($C_Rut)) AND (isset($C_Nombres)))
+                {
+                    $resultado='Error, Usuario registrado anteriormente.';
                 }
                 else
                 {
-                    $resultado='Error, Usuario con cuenta desactiva, registro denegado.';
+                    $resultado='Error.';
                 }
-            }
-            else
-            {
-                $resultado='Error, Email registrado anteriormenete, registro denegado.';
-            }
+
         }
-        elseif((isset($Funcionario->Rut)) AND (isset($Funcionario->Nombres)))
-        {
-            $resultado='Error, Usuario registrado anteriormente.';
+        elseif($Count_FuncionarioModel=='1')
+        {       
+
+                $C_FuncionarioModel=FuncionarioModel::select('Rut','Nombres')->whereRut($Rut)->get();
+
+                foreach ($C_FuncionarioModel as $Dato){
+                    $C_Rut = $Dato->Rut ;
+                    $C_Nombres = $Dato->Nombres ;
+                }
+
+                if((isset($C_Rut)) AND (!isset($C_Nombres))) 
+                {
+                    $ExisteEmail=DB::table('Funcionario')->whereEmail($Email)->exists();
+                    if ($ExisteEmail==0) 
+                    {
+                        $id=FuncionarioModel::Select('id_Funcionario','Activo')->whereRut($Rut)->first();
+
+                        if ($id->Activo==1) {
+                                 
+                            $user = FuncionarioModel::find($id->id_Funcionario);
+                            $user->Nombres = $Nombres;
+                            $user->Apellidos = $Apellidos;
+                            $user->Email = $Email;
+                            $user->password = Hash::make($Contrasenia);
+                            $user->save();
+
+                            $resultado='Registro Realizado Correctamente.';
+                        }
+                        else
+                        {
+                            $resultado='Error, Usuario con cuenta desactivada, registro denegado.';
+                        }
+                    }
+                    else
+                    {
+                        $resultado='Error, Email registrado anteriormenete, registro denegado.';
+                    }
+                }
+                elseif((isset($C_Rut)) AND (isset($C_Nombres)))
+                {
+                    $resultado='Error, Usuario registrado anteriormente.';
+                }
+                else
+                {
+                    $resultado='Error.';
+                }
+
         }
-        else
-        {
+        else{
+
             $resultado='Error, Usuario sin autorización, registro denegado.';
         }
 

@@ -13,14 +13,14 @@
 				</center> 
 				<br> 
 				@include('messages') 
-				<form method="POST" action="{{ route('Restaurar') }}">  
+				<form method="POST" action="{{ route('Restaurar') }}">   
 					@csrf @method('PATCH') 
 					<input type="hidden" id="id_inspector" name="id_inspector" value="{{ $Datos->id_inspector }}">
 	                <div class="form-group">
                       	<div class="form-label-group">
                         	<input type="password" id="Contrasenia" name="Contrasenia" class="form-control" placeholder="Ingrese Contraseña" autocomplete="on">
                       	</div>
-	                </div> 
+	                </div>  
 	                <div class="form-group">
                       	<div class="form-label-group"> 
                         	<input type="password" id="Confirmar_Contrasenia" name="Confirmar_Contrasenia" class="form-control" placeholder="Confirmar Contraseña" autocomplete="on">
@@ -40,4 +40,4 @@
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
 	</div>
 </div> 
-@endsection  
+@endsection   

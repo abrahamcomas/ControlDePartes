@@ -8,7 +8,7 @@
 				<div class="panel-heading">
 					<br> 
 					<center>
-						<h3>Cambiar Email</h3>
+						<h3>CAMBIAR EMAIL</h3>
 					</center>  
 					<hr style="width:100%; border-color: blue;">
 					<div class="panel-body"> 
@@ -33,7 +33,7 @@
 						<center>
 							<a href="{{ route('VolverIndex') }}" style="color: black;"><strong>Volver</strong></a>
 						</center>
-					</div>
+					</div> 
 				</div>
 			</div>
 		</div>

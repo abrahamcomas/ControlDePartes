@@ -9,38 +9,47 @@ use App\Models\IngresoMultaModel;
 
 class JuzMultasIngr extends Component
 {
-	 use WithPagination;
-
-      public $M_Detalles;
-      public $Id_Multas;
-      public $Testigo;
-      public $Datos; 
+	  use WithPagination;
+    public $search = '';
+    public $perPage = '5';
+    public $AnioSelect;
+    public $M_Detalles;
+    public $Id_Multas;
+    public $Testigo;
+    public $Datos; 
+    public $Detalles='0';
     
+    protected $queryString = ['search' =>['except'=>''],
+    'perPage','AnioSelect'
+    ];
 
-  public function M_Detalles($Id_Multas)
+    public function M_Detalles($Id_Multas)
     {
-        $this->Id_Multas=$Id_Multas;
-        
+        $this->Id_Multas=$Id_Multas; 
+            $this->Detalles='1';  
     }
 
-    public function IngresarMulta($Id_MultasIngreso)
+    public function O_Detalles()
     {
-    	$Hora = date('H:i:s');
-        $Fecha = date("Y/m/d");
+        $this->Detalles='0';
+    }
 
-    	$Multa = IngresoMultaModel::find( $Id_MultasIngreso);
+    public function clear()
+    {
+        $this->search='';
+        $this->perPage='5';
+        $this->AnioSelect=date('y');
+    }
 
-		$Multa->EstadoMulta      = '1';
-		$Multa->IngresoJuzFecha  = $Fecha;
-		$Multa->HoraIngJuz       = $Hora;
-		$Multa->save();
-    } 
-
-        protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'bootstrap';
+   
     public function render()
     {
+      if ($this->AnioSelect=='') {
+        $this->AnioSelect=date('y');
+    }
 
-$this->Datos =  DB::table('Multas') 
+      $this->Datos =  DB::table('Multas') 
         ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
         ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
         ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
@@ -51,6 +60,10 @@ $this->Datos =  DB::table('Multas')
         ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
         ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
 
+      $this->Imagenes =  DB::table('Imagenes')
+        ->leftjoin('Multas', 'Imagenes.Id_Multa_Tabla', '=', 'Multas.Id_Multas')
+        ->where('Id_Multa_Tabla', '=', $this->Id_Multas)->get();
+
       $this->Testigo =  DB::table('Multas') 
         ->leftjoin('Testigos', 'Multas.Id_Multas', '=', 'Testigos.id_Multas_T')
         ->leftjoin('Inspectores', 'Testigos.Id_Inspectores', '=', 'Inspectores.id_inspector')
@@ -59,23 +72,24 @@ $this->Datos =  DB::table('Multas')
 
         return view('livewire.juzgado.juz-multas-ingr',[
 
-
- 'posts' =>  DB::table('Multas')
+ 
+        'posts' =>  DB::table('Multas')
           ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
-          ->select('Id_Multas','PlacaPatente','Marca','Modelo','Fecha')
+          ->select('Id_Multas','Parte','PlacaPatente')
           ->where('EstadoMulta', '=', '1')
-          ->paginate(10),
-        'Datos'=>$this->Datos,
-        'Testigo'=>$this->Testigo  
-
-
-
-
-
-
-
-
-
+          ->where('Anio', '=', $this->AnioSelect)
+            ->where(function($query) {
+                $query->orwhere('Parte', 'like', "%{$this->search}%")
+                      ->orwhere('PlacaPatente', 'like', "%{$this->search}%");
+            })     
+          ->paginate($this->perPage),
+          'Anio' =>  DB::table('Multas')
+          ->select('Anio') 
+          ->distinct('Anio')        
+          ->get(),
+          'Datos'=>$this->Datos,
+          'Imagenes'=>$this->Imagenes,
+          'Testigo'=>$this->Testigo
         ]);
     }
 }

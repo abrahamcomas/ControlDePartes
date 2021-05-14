@@ -8,7 +8,7 @@
 				<div class="panel-heading">
 					<br> 
 					<center>
-						<h3>Cambiar Contraseña</h3>
+						<h3>CAMBIAR CONTRASEÑA</h3>
 					</center>   
 					<hr style="width:100%; border-color: blue;"> 
 					<div class="panel-body"> 

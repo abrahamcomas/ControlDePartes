@@ -14,7 +14,7 @@ class IngCiudadanoController extends Controller
 
         $TipoNotificacion = $request->input('TipoNotificacion');
 
-        if ($TipoNotificacion==2)
+        if ($TipoNotificacion==3)
         {
                  
         	$rules = [ 
@@ -62,7 +62,7 @@ class IngCiudadanoController extends Controller
                 $user->save();
             }
                 
-            return view('Posts/MultaVehicular/PostsAgregarMulta')->with('Rut', $Rut);
+            return view('Posts/MultaVehicular/PostsAgregarMulta')->with('Rut', $Rut)->with('TipoNotificacion', $TipoNotificacion);
 
             // return redirect()->route('MultaVehicular', ['Rut' => $Rut]); 
         }
@@ -70,7 +70,7 @@ class IngCiudadanoController extends Controller
 
             $SinD_Rut='0';
 
-            return view('Posts/MultaVehicular/PostsAgregarMulta')->with('Rut', $SinD_Rut);
+            return view('Posts/MultaVehicular/PostsAgregarMulta')->with('Rut', $SinD_Rut)->with('TipoNotificacion', $TipoNotificacion);
 
             // return redirect()->route('MultaVehicular', ['Rut' => $SinD_Rut]);
 

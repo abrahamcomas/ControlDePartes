@@ -20,9 +20,8 @@ class IngVehiculoModel extends Model
     	"TipoVehiculo",
     	"Marca",
         "Modelo", 
-        "Color", 
-        "password",
-        "CorreoActivo"
-
+        "Color"
     ]; 
+
+    public $timestamps = false;
 }

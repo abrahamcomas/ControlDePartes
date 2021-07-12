@@ -12,14 +12,15 @@ class RegistroController extends Controller
 {
     public function index(Request $request)
     {
-        $rules = [
+        $rules = [ 
             'Rut' => 'required', 
             'Nombres' => 'required', 
             'Apellidos' => 'required', 
             'Contrasenia' => 'required|min:6',
             'Confirmar_Contrasenia' => 'required:Contrasenia|same:Contrasenia|min:6|different:password',
             'Email' => 'required',
-        ];
+            'Firma' => 'required',
+        ]; 
 
         $messages = [
             'Rut.required' =>'El campo Rut es obligatorio.',
@@ -27,8 +28,9 @@ class RegistroController extends Controller
             'Apellidos.required' =>'El campo Apellidos es obligatorio.',
             'Contrasenia.required' =>'El campo Contraseña es obligatorio.',
             'Confirmar_Contrasenia.required' =>'El campo Confirmar Contraseña es obligatorio.',
-            'Email.required' =>'El campo Email es obligatorio.'
-        ];
+            'Email.required' =>'El campo Email es obligatorio.',
+            'Firma.required' =>'El campo Firma es obligatorio.'
+        ]; 
 
         $this->validate($request, $rules, $messages);  
 
@@ -38,6 +40,7 @@ class RegistroController extends Controller
         $Contrasenia = $request->input('Contrasenia');
         $Confirmar_Contrasenia = $request->input('Confirmar_Contrasenia');
         $Email = $request->input('Email');
+        $Firma = $request->input('Firma');
         $Activo = 0;
 
         $Count_InspectorModel=InspectorModel::select("Rut")->where("Rut",$Rut)->get()->count();
@@ -62,8 +65,9 @@ class RegistroController extends Controller
                         $id=InspectorModel::Select('id_inspector','Activo')->whereRut($Rut)->first();
 
                         if ($id->Activo==1) {
-                                 
+                            
                             $user = InspectorModel::find($id->id_inspector);
+                            $user->TipoFirma = $Firma;
                             $user->Nombres = $Nombres;
                             $user->Apellidos = $Apellidos;
                             $user->Email = $Email;

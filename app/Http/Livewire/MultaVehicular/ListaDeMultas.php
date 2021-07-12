@@ -5,7 +5,8 @@ namespace App\Http\Livewire\MultaVehicular;
 use Livewire\Component; 
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;  
-
+use Illuminate\Support\Facades\Auth;
+ 
 class ListaDeMultas extends Component
 {
       use WithPagination; 
@@ -43,6 +44,8 @@ class ListaDeMultas extends Component
     public function render()
     {
 
+      $this->id_inspector  =  Auth::user()->id_inspector;
+
     $this->Datos =  DB::table('Multas')  
             ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
             ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
@@ -51,7 +54,7 @@ class ListaDeMultas extends Component
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Id_Multas','Parte','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+            ->select('Id_Multas','Parte','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
             ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
 
     $this->Imagenes =  DB::table('Imagenes')
@@ -70,11 +73,12 @@ class ListaDeMultas extends Component
           ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
           ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
           ->select('Id_Multas','NumeroParte','Anio','Id_Juzgado','PlacaPatente','Marca','Modelo','Fecha','Nombres','Apellidos')
-          ->where('EstadoMulta', '=', '0')
+          ->where('Estado', '=', '0')
           ->where(function($query) {
                 $query->orwhere('Parte', 'like', "%{$this->search}%")
                       ->orwhere('PlacaPatente', 'like', "%{$this->search}%");
           })         
+          ->where('Inspectores.id_inspector', '=', $this->id_inspector)     
           ->paginate($this->perPage),
           'Datos'=>$this->Datos,
           'Imagenes'=>$this->Imagenes,

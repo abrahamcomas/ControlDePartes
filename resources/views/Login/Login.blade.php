@@ -85,7 +85,7 @@
         			      	</strong>
         			      	<hr>
 		        	</center>
-				@else 
+				@else  
 					<div class="panel-heading">
 						<center><h3><strong>INICIAR SESIÓN</strong></h3></center> 
 						<hr style="width:100%; border-color: blue;">

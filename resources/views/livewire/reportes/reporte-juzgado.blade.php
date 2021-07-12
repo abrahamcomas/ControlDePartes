@@ -2,36 +2,31 @@
     @if($Detalles==0)
         <center><strong><h2>REPORTES</h2></strong></center>
         <hr> 
-        <div class="row"> 
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
-            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
-                <center>DE</center>
+        <div class="row">
+            <div class="col-xs-12 col-sm-22 col-md-12 col-lg-4">
                 <input type="date"  class="form-control" wire:model="FechaDE" />
             </div>
-            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
-                <center>HASTA</center>
+            <div class="col-xs-12 col-sm-22 col-md-12 col-lg-4">
                 <input type="date"  class="form-control" wire:model="FechaHasta" />
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-                 <div class="row">
-                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
-                                <center>.</center>
-                                <select  class="form-control" wire:model="perPage">
-                                    <option value="5" selected>Mostrar 5 por página</option>
-                                    <option value="10">Mostrar 10 por página</option>
-                                    <option value="15">Mostrar 15 por página</option>
-                                    <option value="20">Mostrar 20 por página</option>
-                                    <option value="25">Mostrar 25 por página</option>
-                                    <option value="30">Mostrar 30 por página</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-                                <center>.</center>
-                                <center>
-                                     <button wire:click="clear" type="button" class="btn btn-danger active">X</button>
-                                </center>
-                            </div>
-                        </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                        <select  class="form-control" wire:model="perPage">
+                            <option value="5" selected>Mostrar 5 por página</option>
+                            <option value="10">Mostrar 10 por página</option>
+                            <option value="15">Mostrar 15 por página</option>
+                            <option value="20">Mostrar 20 por página</option>
+                            <option value="25">Mostrar 25 por página</option>
+                            <option value="30">Mostrar 30 por página</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2">
+                        <center>
+                                <button wire:click="clear" type="button" class="btn btn-danger active">X</button>
+                        </center>
+                    </div>
+                </div>
             </div>
         </div>
         <br> 
@@ -42,6 +37,7 @@
         			<th><center>PLACA</center></th>
                     <th><center>Fecha Ingreso</center></th>
                     <th><center>DETALLES</center></th>
+                    <th><center>PDF</center></th>
         		</tr>
         	</thead> 
         	<tbody>
@@ -53,6 +49,11 @@
         			<td> 
                         <center>
                             <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
+                        </center>
+        			</td>
+                    <td> 
+                        <center>
+                            <a href="{{ $post->Ruta }}" class="btn btn-primary active" target="_blank">PDF</a>
                         </center>
         			</td>
         		</tr> 
@@ -69,31 +70,18 @@
         @endif
     @else 
         <br>
-        <center>
-            <button class="btn btn-primary" wire:click="O_Detalles">Volver</button>
-        </center>
-        <br>
-        <div id="Multa"> 
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                    <tr> 
-                                        <th>
-                                            <center>
-                                                <h5><u>Municipalidad de Curicó</u></h5>
-                                                @foreach($Datos as $post1)
-                                                    <strong><h4>Sistema Control de partes</h4>Multa N°{{ $post1->Id_Multas }}</strong>
-                                                @endforeach
-                                            </center>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($Datos as $post)
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2"></div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                <div id="Multa">  
+                    <div class="card">
+                        <div class="btn-group" style=" width:100%;">	      
+                            <button class="btn btn-danger" wire:click="O_Detalles">Volver</button>
+                        </div>
+                        <div class="card-body">
+                           <table class="table table-striped table-bordered">
+                                <tbody> 
+                                @foreach($Datos as $post) 
                                         @if($post->TipoNotificacion==3)
                                             <tr>
                                                 <td style="text-align: center;">
@@ -117,12 +105,12 @@
                                             </tr>
                                             <tr>
                                                 <td style="text-align: center;">
-                                                     NACIONALIDAD = {{ $post->NombreNac }}
+                                                    NACIONALIDAD = {{ $post->NombreNac }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style="text-align: center;">
-                                                     DOMICILIO = {{ $post->Domicilio }}
+                                                    DOMICILIO = {{ $post->Domicilio }}
                                                 </td>
                                             </tr>
                                         @elseif($post->TipoNotificacion==2)
@@ -199,7 +187,7 @@
                                                     DESCRIPCIÓN INFRACCIÓN = {{ $post->descripcion }}
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr> 
                                                 <td style="text-align: center;">
                                                     LUGAR DE LA INFRACCIÓN = {{ $post->Lugar }} 
                                                 </td>
@@ -213,7 +201,7 @@
                                                 <td style="text-align: center;">
                                                     INFRACCIÓN ARTICULO = {{ $post->id_Articulo }}
                                                 </td>
-                                            </tr>
+                                            </tr> 
                                             <tr>
                                                 <td style="text-align: center;">
                                                     FECHA INFRACCIÓN = {{ $post->Fecha }}
@@ -232,15 +220,36 @@
                                                     TESTIGO = {{ $post->Nombres }}&nbsp;{{ $post->Apellidos }}
                                                 </td>
                                             </tr>
-                    
                                     @endforeach
+
+                                    @if($Imagenes!='[]')
+                                        @foreach($Imagenes as $post) 
+                                            <tr>
+                                                <td> 
+                                                    <center>
+                                                        <a href="{{ $post->RutaImagen }}" download>
+                                                            <img src="{{ $post->RutaImagen }}" class="img-fluid" alt="Responsive image">
+                                                        </a>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    <h4>FOTO NO DISPONIBLE</h4>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tbody>      
                             </table>
-                        </div>
+                        </div> 
                     </div>    
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2"></div>
         </div>
     @endif
 </div>

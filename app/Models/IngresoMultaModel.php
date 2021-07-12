@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class IngresoMultaModel extends Model
 {
-    use HasFactory;
+    use HasFactory; 
 
     //referencia a una tabla
     protected $table="Multas";
@@ -15,6 +15,8 @@ class IngresoMultaModel extends Model
 
     //pongo los caampos para permitir insert multiple
     protected $fillable=[
+        "Firma",
+        "Estado", 
         "Parte",
         "NumeroParte",
         "Anio",

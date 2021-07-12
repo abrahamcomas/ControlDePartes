@@ -53,27 +53,15 @@
             <button class="btn btn-primary" wire:click="O_Detalles">Volver</button>
         </center>
         <br>
-        <div id="Multa"> 
-           <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                    <tr> 
-                                        <th>
-                                            <center>
-                                                <h5><u>Municipalidad de Curicó</u></h5>
-                                                @foreach($Datos as $post1)
-                                                    <strong><h4>Sistema Control de partes</h4>Multa N°{{ $post1->Id_Multas }}</strong>
-                                                @endforeach
-                                            </center>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($Datos as $post)
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2"></div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                <div id="Multa">  
+                    <div class="card">
+                        <div class="card-body">
+                           <table class="table table-striped table-bordered">
+                                <tbody> 
+                                    @foreach($Datos as $post) 
                                         @if($post->TipoNotificacion==3)
                                             <tr>
                                                 <td style="text-align: center;">
@@ -97,12 +85,12 @@
                                             </tr>
                                             <tr>
                                                 <td style="text-align: center;">
-                                                     NACIONALIDAD = {{ $post->NombreNac }}
+                                                    NACIONALIDAD = {{ $post->NombreNac }}
                                                 </td>
-                                            </tr> 
+                                            </tr>
                                             <tr>
                                                 <td style="text-align: center;">
-                                                     DOMICILIO = {{ $post->Domicilio }}
+                                                    DOMICILIO = {{ $post->Domicilio }}
                                                 </td>
                                             </tr>
                                         @elseif($post->TipoNotificacion==2)
@@ -193,7 +181,7 @@
                                                 <td style="text-align: center;">
                                                     INFRACCIÓN ARTICULO = {{ $post->id_Articulo }}
                                                 </td>
-                                            </tr>
+                                            </tr> 
                                             <tr>
                                                 <td style="text-align: center;">
                                                     FECHA INFRACCIÓN = {{ $post->Fecha }}
@@ -212,14 +200,15 @@
                                                     TESTIGO = {{ $post->Nombres }}&nbsp;{{ $post->Apellidos }}
                                                 </td>
                                             </tr>
-                                    @endforeach 
-                                    @if($Imagenes!='[]') 
+                                    @endforeach
+
+                                    @if($Imagenes!='[]')
                                         @foreach($Imagenes as $post) 
                                             <tr>
                                                 <td> 
                                                     <center>
                                                         <a href="{{ $post->RutaImagen }}" download>
-                                                            <img src="{{ $post->RutaImagen }}" alt="Foto" width="500" height="500"/>
+                                                            <img src="{{ $post->RutaImagen }}" class="img-fluid" alt="Responsive image">
                                                         </a>
                                                     </center>
                                                 </td>
@@ -236,22 +225,20 @@
                                     @endif
                                 </tbody>      
                             </table>
-                        </div>   
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
-                    </div>
-                </div>    
-            </div>
-            <form method="POST" action="{{ route('MultaPDFSoloID') }}">   
-                @csrf             
-                <input type="hidden" name="IdMultaIngresada" value=" {{ $Id_Multas }} ">
-                <div class="form-group">
-                  <div class="form-label-group">
-                    <center>
-                      <button type="submit" class="btn btn-success active" formtarget="_blank">Imprimir Multa</button>
-                    </center> 
-                  </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <form method="POST" action="{{ route('MultaPDFSoloID') }}">   
+                                @csrf             
+                                <input type="hidden" name="IdMultaIngresada" value=" {{ $Id_Multas }} ">
+                                <div class="btn-group" style=" width:100%;">	
+                                    <button type="submit" class="btn btn-success active" formtarget="_blank">Imprimir Multa</button>
+                                </div>
+                            </form> 
+                        </div> 
+                    </div>    
                 </div>
-            </form> 
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2"></div>
         </div>
     @endif
 </div>

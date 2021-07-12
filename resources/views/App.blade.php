@@ -52,6 +52,38 @@
 
 	    }
 
+		function Patente1(Patente1) 
+		    {
+			    var valor = Patente1.value.replace('.','');
+				valor = valor.toUpperCase();
+			    valor = valor.replace('-','');
+			    cuerpo = valor.slice(0,-4);
+			    dv = valor.slice(-4).toUpperCase(); 
+			    Patente1.value = cuerpo + '-'+ dv
+			   
+	    }
+ 
+		function Patente2(Patente2) 
+		    {
+			    var valor = Patente2.value.replace('.','');
+				valor = valor.toUpperCase();
+			    valor = valor.replace('-','');
+			    cuerpo = valor.slice(0,-3);
+			    dv = valor.slice(-3).toUpperCase(); 
+			    Patente2.value = cuerpo + '-'+ dv
+			  
+	    }
+		function Patente3(Patente3) 
+		    {
+			    var valor = Patente3.value.replace('.','');
+				valor = valor.toUpperCase();
+			    valor = valor.replace('-','');
+			    cuerpo = valor.slice(0,-2);
+			    dv = valor.slice(-2).toUpperCase(); 
+			    Patente3.value = cuerpo + '-'+ dv
+			  
+	    }
+
 	    //IMPRIMIR PDF COMPROBANTE MULTA
 		function imprSelec(nombre) {
 		  var ficha = document.getElementById(nombre);
@@ -182,8 +214,12 @@
 			<div class="bg-light border-right" id="sidebar-wrapper">
       			<div class="sidebar-heading"><strong><center>MENÚ</center></strong></div>
 				<div class="list-group list-group-flush">
-					<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a> 
 
+				
+					<!--<a href="{{ route('FirmarDocumento2') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO2</a>-->
+
+					<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a> 
+					<a href="{{ route('FirmarDocumento') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO</a> 
 						{{--<a href="{{ route('ListaDeMultas') }}" class="list-group-item list-group-item-action">LISTA DE MULTAS</a> --}}
 
 					<div class="dropdown">
@@ -267,6 +303,61 @@
 	      	$("#wrapper").toggleClass("toggled");
 	});
 </script>
+<!-- @if(Auth::guard('web')->check())
+<script type="text/javascript">
+
+	var idleTime = 0;
+	$(document).ready(function () {
+	    //Increment the idle time counter every minute.
+	    var idleInterval = setInterval(timerIncrement, 60000); //1 minute
+
+	    //Zero the idle timer on mouse movement.
+	    $(this).mousemove(function (e) {
+	            idleTime = 0;
+	    });
+	    $(this).keypress(function (e) {
+	            idleTime = 0;
+	    });
+	});
+
+ 	function timerIncrement() 
+ 	{
+        idleTime = idleTime + 1;
+        if (idleTime >= 1) 
+        {
+        	location.href ="{{ route('CerrarSesion') }}";
+    	}
+    }   
+</script>
+@endif 
+@if(Auth::guard('Funcionario')->check())
+<script type="text/javascript">
+
+
+	var idleTime = 0;
+	$(document).ready(function () {
+	    //Increment the idle time counter every minute.
+	    var idleInterval = setInterval(timerIncrement, 60000); //1 minute
+
+	    //Zero the idle timer on mouse movement.
+	    $(this).mousemove(function (e) {
+	            idleTime = 0;
+	    });
+	    $(this).keypress(function (e) {
+	            idleTime = 0;
+	    });
+	});
+
+ 	function timerIncrement() 
+ 	{
+        idleTime = idleTime + 1;
+        if (idleTime >= 1) 
+        {
+        	location.href ="{{ route('CerrarSesion2') }}";
+    	}
+    }   
+</script>
+@endif -->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog" role="document">
     	<div class="modal-content">
@@ -276,14 +367,15 @@
 		          	<span aria-hidden="true">X</span>
 		        </button>
       		</div>
-      		<div class="modal-body">Desea Confirmar</div>
-      		<div class="modal-footer">
-        		<button class="btn btn-secondary active" type="button" data-dismiss="modal">Cancelar</button>
+      		<div class="modal-body"><center><img src="{{URL::asset('Imagenes/escudo.png')}}" width="120" height="120"/></center></div>
+			<br>
+			<div class="btn-group">
+				<button class="btn btn-danger active" type="button" data-dismiss="modal">Cancelar</button>
         		<a class="btn btn-primary active" href="{{ route('CerrarSesion') }}">Aceptar</a>
       		</div>
     	</div>
  	</div>
-</div>
+</div> 
 
 
 <div class="modal fade" id="logoutModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
@@ -295,9 +387,10 @@
           			<span aria-hidden="true">X</span>
         		</button>
       		</div>
-      		<div class="modal-body">Desea Confirmar</div>
-      		<div class="modal-footer">
-        		<button class="btn btn-secondary active" type="button" data-dismiss="modal">Cancelar</button>
+      		<div class="modal-body"><center><img src="{{URL::asset('Imagenes/escudo.png')}}" width="120" height="120"/></center></div>
+			<br>
+			<div class="btn-group">
+				<button class="btn btn-danger active" type="button" data-dismiss="modal">Cancelar</button>
         		<a class="btn btn-primary active" href="{{ route('CerrarSesion2') }}">Aceptar</a>
       		</div>
     	</div> 

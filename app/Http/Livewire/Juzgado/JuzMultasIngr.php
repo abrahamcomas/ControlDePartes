@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB; 
 use App\Models\IngresoMultaModel;   
+use Illuminate\Support\Facades\Auth;
 
 class JuzMultasIngr extends Component
 {
@@ -45,9 +46,11 @@ class JuzMultasIngr extends Component
    
     public function render()
     {
+      $ID_Juzgado_T=Auth::guard('Funcionario')->user()->ID_Juzgado_T;
+
       if ($this->AnioSelect=='') {
         $this->AnioSelect=date('y');
-    }
+      }
 
       $this->Datos =  DB::table('Multas') 
         ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
@@ -58,6 +61,7 @@ class JuzMultasIngr extends Component
         ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
         ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
         ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+        ->where('Multas.Id_Juzgado', '=', $ID_Juzgado_T)
         ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
 
       $this->Imagenes =  DB::table('Imagenes')
@@ -72,11 +76,14 @@ class JuzMultasIngr extends Component
 
         return view('livewire.juzgado.juz-multas-ingr',[
 
- 
+  
         'posts' =>  DB::table('Multas')
+          ->leftjoin('Document', 'Multas.Id_Multas', '=', 'Document.id_Multa_T')
           ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
-          ->select('Id_Multas','Parte','PlacaPatente')
-          ->where('EstadoMulta', '=', '1')
+          ->select('Id_Multas','Parte','PlacaPatente','Ruta')
+          ->where('Multas.Id_Juzgado', '=', $ID_Juzgado_T)
+          ->where('Estado', '=', '1')
+          ->where('Firma', '=', '1')  
           ->where('Anio', '=', $this->AnioSelect)
             ->where(function($query) {
                 $query->orwhere('Parte', 'like', "%{$this->search}%")

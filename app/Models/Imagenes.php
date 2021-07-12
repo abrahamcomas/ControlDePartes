@@ -11,7 +11,7 @@ class Imagenes extends Model
 
     //referencia a una tabla
     protected $table="Imagenes";
-    protected $primaryKey="ID_Imagen ";
+    protected $primaryKey="ID_Imagen";
     //pongo los caampos para permitir insert multiple
     protected $fillable=[
         "Id_Multa_Tabla",

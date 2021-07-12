@@ -51,6 +51,7 @@ class ListaMultasIngresadas extends Component
       }
 
     	$this->Datos =  DB::table('Multas') 
+            ->leftjoin('Document', 'Multas.Id_Multas', '=', 'Document.id_Multa_T')
             ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
             ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
             ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
@@ -58,7 +59,7 @@ class ListaMultasIngresadas extends Component
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Id_Multas','Parte','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','Ciudadanos.Rut AS RutCiudadano')
+            ->select('Ruta','Id_Multas','Parte','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','Ciudadanos.Rut AS RutCiudadano')
             ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
  
         $this->Imagenes =  DB::table('Imagenes')
@@ -76,7 +77,8 @@ class ListaMultasIngresadas extends Component
 			    'posts' =>  DB::table('Multas')
           	->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
           	->select('Id_Multas','Parte','PlacaPatente')
-            ->where('EstadoMulta', '=', '1')
+            ->where('Estado', '=', '1')
+            ->where('Firma', '=', '1')
             ->where('Anio', '=', $this->AnioSelect)
             ->where(function($query) {
                 $query->orwhere('Parte', 'like', "%{$this->search}%")

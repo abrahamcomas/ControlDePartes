@@ -19,6 +19,7 @@ class IngVehiculoModel extends Model
     	"PlacaPatente",
     	"TipoVehiculo",
     	"Marca",
+        "Descripcion",
         "Modelo", 
         "Color"
     ]; 

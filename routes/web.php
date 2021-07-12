@@ -30,6 +30,10 @@ use App\Http\Controllers\DataTable\MultasPendientesInsp;
 
 use App\Http\Controllers\MultaPDF\MultaPDF;
 use App\Http\Controllers\MultaPDF\MultaPDFSoloID;
+
+
+use App\Http\Controllers\FirmaDigital\FirmarDocumentoController;
+use App\Http\Controllers\FirmaDigital\FirmaPDFGenerado;
 /* 
 |--------------------------------------------------------------------------
 | Web Routes
@@ -118,14 +122,14 @@ Route::get('Sistema/CambiarCorreo', function () {
 })->middleware('auth')->name('CambiarCorreo'); 
 
 
-Route::post('Sistema/CambiarCorreo', [CambiarCorreoControler::class, 'index'])->name('FormCorreo');
+Route::post('Sistema/CambiarCorreo1', [CambiarCorreoControler::class, 'index'])->name('FormCorreo');
 
 //Cambiar Correo Funcionario
 Route::get('Sistema/CambiarCorreo2', function () {
     return view('Sistema/CambiarCorreo/CambiarCorreo2'); 
 })->middleware('auth:Funcionario')->name('CambiarCorreo2'); 
   
-Route::post('Sistema/CambiarCorreo', [CambiarCorreoController2::class, 'index'])->name('FormCorreo2');
+Route::post('Sistema/CambiarCorreo2', [CambiarCorreoController2::class, 'index'])->name('FormCorreo2');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Ingreso Multa Vehicular/////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +213,27 @@ Route::view('/SacarReporte','Posts/Reportes/PostsReportes')->middleware('auth')-
 
 Route::get('/ReportePDF', [ReportesPDFInspector::class, 'index'])->middleware('auth')->name('ReportePDFIns');
 
+
+
+
+
+
 Route::get('/ReportePDFJuzgado', [ReportePDFJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePdfJuzgado');
+Route::get('/ReportePDFfIRMA', [ReportePDFJuzgado::class, 'index'])->middleware('auth')->name('ReportePdfJuzgado');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::view('/ReporteJuzgado','Posts/Reportes/PostsReporteJuzgado')->middleware('auth:Funcionario')->name('JuzReportes');  
 
@@ -230,6 +254,24 @@ Route::post('/MultaPDF', [MultaPDFSoloID::class, 'index'])->middleware('auth')->
 
 
 
+ 
 
 
+//FIRMAR DOCUMENTO
 
+//Cambiar Correo Funcionario
+Route::get('FirmarDocumento', function () {
+    $checksum = session('checksum');
+    Session::forget('checksum');
+    return view('Posts/FirmarDocumento/FirmaDocumento'); 
+})->middleware('auth')->name('FirmarDocumento'); 
+
+Route::get('FirmarDocumento2', function () {
+    return view('FirmarDocumento/FirmarDocumento');  
+})->middleware('auth')->name('FirmarDocumento2'); 
+
+
+Route::post('/IngresoFirma', [FirmarDocumentoController::class, 'index'])->middleware('auth')->name('IngresoFirma'); 
+
+
+Route::post('/ConfirmarFirmaphp', [FirmaPDFGenerado::class, 'index'])->middleware('auth')->name('ConfirmarFirma'); 

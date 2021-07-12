@@ -20,10 +20,16 @@
 	</body>
 </div>
 @endsection      
-@section('scripts')
+@if(Auth::guard('web')->check())
 <script type="text/javascript">
-  function redireccionar() {
-    setTimeout("location.href='{{ route('Index') }}'", 2000);
+	function redireccionar() {
+    setTimeout("location.href='{{ route('CerrarSesion') }}'", 2000);
   }
 </script>
-@endsection     
+@elseif(Auth::guard('Funcionario')->check())
+<script type="text/javascript">
+	function redireccionar() {
+    setTimeout("location.href='{{ route('CerrarSesion2') }}'", 2000);
+  }
+</script>
+@endif

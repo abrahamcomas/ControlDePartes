@@ -16,6 +16,7 @@ class InspectorModel extends Model
     //pongo los caampos para permitir insert multiple
     protected $fillable=[
     	"Activo",
+        "TipoFirma",
     	"Rut",
     	"Nombres",
         "Apellidos", 

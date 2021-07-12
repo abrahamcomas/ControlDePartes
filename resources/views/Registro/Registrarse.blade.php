@@ -27,13 +27,23 @@
 	                    <div class="form-group">
 	                        <input type="password" class="form-control" name="Contrasenia" id="Contrasenia" 
 	                        value="{{ old('Contrasenia') }}" placeholder="Contraseña" autocomplete="off">
-	                   	</div>
+	                   	</div> 
 	                   	<div class="form-group">
 	                        <input type="password" class="form-control" name="Confirmar_Contrasenia" id="Confirmar_Contrasenia" value="{{ old('Confirmar_Contrasenia') }}" placeholder="Confirmar Contraseña" autocomplete="off">
 	                   	</div>
 		                <div class="form-group">
 		                  	<input type="email" name="Email" id="Email" value="{{ old('EmailCO') }}" class="form-control" placeholder="Email" >
 		                </div>
+						<div class="form-group"> 
+							<center><label for="TipoNotificacion">Tipo de firma</center>
+							<div class="form-label-group"> 
+								<select name="Firma" class="form-control" >
+									<option value="" selected>---SELECCIONAR---</option>
+									<option value="1">Atendida</option>
+									<option value="2">Desatendida</option> 
+								</select>
+							</div>  
+						</div>	  
 		                <hr style="width:100%; border-color: blue;"> 
 		                <center>
 		                	<button type="submit" class="btn btn-info active" >Aceptar</button>

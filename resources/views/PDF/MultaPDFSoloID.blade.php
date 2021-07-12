@@ -3,7 +3,6 @@
    $qrimage= public_path('../public/QR/qr.png');
      \QRCode::url('www.pharalax.com')->setOutfile($qrimage)->png();
 
-
  	$Datos =  DB::table('Multas') 
             ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
             ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
@@ -12,7 +11,7 @@
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+            ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
             ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->get();
 
 	foreach ($Datos as $user){
@@ -22,7 +21,7 @@
 	   	$ApellidosCiu= $user->ApellidosCiu;
 	   	$RutCiudadano= $user->RutCiudadano;
 	   	$Profesion= $user->Profesion;
-	   	$NombreNac= $user->NombreNac;
+	   	$NombreNac= $user->NombreNac; 
 	   	$Domicilio= $user->Domicilio;
 	   	$PlacaPatente= $user->PlacaPatente;
 	   	$TipoVehiculo= $user->TipoVehiculo;
@@ -34,7 +33,7 @@
 	   	$descripcion= $user->descripcion;
 	   	$Lugar= $user->Lugar;
 	   	$Hora= $user->Hora;
-	   	$id_Articulo= $user->id_Articulo;
+	   	$id_Articulo= $user->InfraccionArticulo;
 	   	$Fecha= $user->Fecha;
 		$Nombres= $user->Nombres;
 	   	$ApellidosInsp= $user->ApellidosInsp;
@@ -48,7 +47,6 @@
         ->leftjoin('Inspectores', 'Testigos.Id_Inspectores', '=', 'Inspectores.id_inspector')
         ->select('Nombres','Apellidos')
         ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->get();
-
 
 	foreach ($Testigo as $user){
 		$NombresT= $user->Nombres;
@@ -175,51 +173,63 @@ else{
             PATENTE: <?php echo $PlacaPatente; ?>
         </strong>
 	<?php 	if($TipoNotificacion==1) 
-			     {	?>
-         			<strong>NOTIFICACIÓN ESCRITA</strong> 
-	<?php 	 }
-          elseif($TipoNotificacion==2)  
-			     { 	?>
-         			<strong>NOTIFICACIÓN EMPADRONADO</strong> 
+			{	?>
+         		<strong>NOTIFICACIÓN ESCRITA</strong> 
+	<?php 	}
+          	elseif($TipoNotificacion==2)  
+			{ 	?>
+         		<strong>NOTIFICACIÓN EMPADRONADO</strong> 
 	<?php	}	
-			    else 
-			     {	?>
+			else 
+			{	?>
             	<strong>NOTIFICACIÓN PERSONALMENTE</strong> 
-              <br>
-	              NOMBRE = <?php echo $NombresC ?>&nbsp;<?php echo $ApellidosCiu ?>
-	    		    <br>
-	            	RUT = <?php echo $RutCiudadano; ?>
-	     		    <br>
-	            	PROFESIÓN = <?php echo $Profesion; ?>
-				      <br>
-	            	NACIONALIDAD = <?php echo $NombreNac; ?>
-	    		    <br>
-	             	DOMICILIO = <?php echo $Domicilio; ?>                             
+              	<br>
+	        	NOMBRE = <?php echo $NombresC ?>&nbsp;<?php echo $ApellidosCiu ?>
+	    		<br>
+	            RUT = <?php echo $RutCiudadano; ?>
+	     		<br>
+	            PROFESIÓN = <?php echo $Profesion; ?>
+				<br>
+	            NACIONALIDAD = <?php echo $NombreNac; ?>
+	    		<br>
+	            DOMICILIO = <?php echo $Domicilio; ?>                             
     <?php 	} 	?>
-              <hr>
-              <strong>DATOS CITACIÓN</strong> 
-              <hr>
-                <?php echo $NombreJuzgado; ?>
-              <br>
-                FECHA = <?php echo $FechaCitacion; ?>
-              <hr>  
-              <strong>DATOS INFRACCIÓN</strong> 
-              <hr>  
+               <hr>
+               <strong>DATOS CITACIÓN</strong> 
+               <hr>
+                    <?php echo $NombreJuzgado; ?>
+              	<br>
+            
+	<?php   if($TipoNotificacion==2) 
+			{	?>
+         		<strong>A espera de citación por parte de ese JPL.</strong> 
+	<?php 	}
+           else  
+			{ 	?>
+         		FECHA = <?php echo $FechaCitacion; ?>                       
+    <?php 	} 	?>
+				<hr>  
+			    <strong>DATOS INFRACCIÓN</strong> 
+              	<hr>  
                 DESCRIPCIÓN = <?php echo $descripcion; ?>
-              <br>
+              	<br>
                 LUGAR = <?php echo $Lugar; ?> 
           		<br>
                 HORA = <?php echo $Hora; ?>
-              <br>
+              	<br>
                 ARTICULO = <?php echo $id_Articulo; ?>
-              <br>
+              	<br>
                 FECHA = <?php echo $numeroDia; ?> de <?php echo $mes; ?> del <?php echo $anio; ?>
-              <br>
+              	<br>
                 INSPECTOR = <?php echo $Nombres; ?>&nbsp;<?php echo $ApellidosInsp; ?>
           		<br>
                 TESTIGO = <?php echo $NombresT; ?>&nbsp;<?php echo $ApellidosT; ?>
-              <hr>  
-              <img src='../public/QR/qr.png' width="100" height="100"/>
+				<br>
+				<br>
+				<br>
+				<br>
+              	<hr>  
+            	<!--  <img src='../public/QR/qr.png' width="100" height="100"/> -->
 </div>                            
 
 

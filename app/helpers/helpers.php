@@ -54,4 +54,15 @@ function IngresoCiudadano($Rut,$Nombres,$Apellidos,$Profesion,$ID_Nacionalidad,$
             return $datos;
 		}
  
+
+function VehiculoDescripcion($TipoVehiculo) 
+            { 
+                  $descripcion=DB::connection('Circulacion')->table('Tipos_de_Vehiculos')->whereCodigo($TipoVehiculo)->get();
+                  
+                  foreach ($descripcion as $user) {
+                        $descripcion = $user->Descripcion ;
+                  }
+                  return $descripcion;
+              
+            }
 ?> 

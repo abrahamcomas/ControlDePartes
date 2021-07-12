@@ -4,5 +4,8 @@
 		@livewire('multa-vehicular.agregar-multa' , ['Rut' => $Rut, 'TipoNotificacion' => $TipoNotificacion])   
 	</div>  
 @endsection    
+@section('scripts')
+
+@endsection
 
  

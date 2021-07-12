@@ -66,15 +66,17 @@
          $diaFC= 'Domingo';
       }
   @endphp
-<div class="container-fluid">  
+
+				
+				@if(Auth::guard('web')->check() || Auth::guard('Funcionario')->check())
+        @include('messages')
+        <div class="container-fluid">  
 	<div class="row">
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 			<br>
 			<div class="panel panel-default">
-				@include('messages')
-				@if(Auth::guard('web')->check() || Auth::guard('Funcionario')->check())
-		         	<center>
+		      <center>
     		 		    <div id="ContenidoDercHead">
         			        <img src="{{URL::asset('Imagenes/escudo.png')}}" width="220" height="220"/>
       			        </div>
@@ -84,38 +86,54 @@
 								{{ $hoy = date("g:i a")  }}
         			      	</strong>
         			      	<hr>
-		        	</center>
-				@else  
-					<div class="panel-heading">
-						<center><h3><strong>INICIAR SESIÓN</strong></h3></center> 
-						<hr style="width:100%; border-color: blue;">
-					</div>
-					<div class="panel-body">
-						<form method="POST" action="{{ route('Login') }}">  
-							@csrf   
-							<div class="form-group">
-		                      	<div class="form-label-group">
-		                        	<input type="text" class="form-control" name="RUN" id="RUN" oninput="checkRut(this)" placeholder="Rut" value="{{ old('RUN') }}">
-		                      	</div>
-		                    </div>
-		                    <div class="form-group">
-		                      	<div class="form-label-group">
-		                        	<input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" autocomplete="on">
-		                      	</div>
-		                   	</div>
-		                   	<hr style="width:100%; border-color: blue;">
-		                   	<center><button type="submit" class="btn btn-success active btn-info">Aceptar</button></center>
-		                   	<br>
-		                   	<a href="{{ route('Recuperar') }}" style="color: black;">
-		      				<center><strong>Recuperar Contraseña</strong></center></a>
-						</form>
-					</div>
-				@endif
-			</div> 
+		      </center>
+      </div> 
 		</div>
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
 	</div>
 </div>
+				@else  	
+      <br>
+          <div class="row"> 
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                @include('messages')
+              </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
+          </div> 
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+              <div class="card bg-light mb-3">
+                <div class="card-header">
+                  <center><h3><strong>INICIAR SESIÓN</strong></h3></center> 
+                </div>
+                <div class="card-body">
+                  <form method="POST" action="{{ route('Login') }}">  
+                    @csrf   
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="RUN" id="RUN" oninput="checkRut(this)" placeholder="Rut" value="{{ old('RUN') }}">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" autocomplete="on">
+                    </div>
+                    <div class="btn-group" style=" width:100%;">	
+                        <button type="submit" class="btn btn-success active btn-info">Aceptar</button>
+                    </div>
+                  </form>
+					      </div>
+                <div class="card-footer text-muted">
+					        <div class="btn-group" style=" width:100%;">	
+                      <a href="{{ route('Recuperar') }}" style="color: black;">
+                          <center><strong>Recuperar Contraseña</strong></center></a>
+					        </div>	      
+				        </div>	
+              </div>	
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
+          </div>
+      @endif
+	
 @endsection
 @section('scripts')
 <script type="text/javascript">

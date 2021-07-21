@@ -1,52 +1,65 @@
 <div>
     @if($Detalles==0)
-        <center><strong><h2>REPORTES</h2></strong></center>
-        <hr> 
-        <div class="row"> 
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
-            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
-                <center><label for="Rut">DE</label></center>
-                <input type="date"  class="form-control" wire:model="FechaDE" />
+    <br>
+    <div class="row">  
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="col">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">
+                            <center><h5><strong>REPORTES</strong></h5></center>
+                        </div> 
+                        <div class="card-body">
+                            <div class="row"> 
+                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
+                                    <center><label for="Rut">DE</label></center>
+                                    <input type="date"  class="form-control" wire:model="FechaDE" />
+                                </div>
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
+                                    <center><label for="Rut">HASTA</label></center>
+                                    <input type="date"  class="form-control" wire:model="FechaHasta" />
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
+                            </div>
+                            <br>
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>  
+                                        <th><center>N°</center></th>
+                                        <th><center>PLACA</center></th>
+                                        <th><center>Fecha Ingreso</center></th>
+                                        <th><center>DETALLES</center></th>
+                                    </tr>
+                                </thead> 
+                                <tbody>
+                                    @foreach($posts as $post)
+                                    <tr>
+                                        <td><center>{{ $post->Id_Juzgado }}{{ $post->NumeroParte }}{{ $post->Anio }}</center></td>
+                                        <td><center>{{ $post->PlacaPatente }}</center></td>
+                                        <td><center>{{ $post->Fecha }}</center></td> 
+                                        <td> 
+                                            <center>
+                                                <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
+                                            </center>
+                                        </td>
+                                    </tr> 
+                                    @endforeach 
+                                </tbody>
+                            </table>  
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{ $posts->links() }}
+                            @if($FechaDE!='' AND $FechaHasta!='')
+                                <center>
+                                    <a href="{{ route('ReportePDFIns',['FechaDE'=> $FechaDE, 'FechaHasta'=>$FechaHasta]) }}" class="btn btn-success active">Imprimir PDF</a>
+                                </center>  
+                            @endif
+                        </div>	
+                    </div> 
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
-                <center><label for="Rut">HASTA</label></center>
-                <input type="date"  class="form-control" wire:model="FechaHasta" />
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
         </div>
-        <br> 
-        <table class="table table-striped table-bordered" style="width:100%">
-        	<thead>
-        		<tr>  
-                    <th><center>N°</center></th>
-        			<th><center>PLACA</center></th>
-                    <th><center>Fecha Ingreso</center></th>
-                    <th><center>DETALLES</center></th>
-        		</tr>
-        	</thead> 
-        	<tbody>
-        		@foreach($posts as $post)
-        		<tr>
-                    <td><center>{{ $post->Id_Juzgado }}{{ $post->NumeroParte }}{{ $post->Anio }}</center></td>
-        			<td><center>{{ $post->PlacaPatente }}</center></td>
-                    <td><center>{{ $post->Fecha }}</center></td> 
-        			<td> 
-                        <center>
-                            <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
-                        </center>
-        			</td>
-        		</tr> 
-        		@endforeach 
-        	</tbody>
-        </table>  
-        {{ $posts->links() }}
-        @if($FechaDE!='' AND $FechaHasta!='')
-            <hr>
-            <center>
-               <a href="{{ route('ReportePDFIns',['FechaDE'=> $FechaDE, 'FechaHasta'=>$FechaHasta]) }}" class="btn btn-success active">Imprimir PDF</a>
-            </center>
-            <hr> 
-        @endif
+    </div>
     @else 
         <br>
         <center>

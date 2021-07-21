@@ -17,7 +17,7 @@
 					<div class="col">
 						<div class="card bg-light mb-3">
 							<div class="card-header">
-								<center><h4><strong>INGRESAR VEHÍCULO</strong></h4></center> 
+								<center><h5><strong>INGRESAR VEHÍCULO</strong></h5></center> 
 							</div>
 							<div class="card-body">
 								<div id="DivRut"> 
@@ -215,7 +215,7 @@
 												</div>
 											@endif  
 										</div>
-									</div>
+									</div> 
 									<div class="form-group">
 										<center><label for="Lugar">LUGAR DE INFRACCIÓN</label></center>
 										<div class="form-label-group"> 
@@ -228,6 +228,16 @@
 											<input wire:model="Ingreso_Articulo" type="text" class="form-control" autocomplete="off" placeholder="Buscar Artículo">
 										</div>
 									</div>	 
+									<div class="form-group">
+										<center><label for="Nacionalidad">DECRETO O LEY</label></center>
+										<div class="form-label-group">
+											<select class="form-control" wire:model="DecLey"> 
+												<option selected>---SELECCIONAR---</option>
+												<option selected>Decreto</option> 
+												<option selected>Ley</option> 
+											</select> 
+										</div>
+									</div>
 									<div class="form-group">
 										<center><label for="Nacionalidad">INGRESAR TESTIGO </label></center>
 										<div class="form-label-group">

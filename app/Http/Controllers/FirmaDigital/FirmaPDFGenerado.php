@@ -176,13 +176,18 @@ class FirmaPDFGenerado extends Controller
                             }
                 
 
-                            $decoded = base64_decode($content);
-                            $file = $checksum_original.'.'.'pdf';
-                            Storage::disk('PDF')->put($file, $decoded);
+                            //$decoded = base64_decode($content);
+                            //$file = $checksum_original.'.'.'pdf';
+                            //Storage::disk('PDF')->put($file, $decoded);
+
+                            
+                            $file = $checksum_original.'.'.'txt';
+                            Storage::disk('PDF')->put($file, $content);
                         
                             $DocumentModel              = new DocumentModel;
                             $DocumentModel->id_Multa_T  = $Id_Multas;
-                            $DocumentModel->Ruta        = 'PDF/'.$checksum_original.'.'.'pdf';
+                            //$DocumentModel->Ruta        = 'PDF/'.$checksum_original.'.'.'pdf';
+                            $DocumentModel->Ruta        = $checksum_original.'.'.'txt';
                             $DocumentModel->save();
                 
                             $IngresoMultaModel = IngresoMultaModel::find($Id_Multas);

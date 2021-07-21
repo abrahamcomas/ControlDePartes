@@ -16,8 +16,8 @@
             <div class="col">
                 <div class="card bg-light mb-3" >
                     <div class="card-header">
-						<center>   
-							<strong><h2>INGRESAR CIUDADANO/A</h2></strong>
+						<center>     
+						<h5><strong>INGRESAR CIUDADANO/A</strong></h5>
 						</center> 
                     </div>   
                     <div class="card-body">

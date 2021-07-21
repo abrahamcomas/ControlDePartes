@@ -1,7 +1,79 @@
+@php
+    $FechaCitacion=date("Y-m-d");
+    $numeroDiaFC = date('d', strtotime($FechaCitacion));
+    $diaFC = date('l', strtotime($FechaCitacion));
+    $mesFC = date('F', strtotime($FechaCitacion));
+    $anioFC = date('Y', strtotime($FechaCitacion));
+     
+    if($mesFC=='January'){
+      $mesFC= 'Enero';
+      }
+    elseif($mesFC=='February'){   
+      $mesFC= 'Febrero';
+      }
+    elseif($mesFC=='March'){  
+      $mesFC= 'Marzo';
+      }
+    elseif($mesFC=='April'){
+         $mesFC= 'Abril';
+      }
+    elseif($mesFC=='May'){
+         $mesFC= 'Mayo';
+      }
+    elseif($mesFC=='June'){
+         $mesFC= 'Junio';
+      }
+    elseif($mesFC=='July'){ 
+         $mesFC= 'Julio';
+      }
+    elseif($mesFC=='August'){  
+         $mesFC= 'Agosto';
+      }
+    elseif($mesFC=='September'){  
+         $mesFC= 'Septiembre';
+      }
+    elseif($mesFC=='October'){  
+         $mesFC= 'Octubre';
+      }
+    elseif($mesFC=='November'){  
+         $mesFC= 'Noviembre';
+      }
+    else{  
+         $mesFC= 'Diciembre';
+      }
+
+    if($diaFC=='Monday'){
+      $diaFC= 'Lunes';
+      }
+    elseif($diaFC=='Tuesday'){   
+      $diaFC= 'Martes';
+      }
+    elseif($diaFC=='Wednesday'){  
+      $diaFC= 'Miércoles';
+      }
+    elseif($diaFC=='Thursday'){
+         $diaFC= 'Jueves';
+      }
+    elseif($diaFC=='Friday'){
+         $diaFC= 'Viernes';
+      }
+    elseif($diaFC=='Saturday'){
+         $diaFC= 'Sábado'; 
+      }
+    else{ 
+         $diaFC= 'Domingo';
+      }
+  @endphp
+
 <meta charset="utf-8">
 <title>Control De Partes</title>
 <head>
 	<meta name="viewport" content="width=device-width"/>
+
+
+
+
+
 	<!--Para que funione el ajax-->
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
@@ -111,22 +183,21 @@
 	</style> 
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light" id="h">
-		@if (Route::has('Index')) 
+
+		
+	@if (Route::has('Index'))  
 			<div class="top-right link">	 
 				@if(Auth::guard('web')->check())
 					<a style="color: white;">
-						<strong>
-							<button class="btn btn-info active" id="menu-toggle">
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-border-width" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-							  		<path d="M0 3.5A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-2zm0 5A.5.5 0 0 1 .5 8h15a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1zm0 4a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
-								</svg>
-							</button>
-							Bienvenido 
-							{{ Auth::user()->Nombres}} 
-							{{ Auth::user()->Apellidos }}
-						</strong>
+						<button class="btn btn-info active" id="menu-toggle">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-border-width" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  	<path d="M0 3.5A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-2zm0 5A.5.5 0 0 1 .5 8h15a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1zm0 4a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+							</svg>
+						</button> 
+						Bienvenido 
+						{{ Auth::user()->Nombres}} 
+						{{ Auth::user()->Apellidos }}
 					</a>
-
 				@elseif(Auth::guard('Funcionario')->check())
 					<a style="color: white;">
 						<strong>
@@ -135,70 +206,33 @@
 							  		<path d="M0 3.5A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-2zm0 5A.5.5 0 0 1 .5 8h15a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1zm0 4a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
 								</svg>
 							</button>
+							<a  href="{{ route('Index') }}" style="color: white;">&nbsp;
 							Bienvenido 
 							{{ Auth::guard('Funcionario')->user()->Nombres }}
-							{{ Auth::guard('Funcionario')->user()->Apellidos }}
+							{{ Auth::guard('Funcionario')->user()->Apellidos }}</a>
 						</strong>
 					</a>
 				@else
-					<a class="navbar-brand" href="#" style="color: white;"><STRONG>SISTEMA CONTROL DE PARTES</STRONG></a>		
+					<a class="navbar-brand" href="#" style="color: white; font-size:16px;"><STRONG>SISTEMA CONTROL DE PARTES</STRONG></a>		
 				@endif
 			</div>
 		@endif		  
 	  	<ul class="navbar-nav ml-auto mt-2 mt-lg-0"> 
 	    	@if (Route::has('Index')) 
 	      		@if(Auth::guard('web')->check())
-	      			<li class="nav-item dropdown">
-			            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-			                <strong>Opciones</strong> 
-			            </a>
-			            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-			                <a class="dropdown-item" href="{{ route('CambiarCorreo') }}" style="font-size:14px;">	 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-at" 
-			    					fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									  <path fill-rule="evenodd" d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"/>
-								</svg>&nbsp;Email
-							</a>
-			                <a class="dropdown-item" href="{{ route('CambiarContrasenia') }}" style="font-size:14px;">	 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-lock-fill" 
-				    				fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  									<path d="M2.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9z"/>
-  									<path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
-								</svg>&nbsp;Contraseña  
-							</a>
-							<hr>
-      						<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" style="font-size:14px;">
-      							<svg 	width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" 
-      							fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-								</svg>&nbsp;Cerrar
-							</a>
-			            </div>
-			        </li> 
+      				<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#logoutModal" >
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+							<path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+							<path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+						</svg>
+					</a>
 			   	@elseif(Auth::guard('Funcionario')->check())
-	      			<li class="nav-item dropdown">
-			            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-			                <strong>Opciones</strong> 
-			            </a>
-			            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-			                <a class="dropdown-item" href="{{ route('CambiarCorreo2') }}" style="font-size:14px;">	 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-at" 
-			    					fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									  <path fill-rule="evenodd" d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"/>
-								</svg>&nbsp;Email
-							</a>
-			                <a class="dropdown-item" href="{{ route('CambiarContrasenia2') }}" style="font-size:14px;">	 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-lock-fill" 
-				    				fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  									<path d="M2.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9z"/>
-  									<path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"/>
-								</svg>&nbsp;Contraseña  
-							</a>
-							<hr>
-      						<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal2" style="font-size:14px;">
-      							<svg 	width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" 
-      							fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-								</svg>&nbsp;Cerrar
-							</a>
-			            </div>
-			        </li>
+      				<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#logoutModal2" >
+      					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+  							<path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+  							<path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+						</svg>
+					</a>
 	      		@else	
 					<a href="{{ route('Registrarse') }}" style="color: white;">
 					<center><strong>Registrarse</strong></center></a>
@@ -214,57 +248,168 @@
 			<div class="bg-light border-right" id="sidebar-wrapper">
       			<div class="sidebar-heading"><strong><center>MENÚ</center></strong></div>
 				<div class="list-group list-group-flush">
-
+					<div class="dropdown">
+						<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MULTAS&nbsp;</a>
+				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
+							<!--<a href="{{ route('FirmarDocumento2') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO2</a>-->
+							<form method="POST" action="{{ route('MultaVehicularCiudadano') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a >INGRESAR MULTA</a>
+								</button>
+							</form>
+							<!--<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a>--> 
+						</div>		
+					</div>		
 				
-					<!--<a href="{{ route('FirmarDocumento2') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO2</a>-->
-
-					<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a> 
-					<a href="{{ route('FirmarDocumento') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO</a> 
-						{{--<a href="{{ route('ListaDeMultas') }}" class="list-group-item list-group-item-action">LISTA DE MULTAS</a> --}}
+					<div class="dropdown">
+						<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">FIRMAR&nbsp;</a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
+							<form method="POST" action="{{ route('FirmarDocumento') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>MOSTRAR MULTAS</a>
+								</button>
+							</form>
+							<!--<a href="{{ route('FirmarDocumento') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO</a>--> 
+						</div>		
+					</div>
 
 					<div class="dropdown">
-			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MULTAS&nbsp;</a>
+			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MULTAS&nbsp;</a>
 				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-				    		<a class="list-group-item list-group-item-action" href="{{ route('ListaDeMultas') }}">MULTAS</a>
-				    		<a class="list-group-item list-group-item-action" href="{{ route('ListaMultasIngresadas') }}">MULTAS INGRESADAS</a>
+						  <form method="POST" action="{{ route('ListaDeMultas') }}">
+                        		@csrf
+								<button type="submit" class="btn">
+									<a>MULTAS</a>
+								</button>
+							</form>
+							<!--<a class="list-group-item list-group-item-action" href="{{ route('ListaDeMultas') }}">MULTAS</a>-->
+
+							<form method="POST" action="{{ route('ListaMultasIngresadas') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>MULTAS INGRESADAS</a>
+								</button>
+							</form>
+				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('ListaMultasIngresadas') }}">MULTAS INGRESADAS</a>-->
 				  		</div> 
 					</div>  
+					
 					<div class="dropdown">
-			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTES&nbsp;</a>
+			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REPORTES&nbsp;</a>
 				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-				    		<a class="list-group-item list-group-item-action" href="{{ route('SacarReporte') }}">SACAR REPORTE</a>
+						  <form method="POST" action="{{ route('SacarReporte') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>SACAR REPORTE</a>
+								</button>
+							</form>
+				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('SacarReporte') }}">SACAR REPORTE</a>-->
 				  		</div>
 					</div>
+					
 					<div class="dropdown">
-			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MANTENEDORES&nbsp;</a>
+			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MANTENEDORES&nbsp;</a>
 				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-				    		<a class="list-group-item list-group-item-action" href="{{ route('EditarCiudadano') }}">EDITAR CIUDADANO</a>
-				    		<a class="list-group-item list-group-item-action" 
-				    			href="{{ route('AgregarTiposInfra') }}">AGREGAR TIPOS INFRACCIONES</a>
-				    		<a class="list-group-item list-group-item-action" href="{{ route('AgregarArticulo') }}">AGREGAR INFRACIONES ARTÍCULOS</a>
-				 
-				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('EditarVehiculo') }}">EDITAR VEHÍCULO</a>-->
+						  <form method="POST" action="{{ route('EditarCiudadano') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>EDITAR CIUDADANO</a>
+								</button>
+							</form>
+				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('EditarCiudadano') }}">EDITAR CIUDADANO</a>-->
+
+							<form method="POST" action="{{ route('AgregarTiposInfra') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>AGREGAR INFRACCIONES</a>
+								</button>
+							</form> 
+				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('AgregarTiposInfra') }}">AGREGAR TIPOS INFRACCIONES</a>-->
+
+							<form method="POST" action="{{ route('AgregarArticulo') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>AGREGAR ARTÍCULOS</a>
+								</button>
+							</form>
+				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('AgregarArticulo') }}">AGREGAR INFRACIONES ARTÍCULOS</a>-->
 				  		</div>
 				  	</div>
-				</div>
-			</div>
-
-	@elseif(Auth::guard('Funcionario')->check())
-		<div class="d-flex" id="wrapper"> 
-			<div class="bg-light border-right" id="sidebar-wrapper">
-      			<div class="sidebar-heading"><strong><center>MENÚ</center></strong></div>
-				<div class="list-group list-group-flush">
+	
 					<div class="dropdown">
-			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">JUZGADO&nbsp;</a>
+			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">OPCIONES&nbsp;</a>
 				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-				    		<a class="list-group-item list-group-item-action" href="{{ route('JuzListaDeMultas') }}">MULTAS</a>
-				    		<a class="list-group-item list-group-item-action" href="{{ route('JuzMultasIngr') }}">MULTAS INGRESADAS</a>
-				    		<a class="list-group-item list-group-item-action" href="{{ route('JuzReportes') }}">REPORTES</a>
-				  		</div>
-					</div>
-				</div>
-    		</div>
+						    <form method="POST" action="{{ route('CambiarCorreo') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>EMAIL</a>
+								</button>
+							</form>
+				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('CambiarCorreo') }}">EMAIL</a>-->
 
+							<!--<form method="POST" action="{{ route('CambiarContrasenia') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>CONTRASEÑA</a>
+								</button>
+							</form>-->
+							<!--<a class="list-group-item list-group-item-action" href="{{ route('CambiarContrasenia') }}">CONTRASEÑA</a>-->
+				  		</div>
+				  	</div>
+					<div class="dropdown">
+			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DISP. VINCULADOS&nbsp;</a>
+				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
+							<form method="POST" action="{{ route('Sessiones') }}">
+								@csrf
+								<button type="submit" class="btn">
+									<a>DISP. VINCULADOS</a>
+								</button>
+							</form>
+							<!--<a href="{{ route('Sessiones') }}" class="list-group-item list-group-item-action">DISP. VINCULADOS</a> -->
+						</div>
+				  	</div>
+				</div>
+				<br><br>
+				<div>
+					<center><img src="{{URL::asset('Imagenes/escudo.png')}}" width="90" height="90"/></center>
+					<hr>
+					<center>
+					  	© {{ date("Y") }} Dep. de informática V0.1<br>
+						Municipalidad de Curicó
+					</center>
+				</div>
+			</div> 
+	@elseif(Auth::guard('Funcionario')->check())
+			<div class="d-flex" id="wrapper"> 
+				<div class="bg-light border-right" id="sidebar-wrapper">
+					<div class="sidebar-heading"><strong><center>MENÚ</center></strong></div>
+					<div class="list-group list-group-flush">
+						<div class="dropdown">
+							<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">JUZGADO&nbsp;</a>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
+								<a class="list-group-item list-group-item-action" href="{{ route('JuzListaDeMultas') }}">MULTAS</a>
+								<a class="list-group-item list-group-item-action" href="{{ route('JuzMultasIngr') }}">MULTAS INGRESADAS</a>
+								<a class="list-group-item list-group-item-action" href="{{ route('JuzReportes') }}">REPORTES</a>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div class="dropdown">
+					<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">OPCIONES&nbsp;</a>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
+						<a class="list-group-item list-group-item-action" href="{{ route('CambiarCorreo2') }}">EMAIL</a>
+						<a class="list-group-item list-group-item-action" href="{{ route('CambiarContrasenia2') }}">CONTRASEÑA</a>
+					</div>
+				</div> 
 	@endif
 		
 		    <div id="page-content-wrapper"> 
@@ -281,19 +426,6 @@
 				@livewireScripts
 				@yield('scripts')
 				@yield("foot")
-				<footer>
-						<br>
-					  	<center>
-					  		<p>
-					  			<a>
-					  				<strong>
-					  					© {{ date("Y") }} Departamento de informática V 0.1<br>
-										Municipalidad de Curicó
-									</strong> 
-								</a>
-							</p>
-						</center>
-				</footer>
 		    </div>
 		</div>
 </body>
@@ -303,61 +435,6 @@
 	      	$("#wrapper").toggleClass("toggled");
 	});
 </script>
-<!-- @if(Auth::guard('web')->check())
-<script type="text/javascript">
-
-	var idleTime = 0;
-	$(document).ready(function () {
-	    //Increment the idle time counter every minute.
-	    var idleInterval = setInterval(timerIncrement, 60000); //1 minute
-
-	    //Zero the idle timer on mouse movement.
-	    $(this).mousemove(function (e) {
-	            idleTime = 0;
-	    });
-	    $(this).keypress(function (e) {
-	            idleTime = 0;
-	    });
-	});
-
- 	function timerIncrement() 
- 	{
-        idleTime = idleTime + 1;
-        if (idleTime >= 1) 
-        {
-        	location.href ="{{ route('CerrarSesion') }}";
-    	}
-    }   
-</script>
-@endif 
-@if(Auth::guard('Funcionario')->check())
-<script type="text/javascript">
-
-
-	var idleTime = 0;
-	$(document).ready(function () {
-	    //Increment the idle time counter every minute.
-	    var idleInterval = setInterval(timerIncrement, 60000); //1 minute
-
-	    //Zero the idle timer on mouse movement.
-	    $(this).mousemove(function (e) {
-	            idleTime = 0;
-	    });
-	    $(this).keypress(function (e) {
-	            idleTime = 0;
-	    });
-	});
-
- 	function timerIncrement() 
- 	{
-        idleTime = idleTime + 1;
-        if (idleTime >= 1) 
-        {
-        	location.href ="{{ route('CerrarSesion2') }}";
-    	}
-    }   
-</script>
-@endif -->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog" role="document">
     	<div class="modal-content">

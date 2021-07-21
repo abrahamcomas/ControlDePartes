@@ -11,7 +11,7 @@
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+            ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
             ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->get();
 
 	foreach ($Datos as $user){
@@ -34,6 +34,7 @@
 	   	$Lugar= $user->Lugar;
 	   	$Hora= $user->Hora;
 	   	$id_Articulo= $user->InfraccionArticulo;
+		$DecLey= $user->DecLey;
 	   	$Fecha= $user->Fecha;
 		$Nombres= $user->Nombres;
 	   	$ApellidosInsp= $user->ApellidosInsp;
@@ -52,7 +53,76 @@
 		$NombresT= $user->Nombres;
 		$ApellidosT= $user->Apellidos;
 	}
-        
+       
+	
+$numeroDiaFC = date('d', strtotime($FechaCitacion));
+$diaFC = date('l', strtotime($FechaCitacion));
+$mesFC = date('F', strtotime($FechaCitacion));
+$anioFC = date('Y', strtotime($FechaCitacion));
+
+if($mesFC=='January'){
+	$mesFC= 'Enero';
+	}
+  elseif($mesFC=='February'){   
+	$mesFC= 'Febrero';
+	}
+  elseif($mesFC=='March'){  
+	$mesFC= 'Marzo';
+	}
+  elseif($mesFC=='April'){
+	   $mesFC= 'Abril';
+	}
+  elseif($mesFC=='May'){
+	   $mesFC= 'Mayo';
+	}
+  elseif($mesFC=='June'){
+	   $mesFC= 'Junio';
+	}
+  elseif($mesFC=='July'){ 
+	   $mesFC= 'Julio';
+	}
+  elseif($mesFC=='August'){  
+	   $mesFC= 'Agosto';
+	}
+  elseif($mesFC=='September'){  
+	   $mesFC= 'Septiembre';
+	}
+  elseif($mesFC=='October'){  
+	   $mesFC= 'Octubre'; 
+	}
+  elseif($mesFC=='November'){  
+	   $mesFC= 'Noviembre';
+	}
+  else{  
+	   $mesFC= 'Diciembre';
+	}
+
+  if($diaFC=='Monday'){
+	$diaFC= 'Lunes';
+	}
+  elseif($diaFC=='Tuesday'){   
+	$diaFC= 'Martes';
+	}
+  elseif($diaFC=='Wednesday'){  
+	$diaFC= 'Miércoles';
+	}
+  elseif($diaFC=='Thursday'){
+	   $diaFC= 'Jueves';
+	}
+  elseif($diaFC=='Friday'){
+	   $diaFC= 'Viernes';
+	}
+  elseif($diaFC=='Saturday'){
+	   $diaFC= 'Sábado'; 
+	}
+  else{ 
+	   $diaFC= 'Domingo';
+	}
+
+
+
+
+     
 $numeroDia = date('d', strtotime($Fecha));
 $dia = date('l', strtotime($Fecha));
 $mes = date('F', strtotime($Fecha));
@@ -205,8 +275,8 @@ else{
          		<strong>A espera de citación por parte de ese JPL.</strong> 
 	<?php 	}
            else  
-			{ 	?>
-         		FECHA = <?php echo $FechaCitacion; ?>                       
+			{ 	?> 
+         		FECHA =    <?php echo $diaFC; ?> <?php echo $numeroDiaFC; ?> de <?php echo $mesFC; ?> <?php echo $anioFC; ?>                   
     <?php 	} 	?>
 				<hr>  
 			    <strong>DATOS INFRACCIÓN</strong> 
@@ -218,6 +288,8 @@ else{
                 HORA = <?php echo $Hora; ?>
               	<br>
                 ARTICULO = <?php echo $id_Articulo; ?>
+              	<br>
+				DECRETO O LEY = <?php echo $DecLey; ?>
               	<br>
                 FECHA = <?php echo $numeroDia; ?> de <?php echo $mes; ?> del <?php echo $anio; ?>
               	<br>

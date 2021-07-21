@@ -1,85 +1,101 @@
 <div>
     @if($Detalles==0) 
-        <center><strong><h2>MULTAS</h2></strong></center>
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <input class="form-control" type="text" placeholder="Buscar..." wire:model="search" />
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
-                               <select  class="form-control" wire:model="perPage">
-                                    <option value="5" selected>Mostrar 5 por página</option>
-                                    <option value="10">Mostrar 10 por página</option>
-                                    <option value="15">Mostrar 15 por página</option>
-                                    <option value="20">Mostrar 20 por página</option>
-                                    <option value="25">Mostrar 25 por página</option>
-                                    <option value="30">Mostrar 30 por página</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-                                <center>
-                                     <button wire:click="clear" type="button" class="btn btn-danger active">X</button>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </div>
-        <br>
-        @if($posts->count())
-            <div class="card">
-                <div class="card-body">
-                    <table id="Multas" class="table table-striped table-bordered" style="width:100%">
-                        <thead> 
-                            <tr>  
-                                <th><center>N°</center></th>
-                                <th><center>PLACA</center></th> 
-                                <th><center>DETALLES</center></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($posts as $post)
-                            <tr>
-                                <td>
-                                    <center>
-                                        {{$post->Id_Juzgado}}{{$post->NumeroParte}}{{$post->Anio}}
-                                    </center>
-                                </td>
-                                <td>
-                                    <center>{{$post->PlacaPatente}}</center>
-                                </td>
-                                <td>
-                                    <center> 
-                                        <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
-                                    </center>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table> 
-                </div>
-            </div>
-            {{ $posts->links() }}
-        @else
-            <div class="row"> 
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                    <div class="card">
+    <br>
+    <div class="row">  
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="col">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">
+                            <center><h5><strong>MULTAS</strong></h5></center>
+                        </div> 
                         <div class="card-body">
-                            <center>
-                                <strong>No hay resultados para la búsqueda "{{ $search }}"</strong> 
-                            </center>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                            <input class="form-control" type="text" placeholder="Buscar..." wire:model="search" />
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                                <select  class="form-control" wire:model="perPage">
+                                                        <option value="5" selected>Mostrar 5 por página</option>
+                                                        <option value="10">Mostrar 10 por página</option>
+                                                        <option value="15">Mostrar 15 por página</option>
+                                                        <option value="20">Mostrar 20 por página</option>
+                                                        <option value="25">Mostrar 25 por página</option>
+                                                        <option value="30">Mostrar 30 por página</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                                                    <center>
+                                                        <button wire:click="clear" type="button" class="btn btn-danger active">X</button>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div> 
+                                @if($posts->count())
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <table id="Multas" class="table table-striped table-bordered" style="width:100%">
+                                                <thead> 
+                                                    <tr>  
+                                                        <th><center>N°</center></th>
+                                                        <th><center>PLACA</center></th> 
+                                                        <th><center>DETALLES</center></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($posts as $post)
+                                                    <tr>
+                                                        <td>
+                                                            <center>
+                                                                {{$post->Id_Juzgado}}{{$post->NumeroParte}}{{$post->Anio}}
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>{{$post->PlacaPatente}}</center>
+                                                        </td>
+                                                        <td>
+                                                            <center> 
+                                                                <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table> 
+                                        </div>
+                                    </div>
+                                @else 
+                                    <div class="row"> 
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <center>
+                                                        <strong>No hay resultados para la búsqueda "{{ $search }}"</strong> 
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
+                                    </div>
+                                    <br>
+                                @endif    
+                            </div>
                         </div>
-                    </div>
+                        <div class="card-footer text-muted">
+                        {{ $posts->links() }}
+                        </div>	
+                    </div> 
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
             </div>
-        @endif    
+        </div>
+    </div>
     @else 
         <br>
         <div class="row">

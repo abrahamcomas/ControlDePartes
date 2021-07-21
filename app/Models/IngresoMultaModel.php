@@ -28,6 +28,7 @@ class IngresoMultaModel extends Model
         "Lugar",
         "Hora",
         "InfraccionArticulo",
+        "DecLey",
         "Testigo",
         "Fecha",
     ]; 

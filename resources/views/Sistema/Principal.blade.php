@@ -35,7 +35,7 @@
          $mesFC= 'Septiembre';
       }
     elseif($mesFC=='October'){  
-         $mesFC= 'Octubre';
+         $mesFC= 'Octubre'; 
       }
     elseif($mesFC=='November'){  
          $mesFC= 'Noviembre';
@@ -65,30 +65,57 @@
     else{ 
          $diaFC= 'Domingo';
       }
-  @endphp
+  @endphp 
 <div class="container-fluid">  
-	  <div class="row">
-		    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
-		    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-			      <br>
-			      @include('messages')
-		        <div class="panel panel-default">
-			          <center>
-    		 		        <div id="ContenidoDercHead">
-        			          <img src="{{URL::asset('Imagenes/escudo.png')}}" width="220" height="220"/>
-      			        </div>
-        			      <hr>
-        			      <strong>
-        				      <h3>{{ $diaFC }} {{ $numeroDiaFC }} de {{ $mesFC }} {{ $anioFC }}</h3>
+  <br>
+  <div class="row">  
+    <div class="col-sm-12">
+      <div class="card-header">
+        <h5 class="card-title"><center>SISTEMA INSPECCION DE PARTES<center></h5>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">  
+    <div class="col-sm-6">
+      <div class="card-header">
+        MULTA 
+      </div>
+      <div class="card-body">
+          <h5 class="card-title">INGRESAR MULTRA</h5>
+          <p class="card-text"> Multas ingresadas hoy {{ $Multas }}.</p>
+          <a href="{{ route('MultaVehicularCiudadano') }}" class="btn btn-primary">Ingresar Multa</a>
+      </div>
+      <div class="card-footer text-muted">
+          {{ $Anio }} Multas ingresadas durante el año 
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card-header">
+         FIRMAS
+      </div>
+      <div class="card-body">
+          <h5 class="card-title">FIRMAR MULTAS</h5>
+          <p class="card-text">Al firmar el documento confirma el envío al tribunal de turno.</p>
+          <a href="{{ route('FirmarDocumento') }}" class="btn btn-primary">Firmar Documentos</a>
+      </div>
+      <div class="card-footer text-muted">
+          {{ $PendientesFirma }} Firma pendiente
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">  
+    <div class="col-sm-12">
+      <div class="card-footer text-muted"> 
+      <center><h7>{{ $diaFC }} {{ $numeroDiaFC }} de {{ $mesFC }} {{ $anioFC }}</h7><br></center>
+						<center>{{ $hoy = date("g:i a")  }}</center>
+      </div>
+    </div>
+  </div>
 
-{{ $hoy = date("g:i a")  }}
-                      <h1> </h1>
-        			      </strong>
-        			      <hr>
-    		        </center>
-			      </div> 
-		    </div>
-	      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
-	  </div>
+
 </div>
+
+
 @endsection

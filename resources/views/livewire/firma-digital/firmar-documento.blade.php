@@ -14,7 +14,7 @@
                 <div class="col">
                     <div class="card bg-light mb-3">
                         <div class="card-header">
-                            <center><strong><h2>MULTAS</h2></strong></center> 
+                            <center><h5><strong>MULTAS</strong></h5></center> 
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

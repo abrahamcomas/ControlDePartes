@@ -217,6 +217,7 @@ class AgregarMulta extends Component
 
     //INGRESO ARTICULO
     public $Ingreso_Articulo;
+    public $DecLey;
 
     //Imagen
     public $photo;
@@ -375,7 +376,7 @@ class AgregarMulta extends Component
                   }
 
                        
-        
+         
             
 
             $IdPatente = IdPatente($this->Patente); 
@@ -442,6 +443,7 @@ class AgregarMulta extends Component
                 $Multa->Lugar              = $this->Ingreso_Lugar;
                 $Multa->Hora               = date('H:i:s');
                 $Multa->InfraccionArticulo = $this->Ingreso_Articulo;
+                $Multa->DecLey             = $this->DecLey;
                 $Multa->Fecha              = date("Y/m/d");
                 $Multa->FechaCitacion      = $this->FechaCitacion;
                 $Multa->EstadoMulta        = '0';

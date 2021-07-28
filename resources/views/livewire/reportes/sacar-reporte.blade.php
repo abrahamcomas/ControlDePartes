@@ -3,24 +3,31 @@
     <br>
     <div class="row">  
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="col">
+                <div class="col"> 
                     <div class="card bg-light mb-3">
                         <div class="card-header">
                             <center><h5><strong>REPORTES</strong></h5></center>
                         </div> 
                         <div class="card-body">
                             <div class="row"> 
-                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
-                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                                     <center><label for="Rut">DE</label></center>
                                     <input type="date"  class="form-control" wire:model="FechaDE" />
                                 </div>
-                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                                     <center><label for="Rut">HASTA</label></center>
                                     <input type="date"  class="form-control" wire:model="FechaHasta" />
+                                </div> 
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                    <center><label for="Rut">TIPO DE MULTA</label></center>
+                                    <select wire:model="idTipoInfraccion" class="form-control" >
+                                                <option value="0" selected>---TODO---</option>
+                                            @foreach($TipoInfraccion as $post)
+                                                <option value="{{ $post->id_Infraccion }}">{{ $post->descripcion}}</option>
+                                            @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"></div>
-                            </div>
+                            </div>  
                             <br>
                             <table class="table table-striped table-bordered" style="width:100%">
                                 <thead>
@@ -49,9 +56,9 @@
                         </div>
                         <div class="card-footer text-muted">
                             {{ $posts->links() }}
-                            @if($FechaDE!='' AND $FechaHasta!='')
+                            @if($FechaDE!='' AND $FechaHasta!='') 
                                 <center>
-                                    <a href="{{ route('ReportePDFIns',['FechaDE'=> $FechaDE, 'FechaHasta'=>$FechaHasta]) }}" class="btn btn-success active">Imprimir PDF</a>
+                                    <a href="{{ route('ReportePDFIns',['FechaDE'=> $FechaDE, 'FechaHasta'=>$FechaHasta, 'idTipoInfraccion'=>$idTipoInfraccion]) }}" class="btn btn-success active">Imprimir PDF</a>
                                 </center>  
                             @endif
                         </div>	

@@ -1,9 +1,9 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\ReportesPDF; 
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Auth;
 
 class ReportesPDFInspector extends Controller
@@ -13,10 +13,10 @@ class ReportesPDFInspector extends Controller
 		 
 	   	$FechaDE = $request->input('FechaDE');
 	   	$FechaHasta = $request->input('FechaHasta');
-	   
-  		$id_inspector = Auth::user()->id_inspector;
+		$idTipoInfraccion = $request->input('idTipoInfraccion');
+  		$id_inspector = Auth::user()->id_inspector; 
 
-		$pdf = \PDF::loadView('PDF/ReportePDFInsp', compact('FechaDE','FechaHasta','id_inspector'));
+		$pdf = \PDF::loadView('PDF/ReportePDFInsp', compact('FechaDE','FechaHasta','idTipoInfraccion','id_inspector'));
 
 		return $pdf->stream('ReportePDF.pdf');
     }

@@ -50,28 +50,30 @@
                             @if($posts->count())
                                 <div class="card">
                                     <div class="card-body">
-                                        <table id="MultasIngresadas" class="table table-striped table-bordered" style="width:100%" > 
-                                            <thead>
-                                                <tr> 
-                                                    <th><center>N°</center></th>
-                                                    <th><center>PLACA</center></th>
-                                                    <th><center>DETALLES</center></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($posts as $post)
-                                                <tr>
-                                                    <td><center>{{ $post->Parte }}</center></td>
-                                                    <td><center>{{ $post->PlacaPatente }}</center></td>
-                                                    <td> 
-                                                        <center>
-                                                            <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
-                                                        </center>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table> 
+                                        <div class="table-responsive">
+                                            <table id="MultasIngresadas" class="table table-striped table-bordered" style="width:100%" > 
+                                                <thead>
+                                                    <tr> 
+                                                        <th><center>N°</center></th>
+                                                        <th><center>PLACA</center></th>
+                                                        <th><center>DETALLES</center></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($posts as $post)
+                                                    <tr>
+                                                        <td><center>{{ $post->Parte }}</center></td>
+                                                        <td><center>{{ $post->PlacaPatente }}</center></td>
+                                                        <td> 
+                                                            <center>
+                                                                <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table> 
+                                        </div>
                                     </div>
                                 </div>
                             @else
@@ -101,7 +103,7 @@
     @else
         <br>
         <center>
-            <button class="btn btn-primary" wire:click="O_Detalles">VOLVER</button>
+            <button class="btn btn-danger" wire:click="O_Detalles">VOLVER</button>
         </center>
         <br>
         <div class="row">
@@ -121,7 +123,7 @@
                                             @csrf             
                                             <input type="hidden" name="ID" value="{{ $post->Id_Multas  }}">
                                             <div class="btn-group" style=" width:100%;">	
-                                                <button type="submit" class="btn btn-primary active" formtarget="_blank">   PDF N°{{ $post->Parte }}</button>
+                                                <button type="submit" class="btn btn-primary active" formtarget="_blank">   PDF</button>
                                             </div>
                                         </form> 
                         </div> 

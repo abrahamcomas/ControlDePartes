@@ -4,7 +4,7 @@
       @if($VariableVista==1)
         <center><strong><h2>VEHICULO {{ $RutBuscado }}</h2></strong></center>
       @elseif($VariableVista==3)
-        <center><strong><h2>BUSCAR PATENTE</h2></strong></center>
+        <center><strong><h5>BUSCAR PATENTE</h5></strong></center>
       @endif
     <hr> 
     <div class="panel-body"> 
@@ -85,16 +85,16 @@
         </form>
       @elseif($VariableVista==0)
         <hr>
-          <h2>
+          <h5>
             <center><strong>No Encontrado</strong></center> 
-          </h2>
+          </h5>
             <center>
               <button type="button" class="btn btn-success active" wire:click="Cancelar">Volver</button>
             </center>
        @elseif($VariableVista==4)
-          <h2>
+          <h5>
             <center><strong>Actualizado Corectamente</strong></center> 
-          </h2>
+          </h5>
            <center>
               <button type="button" class="btn btn-success active" wire:click="Cancelar">Aceptar</button>
             </center>

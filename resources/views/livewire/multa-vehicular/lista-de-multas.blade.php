@@ -40,34 +40,36 @@
                                 @if($posts->count())
                                     <div class="card">
                                         <div class="card-body">
-                                            <table id="Multas" class="table table-striped table-bordered" style="width:100%">
-                                                <thead> 
-                                                    <tr>  
-                                                        <th><center>N°</center></th>
-                                                        <th><center>PLACA</center></th> 
-                                                        <th><center>DETALLES</center></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($posts as $post)
-                                                    <tr>
-                                                        <td>
-                                                            <center>
-                                                                {{$post->Id_Juzgado}}{{$post->NumeroParte}}{{$post->Anio}}
-                                                            </center>
-                                                        </td>
-                                                        <td>
-                                                            <center>{{$post->PlacaPatente}}</center>
-                                                        </td>
-                                                        <td>
-                                                            <center> 
-                                                                <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
-                                                            </center>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table> 
+                                            <div class="table-responsive">
+                                                <table id="Multas" class="table table-striped table-bordered" style="width:100%">
+                                                    <thead> 
+                                                        <tr>  
+                                                            <th><center>N°</center></th>
+                                                            <th><center>PLACA</center></th> 
+                                                            <th><center>DETALLES</center></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($posts as $post)
+                                                        <tr>
+                                                            <td>
+                                                                <center>
+                                                                    {{$post->Id_Juzgado}}{{$post->NumeroParte}}{{$post->Anio}}
+                                                                </center>
+                                                            </td>
+                                                            <td>
+                                                                <center>{{$post->PlacaPatente}}</center>
+                                                            </td>
+                                                            <td>
+                                                                <center> 
+                                                                    <button class="btn btn-primary" wire:click="M_Detalles({{ $post->Id_Multas }})">DETALLES</button>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach 
+                                                    </tbody>
+                                                </table> 
+                                            </div>
                                         </div>
                                     </div>
                                 @else 
@@ -105,7 +107,7 @@
                     <div class="card">
                     <div class="card-headers">
                         <div class="btn-group" style=" width:100%;">	
-                    <button class="btn btn-primary" wire:click="O_Detalles">VOLVER</button>
+                    <button class="btn btn-danger" wire:click="O_Detalles">VOLVER</button>
                     </div>
                     </div>
                         <div class="card-body">

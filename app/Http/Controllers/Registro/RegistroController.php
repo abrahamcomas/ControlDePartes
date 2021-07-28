@@ -19,7 +19,7 @@ class RegistroController extends Controller
             'Contrasenia' => 'required|min:6',
             'Confirmar_Contrasenia' => 'required:Contrasenia|same:Contrasenia|min:6|different:password',
             'Email' => 'required',
-            'Firma' => 'required',
+            'Firma' => 'required'
         ]; 
 
         $messages = [
@@ -32,7 +32,26 @@ class RegistroController extends Controller
             'Firma.required' =>'El campo Firma es obligatorio.'
         ]; 
 
-        $this->validate($request, $rules, $messages);  
+
+        $rules2 = [ 
+            'Rut' => 'required', 
+            'Nombres' => 'required', 
+            'Apellidos' => 'required', 
+            'Contrasenia' => 'required|min:6',
+            'Confirmar_Contrasenia' => 'required:Contrasenia|same:Contrasenia|min:6|different:password',
+            'Email' => 'required'
+        ]; 
+
+        $messages2 = [
+            'Rut.required' =>'El campo Rut es obligatorio.',
+            'Nombres.required' =>'El campo Nombres es obligatorio.',
+            'Apellidos.required' =>'El campo Apellidos es obligatorio.',
+            'Contrasenia.required' =>'El campo Contraseña es obligatorio.',
+            'Confirmar_Contrasenia.required' =>'El campo Confirmar Contraseña es obligatorio.',
+            'Email.required' =>'El campo Email es obligatorio.'
+        ]; 
+
+        
 
         $Rut = $request->input('Rut');
         $Nombres = $request->input('Nombres');
@@ -49,7 +68,8 @@ class RegistroController extends Controller
 
         if ($Count_InspectorModel=='1') 
         {
-            
+                $this->validate($request, $rules, $messages);  
+                
                 $C_InspectorModel=InspectorModel::select('Rut','Nombres')->whereRut($Rut)->get();
 
                 foreach ($C_InspectorModel as $Dato){
@@ -98,7 +118,7 @@ class RegistroController extends Controller
         }
         elseif($Count_FuncionarioModel=='1')
         {       
-
+                $this->validate($request, $rules2, $messages2);  
                 $C_FuncionarioModel=FuncionarioModel::select('Rut','Nombres')->whereRut($Rut)->get();
 
                 foreach ($C_FuncionarioModel as $Dato){

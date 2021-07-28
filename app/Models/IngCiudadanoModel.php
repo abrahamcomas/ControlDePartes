@@ -21,7 +21,8 @@ class IngCiudadanoModel extends Model
         "Profesion", 
         "ID_Nacionalidad",
         "FechaNacimiento",
-        "Domicilio"
+        "Domicilio",
+        "Licencia"
     ]; 
 
     public function Nacionalidad()

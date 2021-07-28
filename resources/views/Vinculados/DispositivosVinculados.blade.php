@@ -15,11 +15,10 @@
                             <table table class="table table-hover">
                                 <thead>
                                     <tr> 
-                                        <th><center>Agent</center></th>
+                                        <th><center>Dispositivos</center></th>
                                         <th><center>IP</center></th>
                                         <th><center>Ultima Actividad</center></th>
                                         <th><center>Eliminar</center></th>
-
                                     </tr> 
                                 </thead>
                                 <tbody>  
@@ -31,7 +30,7 @@
                                         <td><form method="POST" action="{{ route('EliminarVinculo') }}">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $post->id }}" >
-                                            <button type="submit" class="btn btn-success active btn-info">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger active btn-info">Eliminar</button>
                                         </form></td>
                                     </tr>
                                     @endforeach 

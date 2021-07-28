@@ -464,8 +464,8 @@ else  {   ?>
           <u>DISTRIBUCIÓN:</u><br>
           La indicada<br>
           Archivo
-      	</div> 
-    	</td>
+      	</div>
+    	</td> 
       <td>
         <div id="FechaPrincipalHead"></div>
     	</td>
@@ -480,6 +480,11 @@ else  {   ?>
           </center>
     	  </div>
       </td>
+      <center>
+            <P style="font-size: 13pt"> 
+                <strong>Firmado electrónicamente por el denunciante bajo el amparo de la ley N°19.799</strong>
+              </P>
+          </center>
     </tr>
   </table>
 

@@ -11,7 +11,7 @@
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+            ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','DetallesDecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
             ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->get();
 
 	foreach ($Datos as $user){
@@ -35,6 +35,7 @@
 	   	$Hora= $user->Hora;
 	   	$id_Articulo= $user->InfraccionArticulo;
 		$DecLey= $user->DecLey;
+		$DetallesDecLey= $user->DetallesDecLey;
 	   	$Fecha= $user->Fecha;
 		$Nombres= $user->Nombres;
 	   	$ApellidosInsp= $user->ApellidosInsp;
@@ -289,7 +290,14 @@ else{
               	<br>
                 ARTICULO = <?php echo $id_Articulo; ?>
               	<br>
-				DECRETO O LEY = <?php echo $DecLey; ?>
+	<?php   if($DecLey=='Decreto') 
+			{	?>
+         		 DECRETO = <?php echo $DetallesDecLey; ?>
+	<?php 	}
+           else  
+			{ 	?> 
+         		 LEY =      <?php echo $DetallesDecLey; ?>             
+    <?php 	} 	?>
               	<br>
                 FECHA = <?php echo $numeroDia; ?> de <?php echo $mes; ?> del <?php echo $anio; ?>
               	<br>

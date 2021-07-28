@@ -112,6 +112,7 @@
 									<input type="hidden" name="Nacionalidad" value="{{ $post->NombreNac }}">
 									<input type="hidden" name="FechaNacimiento" value="{{ $post->FechaNacimiento }}">
 									<input type="hidden" name="Domicilio" value="{{ $post->Domicilio }}">
+									<input type="hidden" name="Licencia" value="{{ $post->Licencia }}">
 									<div class="form-group">
 										<center><label for="Nombres">NOMBRES</label></center>
 										<div class="form-label-group"> 
@@ -146,8 +147,15 @@
 										<center><label for="Domicilio">DOMICILIO</label></center>
 										<div class="form-label-group"> 
 											<input class="form-control" type="text" value="{{ $post->Domicilio }}" disabled style="background-color:#D3D3D3;">
-										</div>
-									</div>			                   
+										</div> 
+									</div>	 
+									<div class="form-group">
+										<center><label for="Licencia">LICENCIA CLASE</label></center>
+										<div class="form-label-group"> 
+											<input class="form-control" type="text" value="{{ $post->Licencia }}" disabled style="background-color:#D3D3D3;">
+										</div> 
+									</div>	
+									                   
 								@endforeach
 								<div class="btn-group" style=" width:100%;">	
 									<button type="submit" class="btn btn-info active" >CONTINAUR</button>
@@ -166,7 +174,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 				<div class="col">
 					<div class="card bg-light mb-3" >
-						<div class="card-body">
+						<div class="card-body"> 
 							<form method="POST" action="{{ route('IngresoCiudadano') }}">
 								@csrf 
 								<input type="hidden" name="TipoNotificacion" value="{{ $TipoNotificacion }}">
@@ -210,7 +218,34 @@
 									<div class="form-label-group"> 
 										<input type="text" class="form-control" name="Domicilio" placeholder="Domicilio" autocomplete="off">
 									</div>
-								</div>	
+								</div>
+								<div class="form-group">
+									<center><label for="Licencia">LICENCIA CLASE</label></center>
+									<div class="form-label-group">  
+										<select name="Licencia" class="form-control" >
+											<option value="" selected>---SELECCIONAR---</option>
+											<optgroup label="Sin Licencia">
+												<option>No Tiene</option>
+											</optgroup>
+											<optgroup label="Licencias profesionales">
+												<option>Clase A1</option>
+												<option>Clase A2</option>
+												<option>Clase A3</option>
+												<option>Clase A4</option>
+												<option>Clase A5</option>
+											</optgroup>
+											<optgroup label="Licencias no profesionales">
+												<option>Clase B</option>
+												<option>Clase C</option>
+											</optgroup>
+											<optgroup label="Licencias especiales">
+												<option>Clase D</option>
+												<option>Clase E</option>
+												<option>Clase F</option>
+											</optgroup>
+										</select> 
+									</div>  
+								</div>				
 								<div class="btn-group" style=" width:100%;">	
 									<button type="submit" class="btn btn-info active" >CONTINUAR</button>
 								</div>	

@@ -113,10 +113,10 @@ class FirmaPDFGenerado extends Controller
             $signature = base64_Encode($signature);
         
             $token = $unsignedToken.'.'.$signature;
-       
+        
             $Id_Multas  = $request->input('ID_Multa');
             
-            $PDF = \PDF::loadView('PDF/ReportePDFJuzgado', compact('Id_Multas'));
+            $PDF = \PDF::loadView('PDF/PDFFirmado', compact('Id_Multas'));
             $PDF2 = $PDF->output();
         
             $codificado = base64_encode($PDF2);

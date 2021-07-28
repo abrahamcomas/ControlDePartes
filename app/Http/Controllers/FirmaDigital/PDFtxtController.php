@@ -25,6 +25,12 @@ class PDFtxtController extends Controller
 		$contents = Storage::disk('PDF')->get($Ruta);
 			
 		$decoded = base64_decode($contents);
+        header('Content-Type: application/pdf');
+		$file = $NombreArchivo.'.'.'pdf';
+        header('Content-Disposition: inline; filename="'.basename($file).'"');
+        echo $decoded;
+
+        /*
 		$file = $NombreArchivo.'.'.'pdf';
 		$sube = file_put_contents($file, $decoded);
 
@@ -37,6 +43,6 @@ class PDFtxtController extends Controller
             header("Pragma: public");
             header("Content-Length: " . filesize($file));
             $guardar= readfile($file);
-		}
+		}*/
     }
 }

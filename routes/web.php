@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Auth\Middleware\Authenticate;  
@@ -9,12 +8,12 @@ use App\Http\Controllers\Registro\RegistroController;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Login\CerrarLoginController;
 use App\Http\Controllers\Login\CerrarLoginController2;
-
 use App\Http\Controllers\Email\RContraseniaController;
 use App\Http\Controllers\Email\ResetearContraseniaController;
 use App\Http\Controllers\Email\RestaurarContController;
 use App\Http\Controllers\Email\RestaurarContController2;
 use App\Http\Controllers\Sistema\VolverIndexController;
+use App\Http\Controllers\Sistema\VolverIndexController2;
 use App\Http\Controllers\Sistema\CambiarContController;
 use App\Http\Controllers\Sistema\CambiarContController2;
 use App\Http\Controllers\Sistema\CambiarCorreoControler;
@@ -25,19 +24,19 @@ use App\Http\Livewire\MultaVehicular\AgregarMulta;
 use App\Http\Controllers\ReportesPDF\ReportesPDFInspector;
 use App\Http\Controllers\ReportesPDF\ReportePDFJuzgado;
 use App\Http\Controllers\ReportesPDF\ReporteFechaJuzgado;
-
 use App\Http\Controllers\DataTable\MultasPendientesInsp;
-
 use App\Http\Controllers\MultaPDF\MultaPDF;
 use App\Http\Controllers\MultaPDF\MultaPDFSoloID;
-
-
 use App\Http\Controllers\FirmaDigital\FirmarDocumentoController;
 use App\Http\Controllers\FirmaDigital\FirmaPDFGenerado;
 use App\Http\Controllers\FirmaDigital\PDFtxtController;
-
 use App\Http\Controllers\Sessiones\SessionesController;
 use App\Http\Controllers\Sessiones\EliminarVinculo;
+
+
+
+
+
 /* 
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,291 +48,104 @@ use App\Http\Controllers\Sessiones\EliminarVinculo;
 |
 */
 
+//PAGINA LOGIN 
 Route::get('/', function () { 
     return view('Login/Login');
 })->name('Index'); 
 
-//VOLVER A PRINCIPAL SI NO ESTA AUTENTICADO
-Route::get('Sistema', function (){ 
+//CERRAR SESION 
+Route::get('/CerrarSesion', [CerrarLoginController::class, 'index'])->name('CerrarSesion');
+Route::get('/CerrarSesion2', [CerrarLoginController2::class, 'index'])->name('CerrarSesion2');
+
+//PAGINA PRINCIPAL
+Route::get('/SistemaPartes',function () { 
     return view('Login/Login');
-})->name('LoginVolver'); 
-
-//Volver Index
-Route::get('SistemaPrincipal', [VolverIndexController::class, 'index'])->middleware('auth')->name('VolverIndex');
-
-
-//PAGINA PRINCIPAL LOGIN 
+})->middleware('auth'); 
 Route::post('SistemaPartes', [LoginController::class, 'index'])->name('Login'); 
-Route::get('SistemaPartes')->middleware('auth'); 
-
-
-
-
-
-
-
-
-
-
-
-Route::get('SistemaPrincipal2', [VolverIndexController::class, 'index'])->middleware('auth:Funcionario')->name('VolverIndex2');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::get('Sistema/Principal', [CerrarLoginController::class, 'NoLogin']);
 
 // REGISTRO
-Route::patch('IngresoRegistro', [RegistroController::class, 'index'])->name('Registro');
+Route::patch('/IngresoRegistro', [RegistroController::class, 'index'])->name('Registro');
 Route::get('Registro', function () {
     return view('Registro/Registrarse');
 })->name('Registrarse');
 
-//CERRAR SESION 
-Route::get('CerrarSesion', [CerrarLoginController::class, 'index'])->name('CerrarSesion');
-Route::get('CerrarSesion2', [CerrarLoginController2::class, 'index'])->name('CerrarSesion2');
-
-
-
-
- 
 //RESTAURAR CONTRASEÑA POR CORREO
-Route::patch('Restaurar', [RestaurarContController::class, 'index'])->name('Restaurar');
-Route::patch('Restaurar2', [RestaurarContController2::class, 'index'])->name('Restaurar2');
-Route::post('Login/RecuperarContrasenia', [RContraseniaController::class, 'index'])->name('ContraseniaEnviada');
-Route::get('ResetearContrasenia', [ResetearContraseniaController::class, 'index'])->name('RestaurarC');
-Route::get('RecuperarContrasenia', function (){ 
+Route::get('/RecuperarContrasenia', function (){ 
     return view('Email/RecuperarContrasenia');
 })->name('Recuperar');  
+Route::post('/ContraseniaEnviada', [RContraseniaController::class, 'index'])->name('ContraseniaEnviada');
+Route::get('/ResetearContrasenia', [ResetearContraseniaController::class, 'index'])->name('RestaurarC');
+
+//INSPECTORES
+Route::patch('/Restaurar', [RestaurarContController::class, 'index'])->name('Restaurar');
+
+//FUNCIONARIO
+Route::patch('/Restaurar2', [RestaurarContController2::class, 'index'])->name('Restaurar2');
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////CAMBIAR CONTRASEÑA Y CORREO//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Cambiar Contrasenia y correo Inspectores 
+
+//Navar contrasenia y correo inspectores
+Route::get('/Sistema/CambioContraseniaInsp',function () { 
+    return view('Sistema/CambiarContrasenia/CambiarContrasenia'); 
+})->middleware('auth'); 
+Route::post('/Sistema/CambioContraseniaInsp', function () {
+    return view('Sistema/CambiarContrasenia/CambiarContrasenia'); 
+})->middleware('auth')->name('CambiarContrasenia'); 
  
+Route::get('/Sistema/CambiarCorreoInsp',function () { 
+    return view('Sistema/CambiarCorreo/CambiarCorreo');
+})->middleware('auth'); 
+Route::post('/Sistema/CambiarCorreoInsp', function () {
+    return view('Sistema/CambiarCorreo/CambiarCorreo'); 
+})->middleware('auth')->name('CambiarCorreo');
+
+ 
+//Navar contrasenia y correo funcionario sin control de sesiones
+Route::get('Sistema/CambiarCorreoFunc', function () {
+    return view('Sistema/CambiarCorreo/CambiarCorreo2'); 
+})->middleware('auth:Funcionario')->name('CambiarCorreo2'); 
+
+Route::get('/Sistema/CambioContraseniaFunc', function () {
+    return view('Sistema/CambiarContrasenia/CambiarContraseniaFun'); 
+})->middleware('auth:Funcionario')->name('CambiarContrasenia2'); 
+//Fin Navar 
+
+//Envio formulario post cambio contrasenia inspectores
+Route::post('/Sistema/CambiarContrasenia', [CambiarContController::class, 'index'])->middleware('auth')->name('FormContrasenia');
+//Envio formulario post cambio correo inspectores
+Route::post('/Sistema/CambiarCorreoinsp', [CambiarCorreoControler::class, 'index'])->middleware('auth')->name('FormCorreo');
+
+//Envio formulario post cambio contrasenia funcionarios
+Route::post('/Sistema/CambioContraseniaFunc', [CambiarContController2::class, 'index'])->middleware('auth:Funcionario')->name('FormContrasenia2');
+//Envio formulario post cambio correo funcionarios
+Route::post('/Sistema/CambiarCorreoFunc', [CambiarCorreoController2::class, 'index'])->middleware('auth:Funcionario')->name('FormCorreo2');
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////PDF//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Route::get('/ReportePDFFirma', [ReportePDFJuzgado::class, 'index'])->middleware('auth')->name('ReportePdfJuzgadoInsp');
+
+Route::post('/MostrarMultaPDF', [PDFtxtController::class, 'index'])->middleware('auth')->name('MostrarMultaPDF');  
+Route::post('/MultaPDFJuzgado', [PDFtxtController::class, 'index'])->middleware('auth:Funcionario')->name('MostrarMultaPDF2');  
+
+
+Route::get('/ReportePDF', [ReportesPDFInspector::class, 'index'])->middleware('auth')->name('ReportePDFIns');
+
+//Firmar PDF subidos
+//Route::post('/IngresoFirma', [FirmarDocumentoController::class, 'index'])->middleware('auth')->name('IngresoFirma'); 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////SISTEMA PRINCIPAL LOGIN//////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::post('Sistema/ConfirmarCambioContrasenia', [CambiarContController::class, 'index'])->name('FormContrasenia');
-
-//Cambiar Contrasenia Funcionarios
-Route::get('Sistema/ConfirmarCambioContraseniaF', function () {
-    return view('Sistema/CambiarContrasenia/CambiarContraseniaFun'); 
-})->middleware('auth:Funcionario')->name('CambiarContrasenia2'); 
-
-Route::post('Sistema/ConfirmarCambioContraseniaF', [CambiarContController2::class, 'index'])->name('FormContrasenia2');
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-Route::post('Sistema/CambiarCorreo1', [CambiarCorreoControler::class, 'index'])->name('FormCorreo');
-
-//Cambiar Correo Funcionario
-Route::get('Sistema/CambiarCorreo2', function () {
-    return view('Sistema/CambiarCorreo/CambiarCorreo2'); 
-})->middleware('auth:Funcionario')->name('CambiarCorreo2'); 
-  
-Route::post('Sistema/CambiarCorreo2', [CambiarCorreoController2::class, 'index'])->name('FormCorreo2');
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Ingreso Multa Vehicular/////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-Route::post('/IngresoMulta', [IngresoMultaController::class, 'index'])->name('IngresoMulta');
-// Route::post('/Ing', [IngCiudadanoController::class, 'index'])->middleware('auth')->name('AgregarMultas2'); 
- 
- 
-
-Route::get('/post', AgregarMulta::class)->name('MultaVehicular')->middleware('auth');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::view('/ListaDeMultasJuzgado', 'Posts/MultaVehicular/PostsJuzIngresoMulta')->middleware('auth:Funcionario')->name('JuzListaDeMultas'); 
-Route::view('/ListaDeMultasJuzgadoIngresadas', 'Posts/MultaVehicular/PostsJustMultasIngr')->middleware('auth:Funcionario')->name('JuzMultasIngr'); 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Mantenedores////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::view('/EditarVehiculo','Posts/Mantenedores/PostsEditarVehiculo')->middleware('auth')->name('EditarVehiculo'); 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Mantenedores////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REPORTES PDF////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-Route::get('/ReportePDF', [ReportesPDFInspector::class, 'index'])->middleware('auth')->name('ReportePDFIns');
-
-
-
-
-
-
-Route::get('/ReportePDFJuzgado', [ReportePDFJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePdfJuzgado');
-Route::get('/ReportePDFfIRMA', [ReportePDFJuzgado::class, 'index'])->middleware('auth')->name('ReportePdfJuzgado');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::view('/ReporteJuzgado','Posts/Reportes/PostsReporteJuzgado')->middleware('auth:Funcionario')->name('JuzReportes');  
-
-Route::get('/ReportePDFJuzgadoFechas', [ReporteFechaJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePDFJuz');
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////DATA TABLES////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-Route::get('/DataMultas', [MultasPendientesInsp::class, 'index'])->middleware('auth')->name('DataMul');
-
-Route::post('/Multa', [MultaPDF::class, 'index'])->middleware('auth')->name('MultaPDF');
-
-Route::post('/MultaPDF', [MultaPDFSoloID::class, 'index'])->middleware('auth')->name('MultaPDFSoloID');  
-
-
-
- 
- 
-
-//FIRMAR DOCUMENTO
-
-//Cambiar Correo Funcionario
-
-
-Route::get('FirmarDocumento2', function () {
-    return view('FirmarDocumento/FirmarDocumento');  
-})->middleware('auth')->name('FirmarDocumento2'); 
-
-
-Route::post('/IngresoFirma', [FirmarDocumentoController::class, 'index'])->middleware('auth')->name('IngresoFirma'); 
-
-
-Route::post('/ConfirmarFirmaphp', [FirmaPDFGenerado::class, 'index'])->middleware('auth')->name('ConfirmarFirma'); 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::post('/MostrarMultaPDF', [PDFtxtController::class, 'index'])->middleware('auth')->name('MostrarMultaPDF');  
-
-
-Route::post('/Sessiones', [SessionesController::class, 'index'])->middleware('auth')->name('Sessiones');  
-Route::get('/Sessiones')->middleware('auth');  
-
+//Route::post('/IngresoMulta', [IngresoMultaController::class, 'index'])->name('IngresoMulta');
+//Route::post('/Multa', [MultaPDF::class, 'index'])->middleware('auth')->name('MultaPDF');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////APP NAVAR///////////////////////////////////////////////////////////////////
@@ -341,93 +153,151 @@ Route::get('/Sessiones')->middleware('auth');
 
 //INSPECTORES 
 
-//Devuelve la vista para ingresar el ciudadano
-// Route::view('/IngresarMultaCiudadano', 'Posts/MultaVehicular/PostsAgregarCiudadano')->middleware('auth')->name('MultaVehicularCiudadano');  
-Route::get('/IngresarMultaCiudadano', function () { 
+//Multa
+Route::get('/IngresarMultaCiudadano',function () { 
     return view('Posts/MultaVehicular/PostsAgregarCiudadano');
 })->middleware('auth');
 Route::post('/IngresarMultaCiudadano', function () { 
     return view('Posts/MultaVehicular/PostsAgregarCiudadano');
 })->middleware('auth')->name('MultaVehicularCiudadano');
- 
-Route::get('/FirmarDocumento', function () {
-    return view('Posts/FirmarDocumento/FirmaDocumento'); 
+
+Route::get('/IngresoDatosCiudadano', function () { 
+    return view('Login/Login');
+})->middleware('auth'); 
+Route::post('/IngresoDatosCiudadano', [IngCiudadanoController::class, 'index'])->middleware('auth')->name('IngresoCiudadano'); 
+
+//FIRMAR MULTA
+Route::get('/FirmarDocumento', function () { 
+    return view('Login/Login');
 })->middleware('auth'); 
 Route::post('/FirmarDocumento', function () {
     $checksum = session('checksum');
     Session::forget('checksum');
     return view('Posts/FirmarDocumento/FirmaDocumento'); 
 })->middleware('auth')->name('FirmarDocumento'); 
+Route::post('/ConfirmarFirmaphp', [FirmaPDFGenerado::class, 'index'])->middleware('auth')->name('ConfirmarFirma'); 
 
-//Route::view('ListaDeMultas', 'Posts/MultaVehicular/PostsListaDeMultas')->middleware('auth')->name('ListaDeMultas'); 
-Route::get('/ListaDeMultas', function () { 
-    return view('Posts/MultaVehicular/PostsListaDeMultas');
+//LISTA MULTAS 
+Route::get('/ListaDeMultas',function () { 
+    return view('Login/Login');
 })->middleware('auth');
 Route::post('/ListaDeMultas', function () { 
     return view('Posts/MultaVehicular/PostsListaDeMultas');
 })->middleware('auth')->name('ListaDeMultas');
 
-//Route::view('ListaDeMultasIngresadas', 'Posts/MultaVehicular/PostsMultasIngresadas')->middleware('auth')->name('ListaMultasIngresadas'); 
-Route::get('/ListaDeMultasIngresadas', function () { 
-    return view('Posts/MultaVehicular/PostsMultasIngresadas');
+Route::get('/MultaPDF',function () { 
+    return view('Login/Login');
+})->middleware('auth');  
+Route::post('/MultaPDF', [MultaPDFSoloID::class, 'index'])->middleware('auth')->name('MultaPDFSoloID');  
+
+//OPCIONES 
+
+Route::get('/ListaDeMultasIngresadas',function () { 
+    return view('Login/Login');
 })->middleware('auth');
 Route::post('/ListaDeMultasIngresadas', function () { 
     return view('Posts/MultaVehicular/PostsMultasIngresadas');
 })->middleware('auth')->name('ListaMultasIngresadas');
  
-//Route::view('/SacarReporte','Posts/Reportes/PostsReportes')->middleware('auth')->name('SacarReporte'); 
-Route::get('/SacarReporte', function () { 
-    return view('Posts/Reportes/PostsReportes');
+Route::get('/SacarReporte',function () { 
+    return view('Login/Login');
 })->middleware('auth'); 
 Route::post('/SacarReporte', function () { 
     return view('Posts/Reportes/PostsReportes');
 })->middleware('auth')->name('SacarReporte'); 
 
-//Route::view('/EditarCiudadano','Posts/Mantenedores/PostsEditarCiudadano')->middleware('auth')->name('EditarCiudadano'); 
-Route::get('/EditarCiudadano', function () { 
-    return view('Posts/Mantenedores/PostsEditarCiudadano');
+Route::get('/EditarCiudadano',function () { 
+    return view('Login/Login');
 })->middleware('auth');
 Route::post('/EditarCiudadano', function () { 
     return view('Posts/Mantenedores/PostsEditarCiudadano');
 })->middleware('auth')->name('EditarCiudadano');
-
-//Route::view('/TipoInfraccion','Posts/Mantenedores/PostsInfracciones')->middleware('auth')->name('AgregarTiposInfra'); 
-Route::get('/TipoInfraccion', function () { 
-    return view('Posts/Mantenedores/PostsInfracciones');
+ 
+Route::get('/TipoInfraccion',function () { 
+    return view('Login/Login');
 })->middleware('auth');
 Route::post('/TipoInfraccion', function () { 
     return view('Posts/Mantenedores/PostsInfracciones');
 })->middleware('auth')->name('AgregarTiposInfra');
-
-//Route::view('/AgregarArticulo','Posts/Mantenedores/PostsArticulos')->middleware('auth')->name('AgregarArticulo'); 
-Route::get('/AgregarArticulo', function () { 
-    return view('Posts/Mantenedores/PostsArticulos');
+ 
+Route::get('/AgregarArticulo',function () { 
+    return view('Login/Login');
 })->middleware('auth'); 
 Route::post('/AgregarArticulo', function () { 
     return view('Posts/Mantenedores/PostsArticulos');
 })->middleware('auth')->name('AgregarArticulo'); 
 
-Route::get('/Sistema/CambiarCorreo', function () {
-    return view('Sistema/CambiarCorreo/CambiarCorreo'); 
-})->middleware('auth'); 
-Route::post('/Sistema/CambiarCorreo', function () {
-    return view('Sistema/CambiarCorreo/CambiarCorreo'); 
-})->middleware('auth')->name('CambiarCorreo'); 
+Route::get('/EliminarVinculo',function () { 
+    return view('Login/Login');
+})->middleware('auth');
+Route::post('/EliminarVinculo', [EliminarVinculo::class, 'index'])->middleware('auth')->name('EliminarVinculo'); 
 
-Route::get('/Sistema/ConfirmarCambioContrasenia', function () {
-    return view('Sistema/CambiarContrasenia/CambiarContrasenia'); 
-})->middleware('auth'); 
-Route::post('/Sistema/ConfirmarCambioContrasenia', function () {
-    return view('Sistema/CambiarContrasenia/CambiarContrasenia'); 
-})->middleware('auth')->name('CambiarContrasenia');  
+//SESSIONES
+Route::post('/Sessiones', [SessionesController::class, 'index'])->middleware('auth')->name('Sessiones');  
+Route::get('/Sessiones',function () { 
+    return view('Login/Login');
+})->middleware('auth');  
 
+Route::get('/DataMultas', [MultasPendientesInsp::class, 'index'])->middleware('auth')->name('DataMul');
+
+Route::get('/SistemaPrincipal', [VolverIndexController::class, 'index'])->middleware('auth')->name('VolverIndex');  
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////MULTAS///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////JUZGADO///////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Route::post('/IngresoDatosCiudadano', [IngCiudadanoController::class, 'index'])->name('IngresoCiudadano'); 
-Route::view('/IngresoDatosCiudadano', 'Posts/MultaVehicular/PostsAgregarMulta')->middleware('auth'); 
 
-Route::post('/EliminarVinculo', [EliminarVinculo::class, 'index'])->name('EliminarVinculo'); 
+Route::get('/ListaDeMultasJuzgado',function () { 
+    
+    $ID_Juzgado_T=Auth::guard('Funcionario')->user()->id_Funcionario;
+    $FuncionarioActivo = FuncionarioActivo($ID_Juzgado_T);
+    
+    if($FuncionarioActivo==1){
+        return view('Posts/MultaVehicular/PostsJuzIngresoMulta');
+    }
+    else{
+        Auth::guard('Funcionario')->logout();
+        Session::flush();
+           return Redirect::to('/');
+    }
 
+   
+})->middleware('auth:Funcionario')->name('JuzListaDeMultas'); 
+
+Route::get('/ListaDeMultasJuzgadoIngresadas',function () { 
+    
+    $ID_Juzgado_T=Auth::guard('Funcionario')->user()->id_Funcionario;
+    $FuncionarioActivo = FuncionarioActivo($ID_Juzgado_T);
+    
+    if($FuncionarioActivo==1){
+        return view('Posts/MultaVehicular/PostsJustMultasIngr');
+    }
+    else{
+        Auth::guard('Funcionario')->logout();
+        Session::flush();
+           return Redirect::to('/');
+    }
+
+   
+})->middleware('auth:Funcionario')->name('JuzMultasIngr'); 
+
+Route::get('/ReporteJuzgado',function () { 
+    
+    $ID_Juzgado_T=Auth::guard('Funcionario')->user()->id_Funcionario;
+    $FuncionarioActivo = FuncionarioActivo($ID_Juzgado_T);
+    
+    if($FuncionarioActivo==1){
+        return view('Posts/Reportes/PostsReporteJuzgado');
+    }
+    else{
+        Auth::guard('Funcionario')->logout();
+        Session::flush();
+           return Redirect::to('/');
+    }
+
+   
+})->middleware('auth:Funcionario')->name('JuzReportes'); 
+
+Route::get('/ReportePDFJuzgado', [ReportePDFJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePdfJuzgado');
+Route::get('/ReportePDFJuzgadoFechas', [ReporteFechaJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePDFJuz');
+Route::get('/SistemaPrincipal2', [VolverIndexController2::class, 'index'])->middleware('auth:Funcionario')->name('VolverIndex2');

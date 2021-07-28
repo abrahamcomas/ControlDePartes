@@ -1,19 +1,20 @@
 <div>
 		@if($ConfirmarIngreso==0)
 		@if($Detalles==0)
-			<center><strong><h2>MULTAS</h2></strong></center> 
+			
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 					<div class="col">
 						<div class="card bg-light mb-3" >
 							<div class="card-header">
-								<table table class="table table-hover">
+								<table table class="table table-hover"> 
 									<thead>
+									<center><strong><h2>MULTAS</h2></strong></center> 
 										<tr> 
 											<th><center>N°</center></th>
-											<th><center>Placa</center></th>
-											<th><center>Detalles</center></th>
+											<th><center>PLACA</center></th>
+											<th><center>DETALLES</center></th>
 										</tr>
 									</thead>  
 								</table>
@@ -48,24 +49,39 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 						<div class="col">
+						<div class="btn-group" style=" width:100%;">	
+							<button class="btn btn-danger active" wire:click="VolverDetalles">
+								Volver
+							</button>
+							</div> 
 							<div class="card bg-light mb-3" >
-							@foreach ($Datos as $post)
-								<div class="btn-group">
-									<button class="btn btn-danger active" wire:click="VolverDetalles">
-										Volver
-									</button>
-									<a href="{{ $post->Ruta }}" class="btn btn-primary active" target="_blank">PDF</a>
+								<div class="card-header">
+								@foreach ($Datos as $post)
+									<center><strong><h5>DETALLES</h5></strong></center> 
+									<hr>
+									<form method="POST" action="{{ route('MostrarMultaPDF2') }}">   
+                                        @csrf             
+                                        <input type="hidden" name="ID" value="{{ $post->Id_Multas  }}">
+                                        <div class="btn-group" style=" width:100%;">	
+                                            <button type="submit" class="btn btn-primary active" formtarget="_blank">PDF</button>
+                                        </div>
+                                    </form>
 								</div>
 								<div class="card-body">
-									<center><strong><h2>{{ $post->PlacaPatente }}</h2></strong></center> 
-									<hr>
 									<div class="table-responsive">
 										<table table class="table table-hover">
+														<div class="form-group">
+															<center>PATENTE</center>
+															<div class="form-label-group"> 
+																<input type="text" class="form-control" value="{{ $post->PlacaPatente }}" 
+																disabled style="background-color:#D3D3D3;">
+															</div>
+														</div>  
 													@if($post->TipoNotificacion==3)
 														<div class="form-group">
 															<center>TIPO NOTIFICACIÓN</center>
-															<div class="form-label-group"> 
-																<input type="text" class="form-control" value="ESCRITO" 
+															<div class="form-label-group">  
+																<input type="text" class="form-control" value="Personalmente" 
 																disabled style="background-color:#D3D3D3;">
 															</div>
 														</div>  
@@ -118,7 +134,7 @@
 																<input type="text" class="form-control" value="Empadronado" 
 																disabled style="background-color:#D3D3D3;">
 															</div>
-														</div>
+														</div> 
 													@else
 														<div class="form-group">
 															<center>TIPO NOTIFICACIÓN</center>
@@ -133,7 +149,7 @@
 													<div class="form-group">
 														<center>TIPO VEHÍCULO</center>
 														<div class="form-label-group"> 
-															<input type="text" class="form-control" value="{{ $post->TipoVehiculo }}" 
+															<input type="text" class="form-control" value="{{ $post->V_Descripcion }}" 
 															disabled style="background-color:#D3D3D3;">
 														</div>
 													</div>      
@@ -162,14 +178,14 @@
 													<center><strong>DATOS CITACIÓN</strong></center>
 													<hr> 
 													<div class="form-group">
-														<center>Juzgado</center>
+														<center>JUZGADO</center>
 														<div class="form-label-group"> 
 															<input type="text" class="form-control" value="{{ $post->NombreJuzgado }}"
 															disabled style="background-color:#D3D3D3;">
 														</div>
 													</div> 
 													<div class="form-group">
-														<center>Fecha Citación</center>
+														<center>FECHA CITACIÓN</center>
 														<div class="form-label-group"> 
 															<input type="text" class="form-control" value="{{ $post->FechaCitacion }}"
 															disabled style="background-color:#D3D3D3;">
@@ -185,7 +201,7 @@
 														</div>
 													</div> 
 													<div class="form-group"> 
-														<center><label for="Modelo">Lugar De Infracción</label></center>
+														<center><label for="Modelo">LUGAR DE INFRACCIÓN</label></center>
 														<div class="form-label-group"> 
 															<textarea class="md-textarea form-control" rows="3" disabled>{{ $post->Lugar }}</textarea>
 														</div>
@@ -198,7 +214,7 @@
 														</div>
 													</div> 
 													<div class="form-group">
-														<center>Infracción Artículo</center>
+														<center>INFRACCIÓN ARTÍCULO</center>
 														<div class="form-label-group"> 
 															<input type="text" class="form-control" value="{{ $post->InfraccionArticulo }}"
 															disabled style="background-color:#D3D3D3;">
@@ -246,7 +262,11 @@
 										</table> 
 									</div>
 								</div>
-								<button class="btn btn-primary btn-lg" data-toggle="modal" wire:click="ConfirmarIngreso">Ingresar</button>
+								<div class="card-footer text-muted">
+									<div class="btn-group" style=" width:100%;">	
+										<button class="btn btn-primary active" data-toggle="modal" wire:click="ConfirmarIngreso">Ingresar</button>
+									</div>	
+								</div>	
 							</div>
 						</div>                                          
 					</div>

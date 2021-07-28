@@ -71,7 +71,7 @@
   <div class="row">  
     <div class="col-sm-12">
       <div class="card-header">
-        <h5 class="card-title"><center>SISTEMA INSPECCION DE PARTES<center></h5>
+        <h5 class="card-title"><center>SISTEMA INSPECCIÓN DE PARTES<center></h5>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@
         MULTA 
       </div>
       <div class="card-body">
-          <h5 class="card-title">INGRESAR MULTRA</h5>
+          <h5 class="card-title">INGRESAR MULTA</h5>
           <p class="card-text"> Multas ingresadas hoy {{ $Multas }}.</p>
           <a href="{{ route('MultaVehicularCiudadano') }}" class="btn btn-primary">Ingresar Multa</a>
       </div>
@@ -96,7 +96,7 @@
       </div>
       <div class="card-body">
           <h5 class="card-title">FIRMAR MULTAS</h5>
-          <p class="card-text">Al firmar el documento confirma el envío al tribunal de turno.</p>
+          <p class="card-text">Al firmar el documento confirma el envío al tribunal.</p>
           <a href="{{ route('FirmarDocumento') }}" class="btn btn-primary">Firmar Documentos</a>
       </div>
       <div class="card-footer text-muted">

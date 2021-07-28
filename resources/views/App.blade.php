@@ -249,20 +249,14 @@
       			<div class="sidebar-heading"><strong><center>MENÚ</center></strong></div>
 				<div class="list-group list-group-flush">
 					<div class="dropdown">
-						<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MULTAS&nbsp;</a>
-				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-							<!--<a href="{{ route('FirmarDocumento2') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO2</a>-->
-							<form method="POST" action="{{ route('MultaVehicularCiudadano') }}">
-								@csrf
-								<button type="submit" class="btn">
-									<a >INGRESAR MULTA</a>
-								</button>
-							</form>
-							<!--<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a>--> 
-						</div>		
+						<form method="POST" action="{{ route('MultaVehicularCiudadano') }}">
+							@csrf
+							<button type="submit" class="btn list-group-item list-group-item-action">
+								INGRESAR MULTA
+							</button>
+						</form>
+						<!--<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a>--> 
 					</div>		
-				
 					<div class="dropdown">
 						<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">FIRMAR&nbsp;</a>
@@ -351,16 +345,16 @@
 								@csrf
 								<button type="submit" class="btn">
 									<a>EMAIL</a>
-								</button>
+								</button> 
 							</form>
 				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('CambiarCorreo') }}">EMAIL</a>-->
 
-							<!--<form method="POST" action="{{ route('CambiarContrasenia') }}">
+							<form method="POST" action="{{ route('CambiarContrasenia') }}">
 								@csrf
 								<button type="submit" class="btn">
 									<a>CONTRASEÑA</a>
 								</button>
-							</form>-->
+							</form>
 							<!--<a class="list-group-item list-group-item-action" href="{{ route('CambiarContrasenia') }}">CONTRASEÑA</a>-->
 				  		</div>
 				  	</div>
@@ -402,31 +396,41 @@
 							</div>
 						</div>
 					</div>
-				</div> 
-				<div class="dropdown">
-					<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">OPCIONES&nbsp;</a>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-						<a class="list-group-item list-group-item-action" href="{{ route('CambiarCorreo2') }}">EMAIL</a>
-						<a class="list-group-item list-group-item-action" href="{{ route('CambiarContrasenia2') }}">CONTRASEÑA</a>
+					<div class="dropdown">
+						<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">OPCIONES&nbsp;</a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
+							<a class="list-group-item list-group-item-action" href="{{ route('CambiarCorreo2') }}">EMAIL</a>
+							<a class="list-group-item list-group-item-action" href="{{ route('CambiarContrasenia2') }}">CONTRASEÑA</a>
+						</div>
+					</div> 
+					<br><br>
+					<div>
+						<center><img src="{{URL::asset('Imagenes/escudo.png')}}" width="90" height="90"/></center>
+						<hr>
+						<center>
+							© {{ date("Y") }} Dep. de informática V0.1<br>
+							Municipalidad de Curicó
+						</center>
 					</div>
 				</div> 
+				
 	@endif
 		
-		    <div id="page-content-wrapper"> 
-		    	@if(Auth::guard('Funcionario')->check())
-			    	@if(Auth::guard('Funcionario')->user()->ID_Juzgado_T==1)
-						<center><STRONG>PRIMER JUZGADO DE POLICIA LOCAL</STRONG></center> 
-						<hr>
-					@else
-						<center><STRONG>SEGUNDO JUZGADO DE POLICIA LOCAL</STRONG></center>
-						<hr>
+				<div id="page-content-wrapper"> 
+					@if(Auth::guard('Funcionario')->check())
+						@if(Auth::guard('Funcionario')->user()->ID_Juzgado_T==1)
+							<center><STRONG>PRIMER JUZGADO DE POLICIA LOCAL</STRONG></center> 
+							<hr>
+						@else
+							<center><STRONG>SEGUNDO JUZGADO DE POLICIA LOCAL</STRONG></center>
+							<hr>
+						@endif
 					@endif
-				@endif
-				@yield("content")
-				@livewireScripts
-				@yield('scripts')
-				@yield("foot")
-		    </div>
+					@yield("content")
+					@livewireScripts
+					@yield('scripts')
+					@yield("foot")
+				</div>
 		</div>
 </body>
 <script>

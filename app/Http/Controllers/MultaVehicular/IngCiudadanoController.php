@@ -14,7 +14,7 @@ class IngCiudadanoController extends Controller
 
         $TipoNotificacion = $request->input('TipoNotificacion');
 
-        if ($TipoNotificacion==3)
+        if ($TipoNotificacion==3) 
         {
                  
         	$rules = [ 
@@ -25,6 +25,7 @@ class IngCiudadanoController extends Controller
                 'Nacionalidad' => 'required',
                 'FechaNacimiento' => 'required',
                 'Domicilio' => 'required', 
+                'Licencia' => 'required',  
             ];
 
             $messages = [
@@ -34,8 +35,9 @@ class IngCiudadanoController extends Controller
                 'Profesion.required' =>'El campo Profesion es obligatorio.',
                 'Nacionalidad.required' =>'El campo Nacionalidad es obligatorio.',
                 'FechaNacimiento.required' =>'El campo Fecha Nacimiento es obligatorio.',
-                'Domicilio.required' =>'El campo Domicilio es obligatorio.'
-            ];
+                'Domicilio.required' =>'El campo Domicilio es obligatorio.',
+                'Licencia.required' =>'El campo Licencia es obligatorio.'
+            ]; 
 
             $this->validate($request, $rules, $messages);  
 
@@ -46,7 +48,8 @@ class IngCiudadanoController extends Controller
             $Nacionalidad = $request->input('Nacionalidad');
             $FechaNacimiento = $request->input('FechaNacimiento');
             $Domicilio = $request->input('Domicilio');
-												     
+            $Licencia = $request->input('Licencia');
+
             $Ciudadano=IngCiudadanoModel::select('Rut')->whereRut($Rut)->first();
         
             if( (!isset($Ciudadano->Rut)) ) 
@@ -59,6 +62,7 @@ class IngCiudadanoController extends Controller
                 $user->ID_Nacionalidad  = $Nacionalidad;
                 $user->FechaNacimiento  = $FechaNacimiento;
                 $user->Domicilio  		= $Domicilio;
+                $user->Licencia  		= $Licencia;
                 $user->save();
             }
                 

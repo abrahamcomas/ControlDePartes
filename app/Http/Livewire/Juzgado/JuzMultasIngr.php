@@ -52,7 +52,7 @@ class JuzMultasIngr extends Component
         $this->AnioSelect=date('y');
       }
 
-      $this->Datos =  DB::table('Multas') 
+      $this->Datos =  DB::table('Multas')  
         ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
         ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
         ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
@@ -60,13 +60,13 @@ class JuzMultasIngr extends Component
         ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
         ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
         ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-        ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+      ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','V_Descripcion')
         ->where('Multas.Id_Juzgado', '=', $ID_Juzgado_T)
         ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
 
       $this->Imagenes =  DB::table('Imagenes')
         ->leftjoin('Multas', 'Imagenes.Id_Multa_Tabla', '=', 'Multas.Id_Multas')
-        ->where('Id_Multa_Tabla', '=', $this->Id_Multas)->get();
+        ->where('Id_Multa_Tabla', '=', $this->Id_Multas)->get(); 
 
       $this->Testigo =  DB::table('Multas') 
         ->leftjoin('Testigos', 'Multas.Id_Multas', '=', 'Testigos.id_Multas_T')
@@ -76,7 +76,7 @@ class JuzMultasIngr extends Component
 
         return view('livewire.juzgado.juz-multas-ingr',[
 
-  
+   
         'posts' =>  DB::table('Multas')
           ->leftjoin('Document', 'Multas.Id_Multas', '=', 'Document.id_Multa_T')
           ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')

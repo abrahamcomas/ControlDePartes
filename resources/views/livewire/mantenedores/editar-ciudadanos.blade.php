@@ -16,7 +16,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
         <div class="card bg-light mb-3">
           <div class="card-header">
-            <center><strong><h2>BUSCAR</h2></strong></center>
+            <center><strong><h5>BUSCAR</h5></strong></center>
           </div>
           <div class="card-body">
             <div class="form-label-group"> 
@@ -51,7 +51,7 @@
         <div class="card bg-light mb-3">
           <div class="card-header">
             @if($VariableVista==1)
-              <center><strong><h2>{{ $RutBuscado }}</h2></strong></center>
+              <center><strong><h5>{{ $RutBuscado }}</h5></strong></center>
             @endif 
           </div>
           <div class="card-body">
@@ -113,7 +113,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
           <div class="card bg-light mb-3">
             <div class="card-body">
-              <center><strong><h2>No Encontrado</h2></strong></center> 
+              <center><strong><h5>No Encontrado</h5></strong></center> 
             </div>
             <div class="card-footer text-muted">
               <div class="btn-group" style=" width:100%;">	
@@ -130,7 +130,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
           <div class="card bg-light mb-3">
             <div class="card-body">
-              <center><strong><h2>Actualizado Corectamente</h2></strong></center> 
+              <center><strong><h5>Actualizado Corectamente</h5></strong></center> 
             </div>
             <div class="card-footer text-muted">
               <div class="btn-group" style=" width:100%;">	

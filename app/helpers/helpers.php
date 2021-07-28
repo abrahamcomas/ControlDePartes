@@ -65,4 +65,14 @@ function VehiculoDescripcion($TipoVehiculo)
                   return $descripcion;
               
             }
+
+function FuncionarioActivo($ID_Juzgado_T) 
+            { 
+                  $Activo =  DB::table('Funcionario')->select('Activo')->where('id_Funcionario', '=', $ID_Juzgado_T )->get();
+                  foreach ($Activo as $user) {
+                        $Activo = $user->Activo;
+                  }
+                  return $Activo;
+              
+            }
 ?> 

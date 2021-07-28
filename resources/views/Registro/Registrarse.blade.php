@@ -43,7 +43,7 @@
 								<input type="email" name="Email" id="Email" value="{{ old('EmailCO') }}" class="form-control" placeholder="Email" >
 							</div>
 							<div class="form-group"> 
-								<center><label for="TipoNotificacion">Tipo de firma</center>
+								<center><label for="TipoNotificacion">Tipo de firma (Solo inspectores)</center>
 								<div class="form-label-group"> 
 									<select name="Firma" class="form-control" >
 										<option value="" selected>---SELECCIONAR---</option>

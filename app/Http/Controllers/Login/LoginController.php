@@ -86,9 +86,6 @@ class LoginController extends Controller
                             ->withInput(request(['RUN']));
                     }
 
-
-
-
         }
         elseif($Count_FuncionarioModel=='1')
         {  
@@ -100,9 +97,9 @@ class LoginController extends Controller
 
                         if(Auth::guard('Funcionario')->attempt(['Rut' => $RUN, 'password' => $password], true))
                             { 
-                                return view('Sistema/Principal');
+                                return view('Login/Login');
 
-                            }
+                            } 
                             else
                             {
                                return back()
@@ -122,19 +119,14 @@ class LoginController extends Controller
                             ->withErrors(['Error'])
                             ->withInput(request(['RUN']));
                     }
-
-
-
-
-
         }
         else{
-
-            $resultado='Usuario No Registrado';
+            return back()
+            ->withErrors(['Usuario No Registrado'])
+            ->withInput(request(['RUN']));
+           
         }
 
-
-       
 
     }
 }

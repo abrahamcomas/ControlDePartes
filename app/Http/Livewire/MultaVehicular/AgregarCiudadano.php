@@ -18,7 +18,7 @@ class AgregarCiudadano extends Component
     {
     	$this->DatosCiudadano= DB::table('Ciudadanos')
                         ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
-                        ->select('Rut','NombresC','Apellidos','Profesion','FechaNacimiento','Domicilio','NombreNac')
+                        ->select('Rut','NombresC','Apellidos','Profesion','FechaNacimiento','Domicilio','Licencia','NombreNac')
                         ->where('Ciudadanos.Rut', $this->Rut)->get(); 
 
         $this->Nacionalidad=DB::table('Nacionalidad')->get();

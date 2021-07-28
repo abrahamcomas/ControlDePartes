@@ -46,20 +46,9 @@
 														</div>	
 													</div>
 												</div>
-											
-											
-											
-											
-											
-											
-											
-											
-											
-											
-											
 											@else
-												<center><h2>PATENTE</h2></center>
-												<center><strong><h2> {{ $Patente }} </h2></strong></center>
+												<center><h5>PATENTE</h5></center>
+												<center><strong><h5> {{ $Patente }} </h5></strong></center>
 											@endif
 										</div>
 									</div>	 
@@ -188,7 +177,7 @@
 										<div class="form-label-group"> 
 											<input type="date" class="form-control" wire:model="FechaCitacion" value="{{ old('FechaCitacion') }}">
 										</div>
-									</div>
+									</div> 
 								@else 
 								<center>
 										<label>
@@ -199,6 +188,15 @@
 									<hr>
 										<center><h5>DATOS INFRACCIÓN</h5></center>
 									<hr> 
+
+								@if($TipoNotificacion==2)
+									<div class="form-group"> 
+										<center><label for="Modelo">HORA</label></center>
+										<div class="form-label-group">  
+											<input type="time" class="form-control" wire:model="Hora" value="{{ old('Hora') }}">
+										</div>
+									</div>
+								@endif
 									<div class="form-group">
 										<center><label for="TipoInfraccion">TIPO INFRACCIÓN</label></center>
 										<div class="form-group">
@@ -226,16 +224,26 @@
 										<center><label for="Articulo">INFRACCION ARTÍCULO</label></center>
 										<div class="form-group">
 											<input wire:model="Ingreso_Articulo" type="text" class="form-control" autocomplete="off" placeholder="Buscar Artículo">
-										</div>
+										</div> 
 									</div>	 
 									<div class="form-group">
-										<center><label for="Nacionalidad">DECRETO O LEY</label></center>
-										<div class="form-label-group">
-											<select class="form-control" wire:model="DecLey"> 
-												<option selected>---SELECCIONAR---</option>
-												<option selected>Decreto</option> 
-												<option selected>Ley</option> 
-											</select> 
+										<div class="row">  
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+												<center><label for="Nacionalidad">DECRETO O LEY</label></center>
+												<div class="form-label-group">
+													<select class="form-control" wire:model="DecLey"> 
+														<option selected>---SELECCIONAR---</option>
+														<option selected>Decreto</option> 
+														<option selected>Ley</option> 
+													</select> 
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+												<center><label for="Lugar">DETALLES</label></center>
+												<div class="form-label-group"> 
+													<input type="text" class="form-control" placeholder="Detalles" wire:model="DetallesDecLey" required>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -277,7 +285,7 @@
 					<div class="col">
 						<div class="card bg-light mb-3">
 							<div class="card-header">
-								<center><h1>MULTA INGRESADA CORRECTAMENTE</h1></center>
+								<center><h5>MULTA INGRESADA CORRECTAMENTE</h5></center>
 							</div>
 							<div class="card-body">	
 								<form method="POST" action="{{ route('MultaPDFSoloID') }}">   

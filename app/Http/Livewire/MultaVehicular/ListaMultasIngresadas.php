@@ -5,6 +5,7 @@ namespace App\Http\Livewire\MultaVehicular;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;   
+use Illuminate\Support\Facades\Auth;
 
 class ListaMultasIngresadas extends Component
 {	  
@@ -45,6 +46,8 @@ class ListaMultasIngresadas extends Component
     
     public function render()
     {
+      
+      $this->id_inspector  =  Auth::user()->id_inspector;
 
       if ($this->AnioSelect=='') {
         $this->AnioSelect=date('y');
@@ -75,20 +78,22 @@ class ListaMultasIngresadas extends Component
         return view('livewire.multa-vehicular.lista-multas-ingresadas',[
 
 			    'posts' =>  DB::table('Multas')
+            ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
           	->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
           	->select('Id_Multas','Parte','PlacaPatente')
             ->where('Estado', '=', '1')
-            ->where('Firma', '=', '1')
+            ->where('Firma', '=', '1') 
             ->where('Anio', '=', $this->AnioSelect)
             ->where(function($query) {
                 $query->orwhere('Parte', 'like', "%{$this->search}%")
                       ->orwhere('PlacaPatente', 'like', "%{$this->search}%");
-            })         
+            })     
+            ->where('Inspectores.id_inspector', '=', $this->id_inspector)        
           	->paginate($this->perPage),
           'Anio' =>  DB::table('Multas')
             ->select('Anio') 
             ->distinct('Anio')        
-            ->get(),
+            ->get(), 
         	'Datos'=>$this->Datos,
             'Imagenes'=>$this->Imagenes,
         	'Testigo'=>$this->Testigo 

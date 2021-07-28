@@ -15,7 +15,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
          <div class="card bg-light mb-3">
             <div class="card-header">
-               <center><strong><h2>TIPOS ARTÍCULOS</h2></strong></center>
+               <center><strong><h5>TIPOS ARTÍCULOS</h5></strong></center>
             </div> 
             <div class="card-body">
                <div id="global">
@@ -63,9 +63,9 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
          <div class="card bg-light mb-3">
             <div class="card-body">
-            <strong><h3><p><center>{{ $Resultado }}</center></p></h3></strong>  
+            <strong><h5><p><center>{{ $Resultado }}</center></p></h5></strong>  
             </div>
-         </div>
+         </div> 
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
    </div> 

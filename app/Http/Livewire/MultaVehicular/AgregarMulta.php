@@ -218,7 +218,8 @@ class AgregarMulta extends Component
     //INGRESO ARTICULO
     public $Ingreso_Articulo;
     public $DecLey;
-
+    public $DetallesDecLey;
+    
     //Imagen
     public $photo;
     
@@ -232,7 +233,7 @@ class AgregarMulta extends Component
     
     //Rut Ciudadano
     public $Rut; 
-    
+    public $Hora;
     public $TipoNotificacion; 
     public $IdMultaIngresada; 
     public $MultaIngresada='0';
@@ -269,6 +270,7 @@ class AgregarMulta extends Component
         'Marca' => 'required',
         'Color' => 'required', 
         'id_Juzgado' => 'required', 
+        'Hora' => 'required', 
         'Ingreso_TipoInfraccion' => 'required',
         'Ingreso_Lugar' => 'required',
         'Ingreso_Articulo' => 'required', 
@@ -280,6 +282,7 @@ class AgregarMulta extends Component
         'TipoVehiculo.required' =>'El campo Tipo Vehiculo es obligatorio.',
         'Marca.required' =>'El campo Marca es obligatorio.',
         'Color.required' =>'El campo Color es obligatorio.',
+        'Hora.required' =>'El campo Hora es obligatorio.',
         'Ingreso_TipoInfraccion.required' =>'El campo Tipo Infracción es obligatorio.',
         'Ingreso_Lugar' =>'El campo Lugar es obligatorio.',
         'Ingreso_Articulo.required' =>'El campo Infracción Articulo es obligatorio.',
@@ -360,7 +363,7 @@ class AgregarMulta extends Component
 
                         $IdPatente = IdPatente($this->Patente); 
 
-                        if($IdPatente=='[]'){  
+                        if($IdPatente=='[]'){   
                                          
                             $Vehiculo                 = new IngVehiculoModel;
                             $Vehiculo->PlacaPatente   = $this->Patente;
@@ -441,9 +444,18 @@ class AgregarMulta extends Component
                 $Multa->id_TipoInfraccion  = $this->Ingreso_TipoInfraccion;
                 $Multa->Id_Vehiculo        = $IdPatente;
                 $Multa->Lugar              = $this->Ingreso_Lugar;
-                $Multa->Hora               = date('H:i:s');
+                
+                if ($this->TipoNotificacion=='2') {
+                    $Multa->Hora               = $this->Hora;
+                 }
+                 else{
+ 
+                    $Multa->Hora               = date('H:i:s');
+                 } 
+                
                 $Multa->InfraccionArticulo = $this->Ingreso_Articulo;
                 $Multa->DecLey             = $this->DecLey;
+                $Multa->DetallesDecLey     = $this->DetallesDecLey;
                 $Multa->Fecha              = date("Y/m/d");
                 $Multa->FechaCitacion      = $this->FechaCitacion;
                 $Multa->EstadoMulta        = '0';
@@ -500,7 +512,7 @@ class AgregarMulta extends Component
 
         if(empty($IdMulta->Id_Multas)){
 
-            $this->IdMultaingresar =  1;  
+            $this->IdMultaingresar =  1;   
         }
         else{
             

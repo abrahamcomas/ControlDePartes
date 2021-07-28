@@ -67,7 +67,7 @@
       }
   @endphp
 
-				
+				 
 
 <div class="container-fluid">  
 @if(Auth::guard('web')->check() || Auth::guard('Funcionario')->check())
@@ -83,7 +83,7 @@
         				  <h3>{{ $diaFC }} {{ $numeroDiaFC }} de {{ $mesFC }} {{ $anioFC }}</h3>
 								      {{ $hoy = date("g:i a")  }}
         			  </strong>
-        			<hr>
+        			<hr> 
 		      </center>
         </div> 
 		  </div>

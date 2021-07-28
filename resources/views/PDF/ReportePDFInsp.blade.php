@@ -1,18 +1,40 @@
 <?php
 $fecha_hoy=date("d/m/Y");
 $FechaDE; 
-$FechaHasta; 
+$FechaHasta;
+$idTipoInfraccion; 
 $id_inspector;
 
-$Datos  =   DB::table('Multas') 
-->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
-->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
-->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
-->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
-->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-->select('Id_Multas','NumeroParte','Anio','Id_Juzgado','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','FechaCitacion','descripcion','NombreArt','Hora','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','EstadoMulta')
-->whereBetween('Multas.Fecha', [$FechaDE, $FechaHasta])
-->where('Inspectores.id_inspector', '=', $id_inspector)->get();
+
+if($idTipoInfraccion==0){
+    $Datos  =  DB::table('Multas') 
+    ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
+    ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
+    ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
+    ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
+    ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
+    ->select('Id_Multas','NumeroParte','Anio','Id_Juzgado','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','FechaCitacion','descripcion','NombreArt','Hora','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','EstadoMulta')
+    ->whereBetween('Multas.Fecha', [$FechaDE, $FechaHasta])
+    ->where('Inspectores.id_inspector', '=', $id_inspector)->get();
+
+}
+else{
+    $Datos  =  DB::table('Multas') 
+    ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
+    ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
+    ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
+    ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
+    ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
+    ->select('Id_Multas','NumeroParte','Anio','Id_Juzgado','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','FechaCitacion','descripcion','NombreArt','Hora','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','EstadoMulta')
+    ->whereBetween('Multas.Fecha', [$FechaDE, $FechaHasta])
+    ->where('TipoInfraccion.id_Infraccion', '=', $idTipoInfraccion)
+    ->where('Inspectores.id_inspector', '=', $id_inspector)->get();
+
+}
+
+
+
+
 
 $DatosInspector  =   DB::table('Inspectores') 
 ->select('Rut','Nombres','Apellidos')
@@ -20,7 +42,7 @@ $DatosInspector  =   DB::table('Inspectores')
 
 foreach ($DatosInspector as $user){
         
-    $Rut 		= $user->Rut;
+    $Rut 		= $user->Rut; 
     $Nombres 	= $user->Nombres;
     $Apellidos 	= $user->Apellidos;
       

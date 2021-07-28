@@ -20,10 +20,11 @@
                             <div class="table-responsive">
                                 <table table class="table table-hover">
                                     <thead>
-                                        <tr> 
+                                        <tr>  
                                             <th><center>N°</center></th>
                                             <th><center>Placa</center></th>
                                             <th><center>Detalles</center></th>
+                                            <th><center>Editar</center></th>
                                             <th><center>PDF</center></th>
                                             <th><center>Firmar</center></th>
                                         </tr>
@@ -42,10 +43,19 @@
                                                     </button>
                                                 </center>
                                             </td>
+                                            <td> 
+                                                <center> 
+                                                    <button class="btn btn-warning active" wire:click="Editar({{ $post->Id_Multas }})">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                                        </svg>
+                                                    </button>
+                                                </center>
+                                            </td>
                                         @if($post->Firma==0)
                                             <td>    
                                                 <center>
-                                                    <a href="{{ route('ReportePdfJuzgado',['Id_Multas'=>$post->Id_Multas]) }}" class="btn btn-danger active" target="_blank">
+                                                    <a href="{{ route('ReportePdfJuzgadoInsp',['Id_Multas'=>$post->Id_Multas]) }}" class="btn btn-danger active" target="_blank">
                                                        PDF
                                                     </a>
                                                 </center>
@@ -193,14 +203,14 @@
                                             <center><strong>DATOS CITACIÓN</strong></center>
                                             <hr> 
                                             <div class="form-group">
-                                                <center>Juzgado</center>
+                                                <center>JUZGADO</center>
                                                 <div class="form-label-group"> 
                                                     <input type="text" class="form-control" value="{{ $post->NombreJuzgado }}"
                                                     disabled style="background-color:#D3D3D3;">
                                                 </div>
                                             </div> 
                                             <div class="form-group">
-                                                <center>Fecha Citación</center>
+                                                <center>FECHA CITACIÓN</center>
                                                 <div class="form-label-group"> 
                                                     <input type="text" class="form-control" value="{{ $post->FechaCitacion }}"
                                                     disabled style="background-color:#D3D3D3;">
@@ -216,7 +226,7 @@
                                                 </div>
                                             </div> 
                                             <div class="form-group"> 
-                                                <center><label for="Modelo">Lugar De Infracción</label></center>
+                                                <center><label for="Modelo">LUGAR DE INFRACCIÓN</label></center>
                                                 <div class="form-label-group"> 
                                                     <textarea class="md-textarea form-control" rows="3" disabled>{{ $post->Lugar }}</textarea>
                                                 </div>
@@ -229,7 +239,7 @@
                                                 </div>
                                             </div> 
                                             <div class="form-group">
-                                                <center>Infracción Artículo</center>
+                                                <center>INFRACCIÓN ARTÍCULO</center>
                                                 <div class="form-label-group"> 
                                                     <input type="text" class="form-control" value="{{ $post->InfraccionArticulo }}"
                                                     disabled style="background-color:#D3D3D3;">
@@ -297,6 +307,73 @@
                 <h5><strong>Firmando archivo, espere por favor...</strong></h5>
             </center>
         </div>
+    @if($EditarMulta==1) 
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <div class="col">
+                    <div class="card bg-light mb-3" >
+                        <div class="card-header">
+                            <div class="btn-group" style=" width:100%;">	
+                                <button class="btn btn-danger active" wire:click="VolverEditar">
+                                    Volver
+                                </button>
+                            </div>
+                        </div> 
+                            <div class="card-body">
+                                <center><strong><h2>EDITAR {{ $PlacaPatente }}</h2></strong></center> 
+                                <hr>
+                                <div class="table-responsive">
+                                    <table table class="table table-hover">
+                                        <center><strong>DATOS VEHÍCULO</strong> </center>
+                                        <hr>
+                                        <div class="form-group"> 
+                                            <center>TIPO VEHÍCULO</center>
+                                            <select wire:model="EditarTipoVehiculo" class="form-control" >
+                                            <option value="{{ $M_EditarTipoVehiculo  }}" selected>{{ $M_EditarTipoVehiculo}}</option>
+                                                @foreach($TipoVehiculos as $post)
+                                                    <option value="{{ $post->Codigo  }}">{{ $post->Descripcion}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>     
+                                        <div class="form-group">
+                                            <center>MARCA</center>
+                                            <select wire:model="EditarMarca" class="form-control" >
+                                            <option value="{{ $M_EditarMarca }}" selected>{{ $M_EditarMarca}}</option>
+                                                @foreach($Marcas as $post)
+                                                    <option value="{{ $post->Descripcion  }}">{{ $post->Descripcion}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>      
+                                        <div class="form-group">
+                                            <center>MODELO </center> 
+                                            <div class="form-label-group"> 
+                                                <input type="text" class="form-control"wire:model="EditarModelo" placeholder="{{ $M_EditarModelo }}">
+                                            </div>
+                                        </div>  
+                                        <div class="form-group"> 
+                                            <center>COLOR </center>
+                                            <div class="form-label-group">
+                                                <input type="text" class="form-control" wire:model="EditarColor" placeholder="{{ $M_EditarColor }}">
+                                            </div>
+                                        </div>
+                                    </table> 
+                                </div>
+                            </div> 
+                    
+                        <div class="card-footer text-muted">
+                            <div class="btn-group" style=" width:100%;">	
+                                <button class="btn btn-success active" wire:click="InsertEditar">
+                                    Editar
+                                </button>
+                            </div>
+                        </div>	
+                    </div>
+                </div>                                          
+	        </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
+        </div>
+    @endif
 	@if($ConfirmarIngreso==1)  
         <br>
         <div class="row" id="IngresoFirma">
@@ -311,7 +388,7 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('ConfirmarFirma') }}">
                                 @csrf   
-                                <center><label><strong>Al firmar el documento confirma el envío al tribunal de turno.</strong></label></center>
+                                <center><label><strong>Al firmar el documento confirma el envío al juzgado.</strong></label></center>
                                 <br>
                                 <input type="hidden" class="form-control" name="ID_Multa" value="{{ $Id_Multas }}"  >
 

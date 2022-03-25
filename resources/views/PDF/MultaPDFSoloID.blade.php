@@ -1,9 +1,6 @@
 <?php
-
-   $qrimage= public_path('../public/QR/qr.png');
-     \QRCode::url('www.pharalax.com')->setOutfile($qrimage)->png();
-
- 	$Datos =  DB::table('Multas') 
+ 
+ 	$user =  DB::table('Multas') 
             ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
             ->leftjoin('Ciudadanos', 'Multas.Id_Ciudadanos', '=', 'Ciudadanos.id_Ciudadano')
             ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
@@ -12,15 +9,23 @@
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
             ->select('Id_Multas','NumeroParte','Anio','Multas.Id_Juzgado AS Id_Juzgad','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','DetallesDecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
-            ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->get();
+            ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->first();
 
-	foreach ($Datos as $user){
+    $BuscarMulta =  DB::table('BuscarMulta') 
+            ->where('Multa', '=', $IdMultaIngresada)->first();
 
+    $Token1= $BuscarMulta->Token1;
+    $Token2= $BuscarMulta->Token2;
+
+    $contenido='controldeparte.test/MultaQR/'.$Token1.'/'.$Token2.'';
+	$qrimage= public_path('../public/QR/qr.png');
+	\QRCode::url($contenido)->setOutfile($qrimage)->png();
+ 
 	   	$TipoNotificacion= $user->TipoNotificacion;
 	   	$NombresC= $user->NombresC;
 	   	$ApellidosCiu= $user->ApellidosCiu;
 	   	$RutCiudadano= $user->RutCiudadano;
-	   	$Profesion= $user->Profesion;
+	   	$Profesion= $user->Profesion; 
 	   	$NombreNac= $user->NombreNac; 
 	   	$Domicilio= $user->Domicilio;
 	   	$PlacaPatente= $user->PlacaPatente;
@@ -42,18 +47,18 @@
 	   	$Id_Juzgad= $user->Id_Juzgad;
 		$NumeroParte= $user->NumeroParte;
 		$Anio= $user->Anio;   
-	}
+	
 
  	$Testigo =  DB::table('Multas') 
         ->leftjoin('Testigos', 'Multas.Id_Multas', '=', 'Testigos.id_Multas_T')
         ->leftjoin('Inspectores', 'Testigos.Id_Inspectores', '=', 'Inspectores.id_inspector')
         ->select('Nombres','Apellidos')
-        ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->get();
+        ->where('Multas.Id_Multas', '=', $IdMultaIngresada)->first();
 
-	foreach ($Testigo as $user){
-		$NombresT= $user->Nombres;
-		$ApellidosT= $user->Apellidos;
-	}
+	
+		$NombresT= $Testigo->Nombres;
+		$ApellidosT= $Testigo->Apellidos;
+	
        
 	
 $numeroDiaFC = date('d', strtotime($FechaCitacion));
@@ -239,7 +244,10 @@ else{
     <strong><?php echo $dia; ?> <?php echo $numeroDia; ?> de <?php echo $mes; ?> del <?php echo $anio; ?></strong>
   <hr>
 </div>
-<div id="Texto">
+<div id="Texto"> 
+		<strong>
+			PROPIETARIO DEL VEHÍCULO
+		</strong> 
         <strong>
             PATENTE: <?php echo $PlacaPatente; ?>
         </strong>
@@ -300,16 +308,13 @@ else{
     <?php 	} 	?>
               	<br>
                 FECHA = <?php echo $numeroDia; ?> de <?php echo $mes; ?> del <?php echo $anio; ?>
-              	<br>
+              <!--	<br>
                 INSPECTOR = <?php echo $Nombres; ?>&nbsp;<?php echo $ApellidosInsp; ?>
           		<br>
                 TESTIGO = <?php echo $NombresT; ?>&nbsp;<?php echo $ApellidosT; ?>
-				<br>
-				<br>
-				<br>
-				<br>
               	<hr>  
-            	<!--  <img src='../public/QR/qr.png' width="100" height="100"/> -->
+            	<img src='../public/QR/qr.png' width="100" height="100"/>-->
+         
 </div>                            
 
 

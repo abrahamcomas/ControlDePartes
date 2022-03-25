@@ -6,7 +6,7 @@
                 <div class="col">
                     <div class="card bg-light mb-3">
                         <div class="card-header">
-                            <center><h5><strong>MULTAS</strong></h5></center>
+                            <center><h5><strong>INFRACCIONES</strong></h5></center>
                         </div> 
                         <div class="card-body">
                             <div class="card">
@@ -49,7 +49,7 @@
                                                             <th><center>DETALLES</center></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody> 
                                                         @foreach($posts as $post)
                                                         <tr>
                                                             <td>

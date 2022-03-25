@@ -92,7 +92,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card-header">
-         FIRMAS
+         FIRMAS 
       </div>
       <div class="card-body">
           <h5 class="card-title">FIRMAR MULTAS</h5>

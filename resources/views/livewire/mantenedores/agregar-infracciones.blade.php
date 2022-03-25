@@ -23,9 +23,9 @@
                      <tbody>
                         @foreach ($TipoInfraccion as $row)
                            <tr>
-                              <td>
+                              <td> 
                                  <center>
-                                    {{ $row->descripcion }}
+                                 {{ $row->Articulo }}  {{ $row->descripcion }}
                                  </center>
                               </td>
                            </tr>
@@ -43,6 +43,12 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
          <div class="card bg-light mb-3">
+         <div class="card-body">
+               <center><label for="Domicilio">ARTÍCULO</label></center> 
+               <div class="form-label-group"> 
+                     <input class="form-control" type="text" wire:model="Articulo">
+               </div>
+            </div>
             <div class="card-body">
                <center><label for="Domicilio">AGREGAR</label></center>
                <div class="form-label-group"> 

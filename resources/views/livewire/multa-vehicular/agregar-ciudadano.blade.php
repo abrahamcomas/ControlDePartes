@@ -6,7 +6,7 @@
 			<div class="card-body">
 			@include('messages') 
 			</div>
-		</div>
+		</div> 
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
 	</div>
@@ -17,20 +17,24 @@
                 <div class="card bg-light mb-3" >
                     <div class="card-header">
 						<center>     
-						<h5><strong>INGRESAR CIUDADANO/A</strong></h5>
+                        <h5><strong>TIPO NOTIFICACIÓN</strong></h5>
 						</center> 
                     </div>   
                     <div class="card-body">
-						<div class="form-group"> 
-							<center><label for="TipoNotificacion">TIPO NOTIFICACIÓN</center>
+						<div class="form-group">
 							<div class="form-label-group"> 
-								<select wire:model="TipoNotificacion" name="TipoNotificacion" class="form-control" >
-									<option value="0" selected>---SELECCIONAR---</option>
-									<option value="1">POR ESCRITO</option>
-									<option value="2">EMPADRONADO</option>
-									<option value="3">PERSONALMENTE</option> 
-								</select>
-							</div>  
+                                <button type="button" class="btn" wire:click="ValorTipoNotificacion('1')">
+									<a>POR ESCRITO</a>
+								</button>
+                                <hr>
+                                <button type="button" class="btn" wire:click="ValorTipoNotificacion('2')">
+									<a>EMPADRONADO</a>
+								</button>
+                                <hr> 
+                                <button type="button" class="btn" wire:click="ValorTipoNotificacion('3')">
+									<a>PERSONALMENTE</a>
+								</button>
+							</div>   
 						</div>
 					</div>
 					@if($TipoNotificacion==1 || $TipoNotificacion==2) 
@@ -69,7 +73,7 @@
 					<div class="card-body">
 						<div id="DivRut">
 							<div class="form-group">
-								<center><label for="Rut">RUT</label></center>
+								<center><label for="Rut">RUT</label></center> 
 								<div class="form-label-group"> 
 									<input type="text" class="form-control" wire:model.debounce.1000ms="Rut" oninput="checkRut(this)" placeholder="Ingrese Rut" autocomplete="off">
 								</div>
@@ -158,7 +162,7 @@
 									                   
 								@endforeach
 								<div class="btn-group" style=" width:100%;">	
-									<button type="submit" class="btn btn-info active" >CONTINAUR</button>
+									<button type="submit" class="btn btn-info active" >CONTINUAR</button>
 								</div>	
 							</form>
 						</div>
@@ -182,19 +186,19 @@
 								<div class="form-group">
 									<center><label for="Nombres">NOMBRES</label></center>
 									<div class="form-label-group"> 
-										<input type="text" class="form-control" name="Nombres" placeholder="Nombres" autocomplete="off">
+										<input type="text" class="form-control" name="Nombres" placeholder="Nombres" autocomplete="off" required>
 									</div>
 								</div>		
 								<div class="form-group">
 									<center><label for="Apellidos">APELLIDOS</label></center>
 									<div class="form-label-group"> 
-										<input type="text" class="form-control" name="Apellidos" placeholder="Apellidos" autocomplete="off">
+										<input type="text" class="form-control" name="Apellidos" placeholder="Apellidos" autocomplete="off" required>
 									</div>
 								</div>		
 								<div class="form-group">
 									<center><label for="Profesion">PROFESION</label></center>
 									<div class="form-label-group"> 
-										<input type="text" class="form-control" name="Profesion" placeholder="Profesión" autocomplete="off">
+										<input type="text" class="form-control" name="Profesion" placeholder="Profesión" autocomplete="off" required>
 									</div>
 								</div>	
 								<div class="form-group">
@@ -210,22 +214,22 @@
 								<div class="form-group">
 									<center><label for="FechaNacimiento">FECHA NACIMIENTO</label></center>
 									<div class="form-label-group"> 
-										<input type="date" class="form-control" name="FechaNacimiento">
+										<input type="date" class="form-control" name="FechaNacimiento" required>
 									</div>
 								</div>
 								<div class="form-group">
 									<center><label for="Domicilio">DOMICILIO</label></center>
 									<div class="form-label-group"> 
-										<input type="text" class="form-control" name="Domicilio" placeholder="Domicilio" autocomplete="off">
+										<input type="text" class="form-control" name="Domicilio" placeholder="Domicilio" autocomplete="off" required>
 									</div>
 								</div>
 								<div class="form-group">
 									<center><label for="Licencia">LICENCIA CLASE</label></center>
 									<div class="form-label-group">  
-										<select name="Licencia" class="form-control" >
+										<select name="Licencia" class="form-control"  required>
 											<option value="" selected>---SELECCIONAR---</option>
 											<optgroup label="Sin Licencia">
-												<option>No Tiene</option>
+												<option>No Posee</option>
 											</optgroup>
 											<optgroup label="Licencias profesionales">
 												<option>Clase A1</option>

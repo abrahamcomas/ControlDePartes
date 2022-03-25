@@ -50,7 +50,7 @@ class ListaMultasIngresadas extends Component
       $this->id_inspector  =  Auth::user()->id_inspector;
 
       if ($this->AnioSelect=='') {
-        $this->AnioSelect=date('y');
+        $this->AnioSelect=date('y'); 
       }
 
     	$this->Datos =  DB::table('Multas') 
@@ -62,7 +62,7 @@ class ListaMultasIngresadas extends Component
             ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
             ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
             ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-            ->select('Ruta','Id_Multas','Parte','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','Ciudadanos.Rut AS RutCiudadano')
+            ->select('Ruta','Id_Multas','Parte','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','DetallesDecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar','Ciudadanos.Rut AS RutCiudadano')
             ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
  
         $this->Imagenes =  DB::table('Imagenes')
@@ -81,7 +81,6 @@ class ListaMultasIngresadas extends Component
             ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
           	->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
           	->select('Id_Multas','Parte','PlacaPatente')
-            ->where('Estado', '=', '1')
             ->where('Firma', '=', '1') 
             ->where('Anio', '=', $this->AnioSelect)
             ->where(function($query) {
@@ -94,7 +93,7 @@ class ListaMultasIngresadas extends Component
             ->select('Anio') 
             ->distinct('Anio')        
             ->get(), 
-        	'Datos'=>$this->Datos,
+        	'Datos'=>$this->Datos, 
             'Imagenes'=>$this->Imagenes,
         	'Testigo'=>$this->Testigo 
         ]);

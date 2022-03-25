@@ -20,8 +20,10 @@ class IngresoMultaModel extends Model
         "Parte",
         "NumeroParte",
         "Anio",
+        "TipoNotificacion",
     	"Id_Ciudadanos",
     	"Id_Inspector",
+        "ID_Funcionario",
     	"Id_Juzgado",
         "id_TipoInfraccion", 
         "Id_Vehiculo", 
@@ -30,7 +32,11 @@ class IngresoMultaModel extends Model
         "InfraccionArticulo",
         "DecLey",
         "DetallesDecLey",
-        "Testigo",
         "Fecha",
+        "FechaCitacion",
+        "EstadoMulta",
+        "IngresoJuzFecha",
+        "HoraIngJuz",
+        "Observacion"
     ]; 
 }

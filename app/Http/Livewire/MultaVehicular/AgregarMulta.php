@@ -10,6 +10,8 @@ use App\Models\IngVehiculoModel;
 use App\Models\TipoVehiculo;
 use App\Models\IngTestigos;  
 use App\Models\Imagenes;  
+use App\Models\NumeroInfracciones;
+use App\Models\BuscarMulta;
 
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
@@ -192,18 +194,23 @@ class AgregarMulta extends Component
     //Id_TipoInfraccion
     public $Ingreso_TipoInfraccion;
 
-    public function updatedBuscar()
+    public function updatedBuscar() 
     {
         $this->picked = false;
         
-        $this->Infracciones = DB::table('TipoInfraccion')->select('descripcion')->where("descripcion", "like", trim($this->buscar) . "%")
+        /*$this->Infracciones = DB::table('TipoInfraccion')->select('descripcion')->where("descripcion", "like", trim($this->buscar) . "%")
             ->take(2)
-            ->get('descripcion');
+            ->get('descripcion');*/
+
+        $this->Infracciones = DB::table('TipoInfraccion')->select('descripcion')->where(function($query){ 
+            $query->orwhere("Articulo", "like", trim($this->buscar) . "%")
+                ->orwhere("descripcion", "like", trim($this->buscar) . "%");
+            })->take(2)->get('descripcion');  
         
     }
 
     public function AsignarInfraccion($descripcion)
-    {        
+    {         
         $this->id_Infraccion = DB::table('TipoInfraccion')->select('id_Infraccion')->where("descripcion", $descripcion)->get();  
         
         foreach($this->id_Infraccion as $key){
@@ -219,13 +226,46 @@ class AgregarMulta extends Component
     public $Ingreso_Articulo;
     public $DecLey;
     public $DetallesDecLey;
+
+
+
+    public function ValorDecLey($Valor)
+    {    
+        if($Valor=='Decreto'){
+            $this->DecLey= 'Decreto';
+
+        }
+        else{
+
+            $this->DecLey= 'Ley';
+
+        }
+    }
     
     //Imagen
-    public $photo;
+    public $photo; 
     
     //Datos citacion
     public $id_Juzgado;
+    public $SeleccionadoJuzgado;
+    public function Valorid_Juzgado($Valor)
+    {    
+        if($Valor=='1'){
+            $this->id_Juzgado= '1';
+            $this->SeleccionadoJuzgado= 'SELECCIONADO';
+
+        }
+        else{
+
+            $this->id_Juzgado= '2';
+            $this->SeleccionadoJuzgado= 'SELECCIONADO';
+
+        }
+    }
+
+
     public $FechaCitacion;
+    public $Observacion;
     
     //Datos Infracción
     public $Ingreso_Lugar;
@@ -239,53 +279,53 @@ class AgregarMulta extends Component
     public $MultaIngresada='0';
     protected $rules = [
         'Patente' => 'required', 
-        'TipoVehiculo' => 'required', 
         'Marca' => 'required',
         'Color' => 'required', 
         'id_Juzgado' => 'required', 
         'FechaCitacion' => 'required', 
         'Ingreso_TipoInfraccion' => 'required',
         'Ingreso_Lugar' => 'required',
-        'Ingreso_Articulo' => 'required', 
+        'DecLey' => 'required',
+        'DetallesDecLey' => 'required', 
         'Ingreso_Testigo' => 'required', 
     ];
 
     protected $messages = [
         'Patente.required' =>'El campo Patente es obligatorio.',
-        'TipoVehiculo.required' =>'El campo Tipo Vehiculo es obligatorio.',
         'Marca.required' =>'El campo Marca es obligatorio.',
         'Color.required' =>'El campo Color es obligatorio.',
         'id_Juzgado.required' =>'El campo Juzgado es obligatorio.',
         'FechaCitacion.required' =>'El campo Fecha Citación es obligatorio.',
         'Ingreso_TipoInfraccion.required' =>'El campo Tipo Infracción es obligatorio.',
         'Ingreso_Lugar' =>'El campo Lugar es obligatorio.',
-        'Ingreso_Articulo.required' =>'El campo Infracción Articulo es obligatorio.',
+        'DecLey.required' => 'El campo Decreto o Ley Articulo es obligatorio.',
+        'DetallesDecLey.required' => 'El campo Detalles Articulo es obligatorio.', 
         'Ingreso_Testigo.required' =>'El campo Testigo es obligatorio.',
     ];
 
 
     protected $rules2 = [
         'Patente' => 'required', 
-        'TipoVehiculo' => 'required', 
         'Marca' => 'required',
         'Color' => 'required', 
         'id_Juzgado' => 'required', 
         'Hora' => 'required', 
         'Ingreso_TipoInfraccion' => 'required',
         'Ingreso_Lugar' => 'required',
-        'Ingreso_Articulo' => 'required', 
+        'DecLey' => 'required',
+        'DetallesDecLey' => 'required', 
         'Ingreso_Testigo' => 'required', 
     ];
 
     protected $messages2 = [
         'Patente.required' =>'El campo Patente es obligatorio.',
-        'TipoVehiculo.required' =>'El campo Tipo Vehiculo es obligatorio.',
         'Marca.required' =>'El campo Marca es obligatorio.',
         'Color.required' =>'El campo Color es obligatorio.',
         'Hora.required' =>'El campo Hora es obligatorio.',
         'Ingreso_TipoInfraccion.required' =>'El campo Tipo Infracción es obligatorio.',
         'Ingreso_Lugar' =>'El campo Lugar es obligatorio.',
-        'Ingreso_Articulo.required' =>'El campo Infracción Articulo es obligatorio.',
+        'DecLey.required' => 'El campo Decreto o Ley Articulo es obligatorio.',
+        'DetallesDecLey.required' => 'El campo Detalles Articulo es obligatorio.', 
         'Ingreso_Testigo.required' =>'El campo Testigo es obligatorio.',
     ];
 
@@ -353,11 +393,16 @@ class AgregarMulta extends Component
                                     $Descripcion= $key->Descripcion;
                                 }
 
+                                if(!empty($Descripcion)){
+
+                                    $Vehiculo                 = new TipoVehiculo;
+                                    $Vehiculo->id_Codigo      = $this->TipoVehiculo;
+                                    $Vehiculo->Descripcion_TV = $Descripcion;
+                                    $Vehiculo->save();    
+                                }
+
                  
-                                $Vehiculo                 = new TipoVehiculo;
-                                $Vehiculo->id_Codigo      = $this->TipoVehiculo;
-                                $Vehiculo->Descripcion_TV = $Descripcion;
-                                $Vehiculo->save();     
+                          
 
                         }
 
@@ -378,31 +423,35 @@ class AgregarMulta extends Component
 
                   }
 
-                       
-         
-            
-
             $IdPatente = IdPatente($this->Patente); 
                     
-            $AnioActual = date("y"); 
+            $AnioActual = date("y");  
 
-            $ID = IngresoMultaModel::select('NumeroParte','Anio')
+            $id_inspectorDireccion = Auth::user()->Id_Direccion_T;
+
+            $ID = NumeroInfracciones::select('NumeroParte','Anio')
+                    ->where('Id_Direccion_T' ,'=', $id_inspectorDireccion)
                     ->where('Id_Juzgado' ,'=', $this->id_Juzgado)
-                    ->orderBy('Id_Multas', 'DESC')->first();
+                    ->where('Anio' ,'=', $AnioActual)
+                    ->orderBy('Id_Infracciones', 'DESC')->first();
 
+
+                    
                 if ($ID==null) {
-                    $AnioMulta        = $AnioActual; 
                     $NumeroParteIngr  = '0';
+                    $AnioMulta        = $AnioActual; 
+             
                 }
                 else{
-                    $AnioMulta        = $ID->Anio; 
                     $NumeroParteIngr  = $ID->NumeroParte;
+                    $AnioMulta        = $ID->Anio; 
+                   
                 
                 }
-              
-                if ($AnioMulta==0) {
+                
+                /*if ($AnioMulta==0) {
                     $AnioMulta = date("y"); 
-                }
+                }*/
                      
                 if ($AnioMulta==$AnioActual){ 
                     
@@ -412,6 +461,13 @@ class AgregarMulta extends Component
                     
                     $NumeroParteIngr=0;
                 }
+           
+                $NumeroInfracciones                  = new NumeroInfracciones();
+                $NumeroInfracciones->Id_Direccion_T  = $id_inspectorDireccion;
+                $NumeroInfracciones->Id_Juzgado      = $this->id_Juzgado;
+                $NumeroInfracciones->NumeroParte     = $NumeroParteIngr;
+                $NumeroInfracciones->Anio            = $AnioMulta;
+                $NumeroInfracciones->save();
 
                 $id_Ciudadano = id_Ciudadano($this->Rut);
 
@@ -459,7 +515,19 @@ class AgregarMulta extends Component
                 $Multa->Fecha              = date("Y/m/d");
                 $Multa->FechaCitacion      = $this->FechaCitacion;
                 $Multa->EstadoMulta        = '0';
+                $Multa->Observacion        = $this->Observacion;
                 $Multa->save(); 
+
+                $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $Token1 = substr(str_shuffle($permitted_chars), 0, 30);
+                $Token2 = substr(str_shuffle($permitted_chars), 0, 30);
+
+                $BuscarMulta             = new BuscarMulta;
+                $BuscarMulta->Multa      = $Multa->Id_Multas;
+                $BuscarMulta->Token1     = $Token1;
+                $BuscarMulta->Token2     = $Token2;
+                $BuscarMulta->save();
+
             
                 $this->IdMultaIngresada = IngresoMultaModel::orderBy('Id_Multas', 'desc')->first()->Id_Multas;
                
@@ -467,7 +535,7 @@ class AgregarMulta extends Component
                 $IngTestigo->id_Multas_T        = $this->IdMultaIngresada;
                 $IngTestigo->Id_Inspectores     = $this->Ingreso_Testigo;
                 $IngTestigo->save();
-                
+                 
                 if(!empty($this->photo)){
                 
                     $nommbreArchivo = $this->photo->store('images');

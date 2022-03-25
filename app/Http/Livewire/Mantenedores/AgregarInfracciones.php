@@ -10,12 +10,15 @@ class AgregarInfracciones extends Component
 {
 
 	public $TipoInfraccion;
+    public $Articulo;
 	public $InfracionIngr;
-	public $Resultado;
+	public $Resultado; 
  
-	protected $rules = ['InfracionIngr' => 'required'];
+	protected $rules = ['Articulo' => 'required',
+                        'InfracionIngr' => 'required'];
 
-	protected $messages = ['InfracionIngr.required' =>'El campo "Agregar" es obligatorio.'];
+	protected $messages = ['Articulo.required' =>'El campo "Artículo" es obligatorio.',
+                            'InfracionIngr.required' =>'El campo "Agregar" es obligatorio.'];
 
 	public function Agregar(){
 
@@ -24,6 +27,7 @@ class AgregarInfracciones extends Component
    			if ($Existe==0) 
             	{
 					$Infraccion 				= new TipoInfraccion;
+                    $Infraccion->Articulo 	    = $this->Articulo;
 			        $Infraccion->descripcion 	= $this->InfracionIngr;
 			        $Infraccion->save();
 

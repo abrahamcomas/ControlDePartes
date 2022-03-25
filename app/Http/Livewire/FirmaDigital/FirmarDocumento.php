@@ -152,7 +152,7 @@ class FirmarDocumento extends Component
         $this->Id_Multas=$Id_Multas; 
         $this->ConfirmarIngreso='1';
         $this->Principal='1';
-        $this->Detalles='0'; 
+        $this->Detalles='0';  
     }
 
   public function CancelarConfirmarIngreso()
@@ -165,7 +165,7 @@ class FirmarDocumento extends Component
   protected $paginationTheme = 'bootstrap';
     public function render()
     { 
-      $id_inspector =Auth::guard('web')->user()->id_inspector ;
+      $id_inspector =Auth::guard('web')->user()->id_inspector; 
         
       $this->Datos =  DB::table('Multas') 
           ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
@@ -175,7 +175,7 @@ class FirmarDocumento extends Component
           ->leftjoin('TipoInfraccion', 'Multas.id_TipoInfraccion', '=', 'TipoInfraccion.id_Infraccion')
           ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
           ->leftjoin('Articulo', 'Multas.InfraccionArticulo', '=', 'Articulo.id_Articulo')
-          ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
+          ->select('Id_Multas','PlacaPatente','TipoVehiculo','Marca','Modelo','Color','NombreJuzgado','FechaCitacion','descripcion','NombreArt','Hora','InfraccionArticulo','DecLey','DetallesDecLey','Nombres','Inspectores.Apellidos AS ApellidosInsp','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Ciudadanos.Rut AS RutCiudadano','Profesion','NombreNac','TipoNotificacion','Domicilio','id_Articulo','Fecha','Lugar')
           ->where('Multas.Id_Multas', '=', $this->Id_Multas)->get();
   
         $this->TipoFirma =  DB::table('Inspectores')
@@ -196,7 +196,7 @@ class FirmarDocumento extends Component
             'posts' =>  DB::table('Multas') 
               ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
               ->leftjoin('Document', 'Multas.Id_Multas', '=', 'Document.id_Multa_T')
-              ->select('Id_Multas','Firma','NumeroParte','Id_Juzgado','PlacaPatente','Ruta')
+              ->select('Id_Multas','Firma','Parte','NumeroParte','Id_Juzgado','PlacaPatente','Ruta')
               ->where('Firma', '=', '0') 
               ->where('Estado', '=', '0') 
               ->where('Multas.Id_Inspector', '=', $id_inspector)

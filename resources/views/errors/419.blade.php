@@ -42,7 +42,8 @@
 						<center><h3>Sesión expirada</h3></center>
 						</div>   
 						<div class="card-body">
-						<center>Volviendo a página principal...</center>
+						<center>Volviendo a página principal...</center>  
+						<center><a href="{{ route('Index') }}" style="color: black;"><strong>Volver</strong></a></center> 
 						</div> 
 					</div>
 				</div>
@@ -50,7 +51,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3"></div>
 		</div>
 	</body>
-</div>
+</div> 
 @if(Auth::guard('web')->check())
 <script type="text/javascript">
 	function redireccionar() {

@@ -13,15 +13,21 @@ class AgregarCiudadano extends Component
  	public $DatosCiudadano; 
 	public $Nacionalidad;
     public $Rut; 
+
+
+    public function ValorTipoNotificacion($Valor)
+    {    
+        $this->TipoNotificacion= $Valor;
+    }
  
     public function render()
-    {
+    { 
     	$this->DatosCiudadano= DB::table('Ciudadanos')
                         ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
                         ->select('Rut','NombresC','Apellidos','Profesion','FechaNacimiento','Domicilio','Licencia','NombreNac')
                         ->where('Ciudadanos.Rut', $this->Rut)->get(); 
 
-        $this->Nacionalidad=DB::table('Nacionalidad')->get();
+        $this->Nacionalidad=DB::table('Nacionalidad')->orderBy('NombreNac','ASC')->get();
         
         return view('livewire.multa-vehicular.agregar-ciudadano',[ 
             'Rut'=>$this->Rut,

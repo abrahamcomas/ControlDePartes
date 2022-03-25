@@ -47,7 +47,7 @@ use App\Http\Controllers\Sessiones\EliminarVinculo;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+ 
 //PAGINA LOGIN 
 Route::get('/', function () { 
     return view('Login/Login');
@@ -168,7 +168,7 @@ Route::post('/IngresoDatosCiudadano', [IngCiudadanoController::class, 'index'])-
 
 //FIRMAR MULTA
 Route::get('/FirmarDocumento', function () { 
-    return view('Login/Login');
+    return view('Posts/FirmarDocumento/FirmaDocumento'); 
 })->middleware('auth'); 
 Route::post('/FirmarDocumento', function () {
     $checksum = session('checksum');
@@ -186,7 +186,7 @@ Route::post('/ListaDeMultas', function () {
 })->middleware('auth')->name('ListaDeMultas');
 
 Route::get('/MultaPDF',function () { 
-    return view('Login/Login');
+    return view('Login/Login'); 
 })->middleware('auth');  
 Route::post('/MultaPDF', [MultaPDFSoloID::class, 'index'])->middleware('auth')->name('MultaPDFSoloID');  
 
@@ -301,3 +301,47 @@ Route::get('/ReporteJuzgado',function () {
 Route::get('/ReportePDFJuzgado', [ReportePDFJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePdfJuzgado');
 Route::get('/ReportePDFJuzgadoFechas', [ReporteFechaJuzgado::class, 'index'])->middleware('auth:Funcionario')->name('ReportePDFJuz');
 Route::get('/SistemaPrincipal2', [VolverIndexController2::class, 'index'])->middleware('auth:Funcionario')->name('VolverIndex2');
+
+
+//QR
+Route::get('/MostrarMultaQRMulta/{Id_Multas?}',function ($Id_Multas) { 
+        $datos=DB::table('Document')->Select('Ruta')->where('id_Multa_T', '=', $Id_Multas)->get();
+        foreach ($datos as $Dato){
+            $Ruta = $Dato->Ruta;
+        } 
+        
+        $NombreArchivo = substr($Ruta,1,-4);
+    	
+		$contents = Storage::disk('PDF')->get($Ruta);
+			
+		$decoded = base64_decode($contents);
+        header('Content-Type: application/pdf');
+		$file = $NombreArchivo.'.'.'pdf';
+        header('Content-Disposition: inline; filename="'.basename($file).'"');
+        echo $decoded;
+}); 
+
+Route::get('/MultaQR/{Token1}/{Token2}',function ($Token1,$Token2) { 
+
+    $BuscarMulta =  DB::table('BuscarMulta') 
+        ->select('Multa') 
+        ->where('Token1', '=', $Token1) 
+        ->where('Token2', '=', $Token2)
+        ->first();
+
+
+    
+    if(!empty($BuscarMulta->Multa)){
+
+        $Id_Multas= $BuscarMulta->Multa;
+        
+        $pdf = \PDF::loadView('PDF/ReportePDFJuzgado', compact('Id_Multas'));
+        return $pdf->download('PDF.pdf');
+
+    }
+    else{
+        return Redirect::to('https://web.curico.cl/');
+
+    }
+}); 
+ 

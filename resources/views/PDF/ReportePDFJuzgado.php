@@ -1,7 +1,7 @@
 <?php
 $Id_Multas;
 
-$Datos  =   DB::table('Multas') 
+$user  =   DB::table('Multas') 
 ->leftjoin('Inspectores', 'Multas.Id_Inspector', '=', 'Inspectores.id_inspector')
 ->leftjoin('Testigos', 'Multas.Id_Multas', '=', 'Testigos.id_Multas_T')
 ->leftjoin('Juzgado', 'Multas.Id_Juzgado', '=', 'Juzgado.id_Juzgado')
@@ -10,10 +10,10 @@ $Datos  =   DB::table('Multas')
 ->leftjoin('Vehiculos', 'Multas.Id_Vehiculo', '=', 'Vehiculos.id_Vehiculo')
 ->leftjoin('TipoVehiculo', 'Vehiculos.TipoVehiculo', '=', 'TipoVehiculo.id')
 ->leftjoin('Nacionalidad', 'Ciudadanos.ID_Nacionalidad', '=', 'Nacionalidad.id_Nacionalidad')
-->select('Id_Inspectores','TipoNotificacion','Multas.Id_Juzgado AS Juzgado','Hora','InfraccionArticulo','DecLey','DetallesDecLey','Lugar','descripcion','NombreJuzgado','Parte','Anio','Fecha','Ciudadanos.Rut AS RutCiu','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','Licencia','FechaNacimiento','NombreNac','Domicilio','PlacaPatente','V_Descripcion','Marca','Modelo','Color','Inspectores.Nombres AS NombresIns','Inspectores.Apellidos AS ApellidosIns','FechaCitacion')
-->where('Multas.Id_Multas', '=', $Id_Multas)->get();
+->select('Id_Inspectores','TipoNotificacion','Multas.Id_Juzgado AS Juzgado','Hora','InfraccionArticulo','DecLey','DetallesDecLey','Lugar','descripcion','NombreJuzgado','Parte','Anio','Fecha','Ciudadanos.Rut AS RutCiu','NombresC','Ciudadanos.Apellidos AS ApellidosCiu','Profesion','Licencia','FechaNacimiento','NombreNac','Domicilio','PlacaPatente','V_Descripcion','Marca','Modelo','Color','Id_Direccion_T','Inspectores.Nombres AS NombresIns','Inspectores.Apellidos AS ApellidosIns','FechaCitacion','Observacion')
+->where('Multas.Id_Multas', '=', $Id_Multas)->first();
 
-foreach ($Datos as $user){ 
+
     //Multa
     $TipoNot     = $user->TipoNotificacion;  
     $Id_Juzgado  = $user->Juzgado;
@@ -23,7 +23,8 @@ foreach ($Datos as $user){
     $DetallesDecLey     = $user->DetallesDecLey; 
     $Lugar       = $user->Lugar;      
     $descripcion = $user->descripcion; 
-    $FechaCitacion = $user->FechaCitacion;   
+    $FechaCitacion = $user->FechaCitacion;  
+    $Observacion = $user->Observacion;    
     //Juzgado
     $NombreJuzgado = $user->NombreJuzgado;    
     $NumeroParte   = $user->Parte;    
@@ -45,21 +46,29 @@ foreach ($Datos as $user){
     $Modelo       = $user->Modelo;
     $Color        = $user->Color;
     // Inspectores
+    $Id_Direccion_T  = $user->Id_Direccion_T ;
     $NombresIns   = $user->NombresIns;
     $ApellidosIns = $user->ApellidosIns;
 
      // Inspectores
      $Id_Inspectores   = $user->Id_Inspectores;
-} 
+ 
 
-$Testigo  =   DB::table('Inspectores')->select('Nombres','Apellidos')->where('id_inspector', '=', $Id_Inspectores)->get();
+$contenido='controldeparte.test/MostrarMultaQRMulta/'.$Id_Multas.'';
 
-foreach ($Testigo as $user){ 
+$qrimage= public_path('../public/QR/qr.png');
+\QRCode::url($contenido)->setOutfile($qrimage)->png();
 
-  $NombresTest     = $user->Nombres; 
-  $ApellidosTest     = $user->Apellidos;   
+$Testigo  =   DB::table('Inspectores')->select('Nombres','Apellidos')->where('id_inspector', '=', $Id_Inspectores)->first();
 
-}
+  $NombresTest     = $Testigo->Nombres; 
+  $ApellidosTest     = $Testigo->Apellidos;   
+
+
+  $Direccion  =   DB::table('Direccion')->select('Nombre')->where('id_Direccion', '=', $Id_Direccion_T)->first();
+  $NombreDireccion     = $Direccion->Nombre; 
+
+
         
 $numeroDia = date('d', strtotime($Fecha));
 $dia = date('l', strtotime($Fecha));
@@ -233,29 +242,41 @@ elseif($diaFC=='Saturday'){
 else{ 
      $diaFC= 'Domingo';
   }
- 
+  $fecha= date('d/m/Y');  
 ?>
 <head>
-  <meta charset="UTF-8">
-  <title>Documento PDF</title>
   <style>
-    h4{
+       h4{
     text-align: center;
     text-transform: uppercase;
     }
     #ContenidoIzqHead { 
+      margin-top: -30px;
       margin-left: 00px;
       width: 200px; 
       font-size: 15px;
     }
+    
+    #ContenidoIzqHead2 {  
+      margin-left: 00px;
+      width: 270px; 
+    }
+
     #FechaPrincipalHead { 
         width: 120px; 
         font-size: 13px;
         margin-left: 160px;
     }
+    #ContenidoDercHead2 { 
+      margin-right: 70px;
+      width: 260px;
+   
+    }
+    
     #ContenidoDercHead { 
+      margin-top: -30px;
         margin-right: 0px;
-        margin-top: 0px;
+        
     }
     #ContenidoDercHeadAbajo { 
         margin-left: 500px;
@@ -293,12 +314,13 @@ else{
     }
   </style>
 </head>
-  <table width="100%" border="0">
+  <table width="100%" border="0"> 
     <tr>
   	  <td>
   	    <div id="ContenidoIzqHead">
       		<center>
-              <img src="../public/Imagenes/escudo.png" width="100" height="100"/>
+              <img src="../public/Imagenes/escudo.png" width="80" height="80"/><br>
+             <?php echo $NombreDireccion ?>
           </center>  
       	</div>
     	</td>
@@ -308,31 +330,26 @@ else{
     	<td>
     	  <div id="ContenidoDercHead">
            
-            <img src="../public/Imagenes/Curico.png" width="100" height="100"/>
+            <img src="../public/Imagenes/Curico.png" width="80" height="80"/>
     	  </div>
       </td>
     </tr>
   </table>
-  <div id="ContenidoIzqHead">
-      		<center>
-             DIRECCIÓN DE TRÁNSITO
-          </center>  
-      	</div>
   <div id="ContenidoDercHeadAbajo2">
-      <center><p style="font-size: 12pt">DA CUENTA INF. TRANSITO.<br>
+      <center><p style="font-size: 10pt">DA CUENTA INF. TRANSITO.<br>
           <strong>Parte N° <?php echo $NumeroParte; ?></strong></p>
       </center>  
   </div>
   <center>  
     <?php if($Id_Juzgado==1){  ?>
-        <h2>
+        <h3>
           <strong><u>SEÑOR JUEZ <?php echo $NombreJuzgado ?> CURICÓ</u></strong>
-        </h2>
+        </h3>
     <?php }
     else{   ?>
-        <h2>
+        <h3>
           <strong><u>SEÑORA JUEZA <?php echo $NombreJuzgado ?> CURICÓ</u></strong>
-        </h2>
+        </h3>
 
    <?php }  ?>
    </center>
@@ -415,7 +432,7 @@ else{
   <?php }   ?>
       <tr>
         <td style="font-size: 12pt"> 
-          Disposición Infringida:<strong><?php echo $InfraccionArticulo; ?> , </strong><?php echo $DecLey; ?></strong><?php echo $DetallesDecLey; ?></strong></strong>
+          Disposición Infringida:<strong><?php echo $InfraccionArticulo; ?> , </strong><?php echo $DecLey; ?> </strong><?php echo $DetallesDecLey; ?></strong></strong>
         </td>
       </tr>
       <tr>
@@ -428,9 +445,18 @@ else{
         <strong>TESTIGO</strong>: <?php echo $NombresTest; ?> <?php echo $ApellidosTest; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inspector Municipal
         </td>
       </tr>
+      <?php if($Observacion!=NULL)
+      {   ?>
+        <tr>
+        <td style="font-size: 12pt;">
+            <center><strong>OBSERVACIÓN</strong></center>
+            <textarea style="width:100%;"><?php echo $Observacion;?></textarea>
+        </td>
+      </tr>
+<?php } ?>
+      
       <tr>
         <td style="font-size: 12pt"> 
-        <br>
         Quedó citado (a)
 <?php if($TipoNot=='1')
       {   ?>
@@ -452,27 +478,26 @@ else  {   ?>
   </table> 
   <table width="100%" border="0">
   	  <td>
-  	    <div id="ContenidoIzqHead">
+  	    <div id="ContenidoIzqHead2">
           <center>
-            <P style="font-size: 13pt"> 
+            <P style="font-size: 12pt"> 
               <?php echo $NombresIns; ?> <?php echo $ApellidosIns; ?><br>
               <strong>Inspector Municipal</strong>
                 <strong>DENUNCIANTE</strong><br>
               </P>
           </center>
-          <strong>JAD</strong><br>
           <u>DISTRIBUCIÓN:</u><br>
           La indicada<br>
           Archivo
       	</div> 
-    	</td>
+    	</td> 
       <td>
         <div id="FechaPrincipalHead"></div>
     	</td>
     	<td>
-    	  <div id="ContenidoDercHead">
+    	  <div id="ContenidoDercHead2">
         <center>
-            <P style="font-size: 13pt"> 
+            <P style="font-size: 12pt"> 
             <?php echo $NombresTest; ?> <?php echo $ApellidosTest; ?><br>
               <strong>Inspector Municipal</strong>
                 <strong>TESTIGO</strong>
@@ -481,19 +506,13 @@ else  {   ?>
     	  </div>
       </td>
     </tr>
-  </table>
-
-    
+  </table> 
  
-
-  
-
-   
 
     
       
 
-
+  
 
 
 

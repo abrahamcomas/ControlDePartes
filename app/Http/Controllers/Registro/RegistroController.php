@@ -165,7 +165,7 @@ class RegistroController extends Controller
 
         }
         else{
-
+            $this->validate($request, $rules2, $messages2);  
             $resultado='Error, Usuario sin autorización, registro denegado.';
         }
 

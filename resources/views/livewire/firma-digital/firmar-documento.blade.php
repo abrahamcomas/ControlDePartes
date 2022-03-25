@@ -13,11 +13,11 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <div class="col">
                     <div class="card bg-light mb-3">
-                        <div class="card-header">
-                            <center><h5><strong>MULTAS</strong></h5></center> 
+                        <div class="card-header"> 
+                            <center><h5><strong>INFRACCIONES</strong></h5></center> 
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive"> 
                                 <table table class="table table-hover">
                                     <thead>
                                         <tr>  
@@ -32,7 +32,7 @@
                                     <tbody> 
                                         @foreach($posts as $post)
                                         <tr>
-                                            <td><center>{{ $post->Id_Juzgado }}{{ $post->NumeroParte }}</center></td>
+                                            <td><center>{{ $post->Parte }}</center></td>
                                             <td><center>{{ $post->PlacaPatente  }}</center></td>
                                             <td> 
                                                 <center>
@@ -53,11 +53,15 @@
                                                 </center>
                                             </td>
                                         @if($post->Firma==0)
-                                            <td>    
+                                            <td>     
                                                 <center>
-                                                    <a href="{{ route('ReportePdfJuzgadoInsp',['Id_Multas'=>$post->Id_Multas]) }}" class="btn btn-danger active" target="_blank">
-                                                       PDF
-                                                    </a>
+                                                <form method="POST" action="{{ route('MultaPDFSoloID') }}">   
+                                                    @csrf             
+                                                    <input type="hidden" name="IdMultaIngresada" value=" {{ $post->Id_Multas }} ">
+                                                    <div class="btn-group" style=" width:100%;">	
+                                                        <button type="submit" class="btn btn-primary active" formtarget="_blank">Imprimir</button>
+                                                    </div>
+                                                </form> 
                                                 </center>
                                             </td>
                                             <td>    
@@ -65,16 +69,16 @@
                                                     <button class="btn btn-danger active" wire:click="ConfirmarIng({{ $post->Id_Multas }})">
                                                         Pendiente
                                                     </button>
-                                                </center>
-                                            </td>
+                                                </center> 
+                                            </td> 
                                         @endif
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="card-footer text-muted">
+                        </div> 
+                        <div class="card-footer text-muted"> 
                             {{ $posts->links() }}
                         </div>	
                     </div> 
@@ -137,14 +141,7 @@
                                                         <input type="text" class="form-control" value="{{ $post->NombreNac }}" 
                                                         disabled style="background-color:#D3D3D3;">
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <center>NACIONALIDAD</center>
-                                                    <div class="form-label-group"> 
-                                                        <input type="text" class="form-control" value="{{ $post->NombreNac }}" 
-                                                        disabled style="background-color:#D3D3D3;">
-                                                    </div>
-                                                </div>        
+                                                </div>      
                                                 <div class="form-group">
                                                     <center>DOMICILIO</center>
                                                     <div class="form-label-group"> 
@@ -231,6 +228,13 @@
                                                     <textarea class="md-textarea form-control" rows="3" disabled>{{ $post->Lugar }}</textarea>
                                                 </div>
                                             </div> 
+                                            <div class="form-group">
+                                                <center><label for="Lugar">FECHA INFRACCIÓN</label></center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->Fecha }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div> 
                                             <div class="form-group"> 
                                                 <center><label for="Modelo">HORA INFRACCIÓN</label></center>
                                                 <div class="form-label-group"> 
@@ -244,11 +248,18 @@
                                                     <input type="text" class="form-control" value="{{ $post->InfraccionArticulo }}"
                                                     disabled style="background-color:#D3D3D3;">
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <div class="form-group">
-                                                <center><label for="Lugar">FECHA INFRACCIÓN</label></center>
+                                                <center>DECRETO O LEY</center>
                                                 <div class="form-label-group"> 
-                                                    <input type="text" class="form-control" value="{{ $post->Fecha }}"
+                                                    <input type="text" class="form-control" value="{{ $post->DecLey }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">	
+                                                <center>DETALLES</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->DetallesDecLey }}"
                                                     disabled style="background-color:#D3D3D3;">
                                                 </div>
                                             </div>
@@ -304,7 +315,7 @@
         <div  id="MostrarFor" style="display:none">
             <center> 
                 <img src="{{URL::asset('Imagenes/12.gif')}}" width="220" height="220"/>
-                <h5><strong>Firmando archivo, espere por favor...</strong></h5>
+                <h5><strong>Firmando infracciones, espere por favor...</strong></h5>
             </center>
         </div>
     @if($EditarMulta==1) 
@@ -345,7 +356,7 @@
                                                 @endforeach
                                             </select>
                                         </div>      
-                                        <div class="form-group">
+                                        <div class="form-group"> 
                                             <center>MODELO </center> 
                                             <div class="form-label-group"> 
                                                 <input type="text" class="form-control"wire:model="EditarModelo" placeholder="{{ $M_EditarModelo }}">
@@ -387,11 +398,10 @@
                         </div>   
                         <div class="card-body">
                             <form method="POST" action="{{ route('ConfirmarFirma') }}">
-                                @csrf   
+                                @csrf    
+                                <input type="hidden" name="Id_Multas" value="{{ $Id_Multas }}">	
                                 <center><label><strong>Al firmar el documento confirma el envío al juzgado.</strong></label></center>
                                 <br>
-                                <input type="hidden" class="form-control" name="ID_Multa" value="{{ $Id_Multas }}"  >
-
                                     @foreach($TipoFirma as $post) 
                                         @if($post->TipoFirma==1)
                                             <center><label><strong>Firma atendida</strong></label></center>

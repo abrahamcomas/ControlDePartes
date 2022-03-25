@@ -98,9 +98,69 @@
 	<link rel="stylesheet" href="{{ asset ('css/bootstrap.min.css') }}" >
 	<link rel="stylesheet" href="{{ asset ('ManuLateral/simple-sidebar.css ') }}" >
 
-	
-
+    <script src="print.js"></script>
+<link rel="stylesheet" type="text/css" href="print.css">
+    
 	<script type="text/javascript">
+
+        function Patente(Patente)  
+		    {
+                var valor = Patente.value.replace('.','');
+				valor = valor.toUpperCase();
+                cuerpo = valor.slice(0,4);
+                
+                if(cuerpo.length >= 4){
+
+                    var acu = 0;
+
+                    Array.prototype.forEach.call( valor, function( val ) {
+                    acu += ( val.charCodeAt( 0 ) > 47 ) && ( val.charCodeAt( 0 ) < 58 ) ? 1 : 0;
+                    } );
+                
+                    if(acu==4){
+                        
+                        var valor = Patente.value.replace('.','');
+                        valor = valor.toUpperCase();
+                        valor = valor.replace('-','');
+                        cuerpo = valor.slice(0,-4);
+                        dv = valor.slice(-4).toUpperCase(); 
+                        Patente.value = cuerpo + '-'+ dv
+                        
+                    }
+
+                    if(acu==3){
+                        
+                        var valor = Patente.value.replace('.','');
+                        valor = valor.toUpperCase();
+                        valor = valor.replace('-','');
+                        cuerpo = valor.slice(0,-3);
+                        dv = valor.slice(-3).toUpperCase(); 
+                        Patente.value = cuerpo + '-'+ dv
+                        
+                    }
+
+                    if(acu==2){
+                        
+                        var valor = Patente.value.replace('.','');
+                        valor = valor.toUpperCase();
+                        valor = valor.replace('-','');
+                        cuerpo = valor.slice(0,-2);
+                        dv = valor.slice(-2).toUpperCase(); 
+                        Patente.value = cuerpo + '-'+ dv
+                        
+                    }
+
+
+                }        
+     
+                
+            }
+
+    
+
+
+
+        
 		function checkRut(rut) 
 		    {
 			    var valor = rut.value.replace('.','');
@@ -196,7 +256,8 @@
 						</button> 
 						Bienvenido 
 						{{ Auth::user()->Nombres}} 
-						{{ Auth::user()->Apellidos }}
+						{{ Auth::user()->Apellidos }},
+                        {{ session('NombreDireccion') }}
 					</a>
 				@elseif(Auth::guard('Funcionario')->check())
 					<a style="color: white;">
@@ -252,7 +313,7 @@
 						<form method="POST" action="{{ route('MultaVehicularCiudadano') }}">
 							@csrf
 							<button type="submit" class="btn list-group-item list-group-item-action">
-								INGRESAR MULTA
+								INGRESAR INFRACCIÓN
 							</button>
 						</form>
 						<!--<a href="{{ route('MultaVehicularCiudadano') }}" class="list-group-item list-group-item-action">INGRESAR MULTA</a>--> 
@@ -264,29 +325,29 @@
 							<form method="POST" action="{{ route('FirmarDocumento') }}">
 								@csrf
 								<button type="submit" class="btn">
-									<a>MOSTRAR MULTAS</a>
+									<a>INFRACCIONES</a>
 								</button>
 							</form>
 							<!--<a href="{{ route('FirmarDocumento') }}" class="list-group-item list-group-item-action">FIRMAR DOCUMENTO</a>--> 
 						</div>		
-					</div>
+					</div> 
 
 					<div class="dropdown">
 			  			<a href="" class="list-group-item list-group-item-action dropdown-toggle" id="dropdownMenuButton" 
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MULTAS&nbsp;</a>
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">INFRACCIÓN&nbsp;</a>
 				  		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 90%">
-						  <form method="POST" action="{{ route('ListaDeMultas') }}">
+						  <!--<form method="POST" action="{{ route('ListaDeMultas') }}">
                         		@csrf
 								<button type="submit" class="btn">
-									<a>MULTAS</a>
+									<a>INFRACCIÓNES</a>
 								</button>
 							</form>
-							<!--<a class="list-group-item list-group-item-action" href="{{ route('ListaDeMultas') }}">MULTAS</a>-->
+							<a class="list-group-item list-group-item-action" href="{{ route('ListaDeMultas') }}">MULTAS</a>-->
 
 							<form method="POST" action="{{ route('ListaMultasIngresadas') }}">
 								@csrf
 								<button type="submit" class="btn">
-									<a>MULTAS INGRESADAS</a>
+									<a>LISTA INFRACCIONES</a>
 								</button>
 							</form>
 				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('ListaMultasIngresadas') }}">MULTAS INGRESADAS</a>-->
@@ -327,12 +388,12 @@
 							</form> 
 				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('AgregarTiposInfra') }}">AGREGAR TIPOS INFRACCIONES</a>-->
 
-							<form method="POST" action="{{ route('AgregarArticulo') }}">
+							<!--<form method="POST" action="{{ route('AgregarArticulo') }}">
 								@csrf
 								<button type="submit" class="btn">
 									<a>AGREGAR ARTÍCULOS</a>
 								</button>
-							</form>
+							</form>-->
 				    		<!--<a class="list-group-item list-group-item-action" href="{{ route('AgregarArticulo') }}">AGREGAR INFRACIONES ARTÍCULOS</a>-->
 				  		</div>
 				  	</div>

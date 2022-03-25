@@ -44,6 +44,15 @@ class LoginController extends Controller
 
                         if(Auth::attempt(['Rut' => $RUN, 'password' => $password], true))
                             { 
+
+                                       
+                                $id_inspectorDireccion = Auth::user()->Id_Direccion_T;
+                                $NombreDireccion =  DB::table('Direccion')->select('Nombre')->where('id_Direccion', '=', $id_inspectorDireccion)->first();
+                
+                                session(['NombreDireccion' => $NombreDireccion->Nombre]);
+
+
+
                                 
                                         $Id_Inspector  = Auth::user()->id_inspector;
                                         
@@ -79,6 +88,12 @@ class LoginController extends Controller
                             ->withErrors(['Usuario Desactivado'])
                             ->withInput(request(['RUN']));
                     }
+                elseif(!empty($idLogin->Rut) AND !empty($idLogin->Activo==2))
+                    {
+                        return back()
+                            ->withErrors(['Sistema en mantenimiento, ingreso bloqueado.'])
+                            ->withInput(request(['RUN']));
+                    }
                 else
                     {
                         return back()
@@ -97,10 +112,10 @@ class LoginController extends Controller
 
                         if(Auth::guard('Funcionario')->attempt(['Rut' => $RUN, 'password' => $password], true))
                             { 
-                                return view('Login/Login');
+                                return view('Posts/MultaVehicular/PostsJuzIngresoMulta');
 
                             } 
-                            else
+                            else 
                             {
                                return back()
                                     ->withErrors(['Contraseña Incorrecta'])
@@ -111,6 +126,12 @@ class LoginController extends Controller
                     {
                         return back()
                             ->withErrors(['Usuario Desactivado'])
+                            ->withInput(request(['RUN']));
+                    }
+                elseif(!empty($idLogin->Rut) AND !empty($idLogin->Activo==2))
+                    {
+                        return back()
+                            ->withErrors(['Sistema en mantenimiento, ingreso bloqueado.'])
                             ->withInput(request(['RUN']));
                     }
                 else

@@ -6,11 +6,11 @@
                 <div class="col">
                     <div class="card bg-light mb-3">
                         <div class="card-header">
-                            <center><h5><strong>MULTAS INGRESADAS</strong></h5></center>
+                            <center><h5><strong>LISTA INFRACCIÓNES</strong></h5></center>
                         </div> 
                         <div class="card-body">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body"> 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                             <div class="form-label-group">
@@ -128,172 +128,202 @@
                                         </form> 
                         </div> 
                         <div class="card-body">
-                           <table class="table table-striped table-bordered">
-                                <tbody> 
-                                  
-                                        @if($post->TipoNotificacion==3)
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    <strong>TIPO NOTIFICACIÓN = PERSONALMENTE</strong> 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    NOMBRE = {{ $post->NombresC }}&nbsp;{{ $post->ApellidosCiu }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    RUT = {{ $post->RutCiudadano }} 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    PROFESIÓN = {{ $post->Profesion }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    NACIONALIDAD = {{ $post->NombreNac }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    DOMICILIO = {{ $post->Domicilio }}
-                                                </td>
-                                            </tr>
-                                        @elseif($post->TipoNotificacion==2)
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    <strong>TIPO NOTIFICACIÓN = EMPADRONADO</strong>    
-                                                </td>
-                                            </tr>
+                        <center><strong><h2>{{ $post->PlacaPatente }}</h2></strong></center> 
+                        <hr>
+                            <div class="table-responsive">
+                                <table table class="table table-hover">
+                                            @if($post->TipoNotificacion==3)
+                                                <div class="form-group">
+                                                    <center>TIPO NOTIFICACIÓN</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="ESCRITO" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <center>NOMBRE</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="{{ $post->NombresC }}&nbsp;{{ $post->ApellidosCiu }}" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <center>RUT</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="{{ $post->RutCiudadano }}" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <center>PROFESIÓN</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="{{ $post->Profesion }}" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <center>NACIONALIDAD</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="{{ $post->NombreNac }}" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>      
+                                                <div class="form-group">
+                                                    <center>DOMICILIO</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="{{ $post->Domicilio }}" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>               
+                                            @elseif($post->TipoNotificacion==2)
+                                                <div class="form-group">
+                                                    <center>TIPO NOTIFICACIÓN</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="Empadronado" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="form-group">
+                                                    <center>TIPO NOTIFICACIÓN</center>
+                                                    <div class="form-label-group"> 
+                                                        <input type="text" class="form-control" value="POR ESCRITO" 
+                                                        disabled style="background-color:#D3D3D3;">
+                                                    </div>
+                                                </div>    
+                                            @endif
+                                            <center><strong>DATOS VEHÍCULO</strong> </center>
+                                            <hr>
+                                            <div class="form-group">
+                                                <center>TIPO VEHÍCULO</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->TipoVehiculo }}" 
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>      
+                                            <div class="form-group">
+                                                <center>MARCA</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control"value="{{ $post->Marca }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>      
+                                            <div class="form-group">
+                                                <center>MODELO</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->Modelo }}" 
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>  
+                                            <div class="form-group">
+                                                <center>COLOR</center>
+                                                <div class="form-label-group">
+                                                    <input type="text" class="form-control" value="{{ $post->Color }}" 
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>                                    
+                                            <hr> 
+                                            <center><strong>DATOS CITACIÓN</strong></center>
+                                            <hr> 
+                                            <div class="form-group">
+                                                <center>JUZGADO</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->NombreJuzgado }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div> 
+                                            <div class="form-group">
+                                                <center>FECHA CITACIÓN</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->FechaCitacion }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div> 
+                                            <hr>
+                                                <center><strong>DATOS INFRACCIÓN</strong></center>
+                                            <hr> 
+                                            <div class="form-group"> 
+                                                <center><label for="Modelo">DESCRIPCIÓN INFRACCIÓN</label></center>
+                                                <div class="form-label-group"> 
+                                                    <textarea class="md-textarea form-control" rows="3" disabled>{{ $post->descripcion }}</textarea>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group"> 
+                                                <center><label for="Modelo">LUGAR DE INFRACCIÓN</label></center>
+                                                <div class="form-label-group"> 
+                                                    <textarea class="md-textarea form-control" rows="3" disabled>{{ $post->Lugar }}</textarea>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group">
+                                                <center><label for="Lugar">FECHA INFRACCIÓN</label></center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->Fecha }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div> 
+                                            <div class="form-group"> 
+                                                <center><label for="Modelo">HORA INFRACCIÓN</label></center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->Hora }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div> 
+                                            <div class="form-group">
+                                                <center>INFRACCIÓN ARTÍCULO</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->InfraccionArticulo }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <center>DECRETO O LEY</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->DecLey }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">	
+                                                <center>DETALLES</center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->DetallesDecLey }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div> 
+                                            </div>
+                                        @endforeach   
+                                        @foreach($Testigo as $post)
+                                            <div class="form-group">
+                                                <center><label for="Lugar">TESTIGO</label></center>
+                                                <div class="form-label-group"> 
+                                                    <input type="text" class="form-control" value="{{ $post->Nombres }}&nbsp;{{ $post->Apellidos }}"
+                                                    disabled style="background-color:#D3D3D3;">
+                                                </div>
+                                            </div>
+                        
+                                        @if($Imagenes!='[]')
+                                            @foreach($Imagenes as $post) 
+                                                <tr>
+                                                    <td> 
+                                                        <center>
+                                                            <a href="{{ $post->RutaImagen }}" download>
+                                                                <img src="{{ $post->RutaImagen }}" alt="Foto" width="500" height="500"/>
+                                                            </a>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @else
                                             <tr>
-                                                <td style="text-align: center;">
-                                                    <strong>TIPO NOTIFICACIÓN = POR ESCRITO</strong>    
+                                                <td>
+                                                    <center>
+                                                        <h4>FOTO NO DISPONIBLE</h4>
+                                                    </center>
                                                 </td>
                                             </tr>
                                         @endif 
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    <center>
-                                                        <strong>DATOS VEHÍCULO</strong>
-                                                    </center>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    PATENTE = {{ $post->PlacaPatente  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    TIPO VEHÍCULO = {{ $post->TipoVehiculo  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    MARCA = {{ $post->Marca  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    MODELO = {{ $post->Modelo  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    COLOR = {{ $post->Color  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    <center>
-                                                        <strong>DATOS CITACIÓN</strong> 
-                                                    </center>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    CITACIÓN = {{ $post->NombreJuzgado  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    FECHA CITACIÓN = {{ $post->FechaCitacion  }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    <center>
-                                                        <strong>DATOS INFRACCIÓN</strong> 
-                                                    </center>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    DESCRIPCIÓN INFRACCIÓN = {{ $post->descripcion }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    LUGAR DE LA INFRACCIÓN = {{ $post->Lugar }} 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    HORA INFRACCIÓN = {{ $post->Hora }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    INFRACCIÓN ARTICULO = {{ $post->id_Articulo }}
-                                                </td>
-                                            </tr> 
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    FECHA INFRACCIÓN = {{ $post->Fecha }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    NOMBRE INSPECTOR = {{ $post->Nombres }}&nbsp;{{ $post->ApellidosInsp }}
-                                                </td>
-                                            </tr>
-
+                                            <hr>        
                                     @endforeach
-                                    @foreach($Testigo as $post)
-                                            <tr>
-                                                <td style="text-align: center;">
-                                                    TESTIGO = {{ $post->Nombres }}&nbsp;{{ $post->Apellidos }}
-                                                </td>
-                                            </tr>
-                                    @endforeach
-
-                                    @if($Imagenes!='[]')
-                                        @foreach($Imagenes as $post) 
-                                            <tr>
-                                                <td> 
-                                                    <center>
-                                                        <a href="{{ $post->RutaImagen }}" download>
-                                                            <img src="{{ $post->RutaImagen }}" class="img-fluid" alt="Responsive image">
-                                                        </a>
-                                                    </center>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td>
-                                                <center>
-                                                    <h4>FOTO NO DISPONIBLE</h4>
-                                                </center>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                </tbody>      
-                            </table>
+                                </table> 
+                            </div>
                         </div>
                         <div class="card-footer text-muted">
                             <form method="POST" action="{{ route('MultaPDFSoloID') }}">   

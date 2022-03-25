@@ -5,7 +5,7 @@
 	</div>  
 @endsection    
 @section('scripts')
-
-@endsection
+	
+@endsection 
 
  

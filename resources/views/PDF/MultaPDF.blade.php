@@ -193,12 +193,12 @@ else{
                 ARTICULO = <?php echo $id_Articulo; ?>
               <br>
                 FECHA = <?php echo $numeroDia; ?> de <?php echo $mes; ?> del <?php echo $anio; ?>
-              <br>
+              <!--<br>
                 INSPECTOR = <?php echo $Nombres; ?>&nbsp;<?php echo $ApellidosInsp; ?>
           		<br>
                 TESTIGO = <?php echo $NombresT; ?>&nbsp;<?php echo $ApellidosT; ?>
-              <hr>  
-              <img src='../public/QR/qr.png' width="100" height="100"/>
+              <hr> 
+              <img src='../public/QR/qr.png' width="100" height="100"/>--> 
 </div>                            
 
 
